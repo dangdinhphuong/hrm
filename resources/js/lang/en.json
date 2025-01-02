@@ -1,0 +1,208 @@
+{
+    "message": {
+        "warning": {
+            "forbidden": "You do not have permission to access",
+            "not_found_http": "The page you are looking for does not exist",
+            "not_found_model": "The record you are searching for does not currently exist"
+        }
+    },
+    "sidebar": {
+        "dashboard": "Dashboard",
+        "admin": "System Management",
+        "user": "User",
+        "role": "Role",
+        "orders": "Orders"
+    },
+    "dashboard": {
+        "intro": "Edupia CRM Dashboard"
+    },
+    "footer": {
+        "intro": "© 2023 Educa Corporation. All rights reserved"
+    },
+    "logout": "Logout",
+    "common": {
+        "buttons": {
+            "add": "Add New",
+            "edit": "Edit",
+            "authorize": "Authorize",
+            "upload": "Upload",
+            "download": "Download",
+            "advanced": "Advanced",
+            "search": "Search",
+            "reset_search": "Reset Filters",
+            "save": "Save",
+            "cancel": "Cancel"
+        },
+        "placeholder": {
+            "quick_search": "Enter search information..."
+        },
+        "columns": {
+            "action": "Action"
+        }
+    },
+    "login": {
+        "title": "Login",
+        "intro": "Welcome to the Educa operating system. <br> Please log in to continue your work!",
+        "buttons": {
+            "login": "Login"
+        },
+        "input_text": {
+            "account": "Account",
+            "password": "Password"
+        },
+        "messages": {
+            "account_required": "Please enter your account!",
+            "password_required": "Please enter your password!",
+            "login_fail": "Invalid account or password!"
+        }
+    },
+    "role": {
+        "title": "Roles",
+        "title_create": "Add New Role",
+        "title_edit": "Edit Role",
+        "columns": {
+            "name": "Role Code",
+            "display_name": "Role Name",
+            "description": "Description",
+            "created_at": "Created At",
+            "updated_at": "Updated At",
+            "is_active": "Active",
+            "permission": "Function/Permission"
+        },
+        "column_values": {
+            "is_active": {
+                "true": "Active",
+                "false": "Inactive"
+            }
+        },
+        "other_actions": {
+            "active": "Activate",
+            "deactivate": "Deactivate"
+        },
+        "messages": {
+            "create_success": "Successfully created new role",
+            "create_fail": "Failed to create new role",
+            "update_success": "Successfully updated role",
+            "update_fail": "Failed to update role",
+            "active_success": "Successfully activated role",
+            "active_fail": "Failed to activate role",
+            "deactivate_success": "Successfully deactivated role",
+            "deactivate_fail": "Failed to deactivate role"
+        },
+        "modal": {
+            "active": {
+                "title": "Activate Role",
+                "content": "Are you sure you want to activate this role?"
+            },
+            "deactivate": {
+                "title": "Deactivate Role",
+                "content": "Are you sure you want to deactivate this role?"
+            }
+        }
+    },
+    "user": {
+        "title": "User",
+        "title_create": "Create New User",
+        "title_edit": "Edit User",
+        "columns": {
+            "name": "Name",
+            "username": "Username",
+            "password": "Password",
+            "created_at": "Created At",
+            "updated_at": "Updated At"
+        },
+        "column_values": {},
+        "other_actions": {},
+        "messages": {
+            "create_success": "User created successfully",
+            "create_fail": "Failed to create user",
+            "update_success": "User updated successfully",
+            "update_fail": "Failed to update user"
+        }
+    },
+    "order": {
+        "title": "Order",
+        "full_name": "Full Name",
+        "receiver_phone": "Delivery Phone Number",
+        "total_amount": "Total Amount",
+        "total_payment": "Total Payment",
+        "gift": "Gift",
+        "order_creation_date": "Order Creation Date",
+        "Waybill": "Waybill",
+        "print_status": "Print Status",
+        "delivery_status": "Delivery Status",
+        "accountant": "Accountant",
+        "title_create": "Create New Order",
+        "title_edit": "Edit Order",
+        "serial_number": "Serial Number",
+        "delivery_form": "Delivery Form",
+        "payment_method": "Payment Method",
+        "single_type": "Single Type",
+        "order_code": "Order Code",
+        "customer_information": "Customer Information",
+        "other_information": "Other Information",
+        "single_information": "Single Information",
+        "status": "Status",
+        "order_status": "Order Status",
+        "category": "Product Category",
+        "product": "Product",
+        "campaign": "Campaign",
+        "payment_status": "Payment Status",
+        "note": "Note",
+        "sale": "Sale",
+        "phone": "Phone Number",
+        "order_date": "Order Date",
+        "province": "Province/City",
+        "district": "District",
+        "region": "Region",
+        "room": "Room",
+        "regions": {
+            "north": "Northern Region",
+            "central_region": "Central Region",
+            "southern_region": "Southern Region"
+        },
+        "button": {
+            "upload": "Upload",
+            "operation": "Operation",
+            "all": "All"
+        },
+        "payment_status_type": {
+            "unpaid": "Unpaid",
+            "paid": "Paid",
+            "are_being_paid": "Being Paid"
+        },
+        "fot": {
+            "delivery_unit": "Delivery Unit",
+            "ship_now": "Ship Now",
+            "switch_to_province": "Switch Province",
+            "soft_Code_Conversion": "Soft Code Conversion",
+            "school": "School"
+        },
+        "payment_methods": {
+            "direct_payment": "Direct Payment",
+            "transfer_payment": "Transfer Payment",
+            "pay_in_installments": "Pay in Installments"
+        },
+        "type": {
+            "new": "New Sale",
+            "extend": "Extend",
+            "upsale": "Upsale",
+            "cross_sale": "Cross Sale"
+        },
+        "status_list": {
+            "not_yet_shipped": "Not Yet Shipped",
+            "close_application": "Close Application",
+            "delivered_successfully": "Delivered Successfully",
+            "delivering": "Delivering",
+            "completed": "Completed",
+            "return": "Return",
+            "cancel": "Cancelled",
+            "retribution": "Retribution",
+            "overdue_for_processing": "Overdue for Processing",
+            "waiting_for_sales_to_process": "Waiting for Sales to Process",
+            "dhl_delivery": "DHL Delivery",
+            "reception": "Reception",
+            "sale_canceled": "Sale Cancelled"
+        }
+    }
+}

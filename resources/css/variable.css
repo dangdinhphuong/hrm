@@ -1,0 +1,17 @@
+:root {
+    --sidebar-color: #085F9D;
+    --background-logo-login: #6993FF;
+    --hover-button: rgb(53, 182, 255, 0.3);
+
+    --button-add-color: #2F80ED;
+    --button-save-color: #2F80ED;
+    --button-upload-color: #6993FF;
+    --button-download-color: #1BC5BD;
+    --button-search-color: #2F80ED;
+    --button-submit-color: #2F80ED;
+
+
+    --color-secondary: #6c757d;
+    --color-light:#F4F7F9;
+    --color-medium:#D4D4D4;
+}

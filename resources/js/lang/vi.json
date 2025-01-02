@@ -1,0 +1,431 @@
+{
+    "message": {
+        "warning": {
+            "forbidden": "Bạn không có quyền truy cập",
+            "not_found_http": "Trang bạn tìm kiếm không tồn tại",
+            "not_found_model": "Bản ghi bạn tìm kiếm hiện không tồn tại"
+        },
+        "error": {
+            "internal_server_error": "Có lỗi xảy ra từ hệ thống",
+            "bad_request": "Yêu cầu không hợp lệ",
+            "unauthorized": "Bạn cần đăng nhập để thực hiện hành động này",
+            "file_download_failed": "Có lỗi xảy ra khi tải file.",
+            "file_unavailable": "Không thể tải file."
+        }
+    },
+    "sidebar": {
+        "dashboard": "Tổng quan",
+        "admin": "Quản lý hệ thống",
+        "user": "Người dùng",
+        "role": "Quản lý vai trò",
+        "personal_information": "Thông tin cá nhân",
+        "personnel_list": "Danh sách nhân sự"
+
+    },
+    "dashboard": {
+        "intro": "Dashboard Edupia CRM"
+    },
+    "footer": {
+        "intro": "© 2023 Educa Corporation. All rights reserved"
+    },
+    "logout": "Đăng xuất",
+    "common": {
+        "buttons": {
+            "add": "Thêm mới",
+            "edit": "Cập nhật",
+            "authorize": "Phân quyền",
+            "upload": "Tải lên",
+            "download": "Tải xuống",
+            "advanced": "Nâng cao",
+            "search": "Tìm kiếm",
+            "reset_search": "Bỏ bộ lọc",
+            "save": "Lưu",
+            "cancel": "Hủy",
+            "refresh": "Tải lại"
+        },
+        "placeholder": {
+            "quick_search": "Nhập thông tin tìm kiếm..."
+        },
+        "columns": {
+            "action": "Hành động"
+        }
+    },
+    "login": {
+        "title": "Đăng nhập",
+        "intro": "Chào mừng bạn đến với hệ thống vận hành của Educa. <br> Vui lòng đăng nhập để tiếp tục công việc!",
+        "buttons": {
+            "login": "Đăng nhập"
+        },
+        "input_text": {
+            "account": "Tài khoản",
+            "password": "Mật khẩu"
+        },
+        "messages": {
+            "account_required": "Vui lòng nhập account!",
+            "password_required": "Vui lòng nhập mật khẩu!",
+            "login_fail": "Tài khoản hoặc mật khẩu không hợp lệ!"
+        }
+    },
+    "role": {
+        "title": "Vai trò",
+        "title_create": "Thêm mới vai trò",
+        "title_edit": "Cập nhật vai trò",
+        "columns": {
+            "name": "Mã vai trò",
+            "display_name": "Tên vai trò",
+            "description": "Mô tả",
+            "created_at": "Ngày tạo",
+            "updated_at": "Ngày cập nhật",
+            "is_active": "Kích hoạt",
+            "permission": "Chức năng/quyền"
+        },
+        "column_values": {
+            "is_active": {
+                "true": "Kích hoạt",
+                "false": "Không kích hoạt"
+            }
+        },
+        "other_actions": {
+            "active": "Kích hoạt",
+            "deactivate": "Hủy kích hoạt"
+        },
+        "messages": {
+            "create_success": "Tạo mới vai trò thành công",
+            "create_fail": "Tạo mới vai trò thất bại",
+            "update_success": "Cập nhật vai trò thành công",
+            "update_fail": "Cập nhật vai trò thất bại",
+            "active_success": "Active vai trò thành công",
+            "active_fail": "Active vai trò thất bại",
+            "deactivate_success": "Deactivate role thành công",
+            "deactivate_fail": "Deactivate vai trò thất bại"
+        },
+        "modal": {
+            "active": {
+                "title": "Active role",
+                "content": "Bạn có chắc chắn muốn active role?"
+            },
+            "deactivate": {
+                "title": "Deactivate role",
+                "content": "Bạn có chắc chắn muốn deactivate role?"
+            }
+        }
+    },
+    "user": {
+        "title": "Người dùng",
+        "title_create": "Thêm mới người dùng",
+        "title_edit": "Cập nhật người dùng",
+        "columns": {
+            "name": "Tên",
+            "username": "Username",
+            "password": "Mật khẩu",
+            "password_confirmation": "Nhập lại mật khẩu",
+            "created_at": "Ngày tạo",
+            "updated_at": "Ngày cập nhật",
+            "department": "Phòng ban",
+            "gtc_extension": "Đầu số",
+            "call_center": "Tổng đài",
+            "email": "Email",
+            "role": "Quyền",
+            "status": "Trạng thái"
+        },
+        "column_values": {
+        },
+        "other_actions": {
+        },
+        "messages": {
+            "create_success": "Tạo mới người dùng thành công",
+            "create_fail": "Tạo mới người dùng thất bại",
+            "update_success": "Cập nhật người dùng thành công",
+            "update_fail": "Cập nhật người dùng thất bại"
+        }
+    },
+    "order": {
+        "title": "Đơn hàng",
+        "full_name": "Họ tên",
+        "receiver_phone": "Số giao hàng",
+        "total_amount": "Tổng tiền",
+        "total_payment": "Tổng thanh toán",
+        "gift": "Quà tặng",
+        "order_creation_date": "Ngày lên đơn",
+        "Waybill": "Vận đơn",
+        "print_status": "Trạng thái in",
+        "delivery_status": "Trạng thái giao hàng",
+        "accountant": "Kế toán",
+        "title_create": "Thêm mới người dùng",
+        "title_edit": "Cập nhật người dùng",
+        "serial_number": "Serial Number",
+        "delivery_form": "Hình thức vận chuyển",
+        "payment_method": "Phương thức thanh toán",
+        "single_type": "Loại đơn",
+        "order_code": "Mã đơn hàng",
+        "customer_information": "Thông tin khách hàng",
+        "other_information": "Thông tin khác",
+        "single_information": "Thông tin đơn",
+        "status": "Trạng thái",
+        "order_status": "Trạng thái đơn",
+        "category": "Loại sản phẩm",
+        "product": "Sản phẩm",
+        "campaign": "Chiến dịch",
+        "payment_status": "Trạng thái thanh toán",
+        "note": "Ghi chú",
+        "sale": "Sale",
+        "phone": "Số điện thoại",
+        "order_date": "Ngày đặt hàng",
+        "province": "Tỉnh/Thành phố",
+        "district": "Quận/Huyện",
+        "region": "Vùng miền",
+        "room": "Phòng",
+        "regions": {
+            "north": "Miền bắc",
+            "central_region": "Miền trung",
+            "southern_region": "Miền nam"
+        },
+        "button": {
+            "upload": "Tải lên",
+            "operation": "Thao tác",
+            "all": "Tất cả"
+        },
+        "payment_status_type": {
+            "unpaid": "Chưa thanh toán",
+            "paid": "Đã thanh toán",
+            "are_being_paid": "Đang thanh toán"
+        },
+        "fot": {
+            "delivery_unit": "Đơn vị chuyển phát",
+            "ship_now": "Ship luôn",
+            "switch_to_province": "Tỉnh chuyển",
+            "soft_Code_Conversion": "Chuyển Mã mềm",
+            "school": "Nhà trường"
+        },
+        "payment_methods": {
+            "direct_payment": "Thanh toán trực tiếp",
+            "transfer_payment": "Thanh toán chuyển khoản",
+            "pay_in_installments": "Thanh toán trả góp"
+        },
+        "type": {
+            "new": "Bán mới",
+            "extend": "Gia hạn",
+            "upsale": "Upsale",
+            "cross_sale": "Cross sale"
+        },
+        "status_list": {
+            "not_yet_shipped": "Chưa chuyển đơn",
+            "close_application": "Đóng đơn",
+            "delivered_successfully": "Giao thành công",
+            "delivering": "Đang giao",
+            "completed": "Đã hoàn",
+            "return": "Giao lại",
+            "cancel": "Hủy ",
+            "retribution": "Báo hoàn",
+            "overdue_for_processing": "Quá hạn xử lý",
+            "waiting_for_sales_to_process": "Chờ sales xử lý",
+            "dhl_delivery": "Giao hàng DHL",
+            "reception": "Tiếp nhận",
+            "sale_canceled": "Sale báo huỷ"
+        },
+        "shipping_carrier": {
+            "other": "Khác",
+            "viettel_post": "Viettel Post",
+            "ems": "EMS",
+            "dhl": "DHL",
+            "super_ship": "Hỏa tốc"
+        }
+    },
+    "delivery_note": {
+        "title": "Phiếu giao hàng",
+        "title_edit": "Cập nhật phiếu giao hàng",
+        "full_name": "Họ tên",
+        "phone": "Số điện thoại",
+        "columns": {
+            "name": "Người nhận",
+            "phone": "Số điện thoại người nhận",
+            "order_date": "Ngày giao hàng",
+            "province": "Tỉnh/Thành phố",
+            "district": "Quận/ huyện",
+            "province_id": "Tỉnh",
+            "district_id": "Quận/ huyện",
+            "address": "Địa chỉ",
+            "delivery_order_code": "Mã vận chuyển",
+            "reference_code": "Mã đơn hàng",
+            "user_care": "Người phụ trách",
+            "status": "Trạng thái",
+            "payment_method": "Phương thức thanh toán",
+            "shipping_carrier": "Đơn vị vận chuyển",
+            "product_list": "Danh sách sản phẩm",
+            "note": "Ghi chú",
+            "customer_info": "Thông tin khách hàng",
+            "delivery_note_info": "Thông tin phiếu giao hàng",
+            "date": "Ngày tháng",
+            "created_at": "Ngày tạo",
+            "user_care_id": "Người phụ trách",
+            "created_by": "Người tạo",
+            "updated_at": "Ngày cập nhật",
+            "updated_by": "Người cập nhật",
+            "product_name": "Tên sản phẩm",
+            "quantity": "Số lượng",
+            "discount": "Giảm giá",
+            "total": "Tổng tiền"
+        },
+        "column_values": {
+            "is_active": {
+                "true": "Kích hoạt",
+                "false": "Không kích hoạt"
+            }
+        },
+        "other_actions": {
+            "active": "Kích hoạt",
+            "deactivate": "Hủy kích hoạt",
+            "create_delivery_note": "Phiếu giao hàng"
+        },
+        "messages": {
+            "create_success": "Tạo phiếu giao hàng thành công",
+            "create_error": "Tạo phiếu giao hàng  thất bại ",
+            "update_success": "Cập nhật phiếu giao hàng thành công",
+            "update_fail": "Cập nhật phiếu giao hàng thất bại",
+            "create_delivery_notes_success": "Phiếu giao hàng thành công",
+            "create_delivery_notes_fail": "Phiếu giao hàng thất bại"
+        },
+        "modal": {
+            "active": {
+                "title": "Active role",
+                "content": "Bạn có chắc chắn muốn active role?"
+            },
+            "deactivate": {
+                "title": "Deactivate role",
+                "content": "Bạn có chắc chắn muốn deactivate role?"
+            },
+            "create_delivery_note": {
+                "title": "Tạo phiếu giao hàng",
+                "content": "Bạn có chắc chắn muốn tạo phiếu giao hàng?"
+            }
+        },
+        "validator": {
+            "district": {
+                "required": "Vui lòng chọn quận/ huyện"
+            },
+            "province": {
+                "required": "Vui lòng chọn tỉnh thành"
+            }
+        },
+        "status": {
+            "new": "Mới",
+            "processing": "Đang xử lý",
+            "old": "Cũ"
+        }
+    },
+    "hrm": {
+        "basic_information": "Thông tin cơ bản",
+        "general_information": "Thông tin chung",
+        "identity_information": "Thông tin danh tính",
+        "current_address": "Nơi ở hiện tại",
+        "bank_account": "Tài khoản ngân hàng",
+        "department_and_job_title": "Phòng ban & Chức vụ",
+        "note": "Ghi chú",
+        "attached_files": "File đính kèm",
+        "personal_information": {
+            "title": "Thông tin cá nhân",
+            "full_name": "Họ và tên",
+            "first_name": "Họ và tên đệm",
+            "last_name": "Tên",
+            "personal_email": "Email cá nhân",
+            "phone_number": "Số điện thoại",
+            "date_of_birth": "Ngày sinh",
+            "start_date": "Ngày bắt đầu làm việc",
+            "end_date": "Ngày kết thúc làm việc",
+            "gender": "Giới tính",
+            "marital_status": "Tình trạng hôn nhân",
+            "status": "Trạng thái",
+            "employee_code": "Mã nhân sự",
+            "company_email": "Email công ty",
+            "fingerprint_code": "Mã vân tay",
+            "skype_id": "Skype id",
+            "id_card_number": "Số CMT",
+            "id_card_issue_date": "Ngày cấp CMT",
+            "id_card_issued_by": "Nơi cấp CMT",
+            "citizen_id_number": "Số CCCD",
+            "citizen_id_issue_date": "Ngày cấp CCCD",
+            "citizen_id_issued_by": "Nơi cấp CCCD",
+            "native_place": "Nguyên quán",
+            "nationality": "Quốc tịch",
+            "permanent_address": "Địa chỉ thường trú",
+            "address": "Địa chỉ",
+            "bank_name": "Tên ngân hàng",
+            "bank_account_number": "Số tài khoản ngân hàng",
+            "account_holder_name": "Tên chủ tài khoản",
+            "office": "Văn phòng",
+            "division": "Khối / BU",
+            "department": "Phòng/ Ban",
+            "position": "Chức vụ",
+            "job_title": "Chức danh",
+            "position_code": "Mã chức vụ",
+            "current_level": "Level hiện tại",
+            "tax_code": "Mã số thuế",
+            "social_insurance_number": "Mã số BHXH",
+            "linked_account": "Tài khoản được liên kết",
+            "messages" : {
+                "create_success" : "Tạo mới nhân sự thành công",
+                "create_fail" : "Tạo mới nhân sự thất bại",
+                "update_success" : "Cập nhật nhân sự thành công",
+                "update_fail" : "Cập nhật nhân sự thất bại"
+            }
+        },
+        "contract": {
+            "title": "Hợp đồng lao động",
+            "create_title": "Tạo mới hợp đồng lao động",
+            "update_title": "Cập nhật hợp đồng lao động",
+            "detail_title": "Chi tiết hợp đồng lao động",
+            "contact_code": "Mã hợp đồng",
+            "status" : "Trạng thái",
+            "contact_type": "Loại hợp đồng",
+            "start_day": "Ngày bắt đầu",
+            "end_day": "Ngày kết thúc",
+            "file": "File",
+            "note": "Ghi chú",
+            "other": "Khác",
+            "probationary_contract": "Hợp đồng thử việc",
+            "definite_term_labor_contract": "Hợp đồng lao động xác định thời hạn",
+            "indefinite_term_labor_contract": "Hợp đồng lao động không xác định thời hạn",
+            "messages" : {
+                "create_success" : "Tạo mới hợp đồng thành công",
+                "create_fail" : "Tạo mới hợp đồng thất bại",
+                "update_success" : "Cập nhật hợp đồng thành công",
+                "update_fail" : "Cập nhật hợp đồng thất bại"
+            }
+        },
+        "employees": {
+            "title": "Danh sách nhân sự",
+            "full_name": "Họ và tên",
+            "employee_code": "Mã nhân viên",
+            "job_title": "Chức vụ",
+            "status": "Trạng thái",
+            "bu": "BU",
+            "avatar": {
+                "update": "Cập nhật ảnh đại diện"
+            }
+        },
+        "salary_benefits": {
+            "title": "Lương & phúc lợi"
+        }
+    },
+    "country": {
+        "title": "Quốc gia",
+        "VietNam": "Việt Nam",
+        "England": "Anh"
+    },
+    "gender": {
+        "male" : "Nam",
+        "female" : "Nữ",
+        "other" : "Khác"
+    },
+    "marital_status": {
+        "single": "Độc thân",
+        "married": "Đã kết hôn",
+        "divorced": "Ly hôn",
+        "widowed": "Góa bụa/góa chồng",
+        "not_specified": "Chưa xác định"
+    },
+    "status": {
+        "active": "Kích hoạt",
+        "deactivate": "Hủy kích hoạt"
+    }
+}

@@ -92,14 +92,19 @@ const updateAvatar = (newAvatarUrl) => {
 };
 
 const getAvatar = async () => {
-    const currentUserId = employeeId.value || authStore().getUser.employeeId || 0;
-    const response = await employeeService.getAvatar(currentUserId);
-    avatarUser.value = response.file || '';
+    avatarUser.value = employeeId.value
+        ? (await employeeService.getAvatar(employeeId.value))?.file || ''
+        : (route?.name === routeNameConstant.ME_INFO_DETAIL
+            ? authStore().getUser.avatar
+            : avatarDefault);
+
+    console.log('route', route?.name, routeNameConstant.ME_INFO_DETAIL);
 };
-getAvatar();
 
 watch(route, (newRoute) => {
     employeeId.value = newRoute?.params.employeeId ?? 0;
+    console.log('employeeId',newRoute?.name);
+    getAvatar();
 }, { immediate: true });
 </script>
 

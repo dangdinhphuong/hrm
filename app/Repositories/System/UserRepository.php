@@ -35,11 +35,7 @@ class UserRepository extends BaseRepository
             ];
         }
 
-        if (!empty($params['department'])) {
-            $this->whereHas('groups', function ($query) use ($params) {
-                $query->whereIn('group_id', $params['department']);
-            });
-        }
+
         if (!empty($params['id'])) {
             $params['ids'] = is_array($params['id']) ? $params['id'] : [$params['id']];
         }
@@ -50,7 +46,7 @@ class UserRepository extends BaseRepository
             });
         }
 
-        $query = $this->filter($params)->with('groups');
+        $query = $this->filter($params);
 
         $paginate =  !empty($params['paginate']) ? filter_var($params['paginate'], FILTER_VALIDATE_BOOLEAN) : $paginate;
 

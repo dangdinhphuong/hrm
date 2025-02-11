@@ -36,6 +36,13 @@ const menu = [
         icon: 'personal-information'
     },
     {
+        name: translate('sidebar.working_leave'),
+        route: routeNameConstant.WORK,
+        sidebarKey: SidebarKeyConstant.WORK,
+        isVisible: currentUser.hasPermissions(permissionConstant.VIEW_EMPLOYEE_LIST),
+        icon: 'hrm'
+    },
+    {
         name: translate('sidebar.personnel_list'),
         route: routeNameConstant.EMPLOYEE,
         sidebarKey: SidebarKeyConstant.EMPLOYEE,

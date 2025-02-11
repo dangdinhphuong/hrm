@@ -71,6 +71,7 @@ import {translate} from "@/helpers/CommonHelper.js";
 import EmployeeService from "@/services/Employee/EmployeeService.js";
 import {getCurrentRouteParams} from "@/helpers/RouteHelper.js";
 import {authStore} from "@/stores/AuthStore.js";
+import { Potrace } from 'potrace';
 
 const imgSrc = ref(''); // URL ảnh để hiển thị
 const input = ref(null); // Tham chiếu đến input file
@@ -80,10 +81,13 @@ const loading = ref(false); // Trạng thái tải
 const emit = defineEmits(['update:showModal', 'update:avatar', 'crop']); // Sự kiện
 const userService = new UserService(); // Dịch vụ người dùng
 const open = ref(props.showModal); // Trạng thái mở modal
-const maxFileSize = ref(1048576); // Kích thước file tối đa (1 MB)
+const maxFileSize = ref(20 * 1024 * 1024); // Kích thước file tối đa (20 MB)
 
-const employeeId = getCurrentRouteParams('employeeId') ?? (authStore().getUser.employeeId ?? 0);
+const userStore = authStore();
+const userEmployeeId = userStore.getUser?.employeeId || 0;
+const employeeId = getCurrentRouteParams('employeeId') || userEmployeeId;
 const employeeService = new EmployeeService();
+
 
 // Theo dõi thay đổi của showModal
 watch(() => props.showModal, newVal => open.value = newVal);
@@ -98,6 +102,10 @@ const handleOk = async () => {
             const response = await employeeService.uploadAvatar(employeeId, {avatar});
             if (isSuccessRequest(response)) {
                 messageSuccess(response.message);
+                // Cập nhật state user trong Pinia
+                if(userEmployeeId == employeeId){
+                    userStore.setAvatar(response.data.file);
+                }
                 emit('update:avatar', response.data.file);
 
                 handleCancel();

@@ -10,6 +10,7 @@ const SIDEBAR_KEYS = {
     ME_INFORMATION: "me-information",
     CONTRACT: "contract",
     ME_CONTRACT: "me-contract",
+    WORK: "work",
 };
 
 export default SIDEBAR_KEYS;

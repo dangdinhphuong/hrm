@@ -31,7 +31,7 @@ const admin = [
             },
             {
                 path: "info",
-                component: () => import("../components/layouts/SubSidebarEmployee.vue"),
+                component: () => import("../components/subSideBar/SubSidebarEmployee.vue"),
                 children: [
                     {
                         path: "view",
@@ -77,7 +77,7 @@ const admin = [
             },
             {
                 path: "contract",
-                component: () => import("../components/layouts/SubSidebarEmployee.vue"),
+                component: () => import("../components/subSideBar/SubSidebarEmployee.vue"),
                 children: [
                     {
                         path: "view",
@@ -142,7 +142,7 @@ const admin = [
             },
             {
                 path: "/system",
-                component: () => import("../components/layouts/SubSidebarSystem.vue"),
+                component: () => import("../components/subSideBar/SubSidebarSystem.vue"),
                 children: [
                     {
                         path: "roles",
@@ -172,6 +172,22 @@ const admin = [
                             sidebarKey: SidebarKeyConstant.ROLE
                         }
                     }
+                ]
+            },
+            {
+                path: "/worktime",
+                component: () => import("../components/subSideBar/SubSidebarWork.vue"),
+                children: [
+                    {
+                        path: "",
+                        name: routeNameConstant.WORK,
+                        component: () => import("../views/works/List.vue"),
+                        meta: {
+                            middleware: {function: abilities, abilities: permissionConstant.ROLE_VIEW},
+                            sidebarKey: SidebarKeyConstant.WORK,
+                            sidebarKeySub: SidebarKeyConstant.WORK,
+                        }
+                    },
                 ]
             },
         ]

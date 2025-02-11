@@ -1,16 +1,21 @@
 import {defineStore} from 'pinia';
 import AuthService from "@/services/system/AuthService.js";
-import {toRaw} from "vue";
+import {toRaw, reactive } from "vue";
 import {isEmptyObject, isArray, getEnv} from "@/helpers/CommonHelper.js";
 
 export const authStore = defineStore('authStore', {
     state: () => ({
-        user: {}
+        user: reactive({})
     }),
 
     actions: {
         setUser(user) {
             this.user = user;
+        },
+        setAvatar(avatarUrl) {
+            if (this.user) {
+                this.user.avatar = avatarUrl;
+            }
         },
         async loadUser() {
             if (!isEmptyObject(this.user)) {

@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Group extends Model
 {
     use SoftDeletes;
+    protected $connection = 'mysql'; // Chỉ định kết nối cơ sở dữ liệu
     protected $table = 'group';
 
     protected $fillable = [

@@ -5,7 +5,7 @@
         :columns="columns"
         :fetch-data="fetchData"
         :can-search="false"
-        :action-detail="hasPermissionEdit ? actionDetail : null"
+        :action-detail="hasPermissionDetail ? actionDetail : null"
         :action-edit="null"
         :action-add="null"
         :table-row-selected="tableRowSelected ?? []"/>
@@ -105,10 +105,11 @@ const columns = [
 
 // todo sửa lại quyền sau
 const hasPermissionCreate = hasPermissions(PermissionConstant.USER_CREATE);
-const hasPermissionEdit = hasPermissions(PermissionConstant.USER_EDIT);
+const hasPermissionEdit = hasPermissions(PermissionConstant.EDIT_CONTRACT);
+const hasPermissionDetail = hasPermissions(PermissionConstant.VIEW_CONTRACT_DETAIL);
 
 const fetchData = (params) => {
-    if(employeeId){
+    if (employeeId) {
         const result = contractService.getMyContract(params);
         afterFetchData(params);
         return result;
@@ -117,11 +118,12 @@ const fetchData = (params) => {
 };
 const afterFetchData = (params = '') => {
 }
+
 const actionDetail = ({id}) => {
-    router.push({name: RouteNameConstant.CONTRACT_DETAIL, params: {'employeeId': employeeId, 'id':id}});
+    router.push({name: RouteNameConstant.CONTRACT_DETAIL, params: {'employeeId': employeeId, 'id': id}});
 };
 const actionEdit = ({id}) => {
-    router.push({name: RouteNameConstant.CONTRACT_EDIT, params: {'employeeId': employeeId, 'id':id}});
+    router.push({name: RouteNameConstant.CONTRACT_EDIT, params: {'employeeId': employeeId, 'id': id}});
 };
 
 const actionAdd = () => {

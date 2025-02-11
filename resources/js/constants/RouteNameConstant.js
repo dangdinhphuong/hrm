@@ -28,6 +28,7 @@ const ROUTE_NAME = {
     CONTRACT_DETAIL: "contract-detail",
     CONTRACT_CREATE: "contract-create",
     CONTRACT_EDIT: "contract-edit",
+    WORK: "work",
 };
 
 export default ROUTE_NAME;

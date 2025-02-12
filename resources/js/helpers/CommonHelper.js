@@ -1,4 +1,5 @@
 import {$t} from "@assets/js/lang/index.js";
+import moment from "moment";
 
 export function isEmptyObject(object) {
     return !object || Object.keys(object).length === 0;
@@ -48,9 +49,9 @@ export function cloneObject(object, type = 'object') {
     return Object.assign(result, object);
 }
 
-export function convertConstantToDataSelect(data){
+export function convertConstantToDataSelect(data) {
     let result = [];
-    result.push({ label: '',value: '' })
+    result.push({label: '', value: ''})
     data.forEach((value, key) => {
         result.push({
             label: value,
@@ -59,6 +60,7 @@ export function convertConstantToDataSelect(data){
     });
     return result;
 }
+
 export function convertConstantObjectToDataSelect(data, valueType = "Number") {
     let result = [];
 
@@ -89,7 +91,7 @@ export function convertConstantObjectToDataSelect(data, valueType = "Number") {
 }
 
 
-export function createStyleElement (styleAdded , classQuery){
+export function createStyleElement(styleAdded, classQuery) {
     // Thêm style tùy chỉnh
     if (styleAdded) {
         const selectProvinceDistrictElement = document.querySelector(classQuery);
@@ -102,7 +104,7 @@ export function createStyleElement (styleAdded , classQuery){
     }
 }
 
-export function formatToVietnameseCurrency(money){
+export function formatToVietnameseCurrency(money) {
     const number = parseFloat(money);
 
     // Check if the conversion was successful
@@ -112,5 +114,30 @@ export function formatToVietnameseCurrency(money){
     const formattedNumber = number.toLocaleString('vi-VN');
 
     return formattedNumber + ' đ';
+}
+
+export function useDaysInMonth(month = moment().month() + 1, year = moment().year()) {
+    const daysInMonth = moment(`${year}-${month}`, "YYYY-MM").daysInMonth();
+
+    const weekdays = [
+        $t("weekdays.Sunday"),
+        $t("weekdays.Monday"),
+        $t("weekdays.Tuesday"),
+        $t("weekdays.Wednesday"),
+        $t("weekdays.Thursday"),
+        $t("weekdays.Friday"),
+        $t("weekdays.Saturday")
+    ];
+
+    const result = [];
+    for (let day = 1; day <= daysInMonth; day++) {
+        const date = moment(`${year}-${month}-${day}`, "YYYY-MM-DD");
+        result.push({
+            dayOfWeek: weekdays[date.day()],
+            date: date.format("DD/MM") // Định dạng lại ngày thành 2 chữ số
+        });
+    }
+
+    return result;
 }
 

@@ -29,7 +29,7 @@ import Antd,{
     Tree,
     Modal,
     RangePicker,
-    DatePicker
+    DatePicker,
 } from 'ant-design-vue';
 
 import 'ant-design-vue/dist/reset.css';

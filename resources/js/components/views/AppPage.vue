@@ -77,7 +77,7 @@
         <a-card class="mt-3">
             <a-table :columns="columns" :data-source="data.data ?? []"
                      :row-selection="tableRowSelectionActions ? rowSelectionConfig : null"
-                     :pagination="false">
+                     :pagination="false" :scroll="scrollTable ? scrollTable : null" >
                 <template #bodyCell="{ column, record }">
                     <template v-if="column.key === 'action'">
                         <template v-if="actionEdit">
@@ -144,6 +144,10 @@ const props = defineProps({
     sizeButton: {
         type: String,
         default: 'large'
+    },
+    scrollTable: {
+        type: Object,
+        default: {}
     },
     pageTitle: {
         type: String,
@@ -239,6 +243,7 @@ columns.unshift({
     title: '#',
     width: 2,
     key: 'index',
+    fixed: 'left',
     customRender: ({index}) => {
         return ++index;
     },
@@ -249,7 +254,7 @@ if (props.actionEdit || props.getActionOther || props.actionDetail) {
         title: translate('common.columns.action'),
         key: 'action',
         fixed: 'right',
-        width: 3,
+        width: 8,
     });
 }
 

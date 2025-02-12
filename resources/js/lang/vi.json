@@ -13,6 +13,15 @@
             "file_unavailable": "Không thể tải file."
         }
     },
+    "weekdays": {
+        "Sunday": "Chủ Nhật",
+        "Monday": "Thứ Hai",
+        "Tuesday": "Thứ Ba",
+        "Wednesday": "Thứ Tư",
+        "Thursday": "Thứ Năm",
+        "Friday": "Thứ Sáu",
+        "Saturday": "Thứ Bảy"
+    },
     "sidebar": {
         "dashboard": "Tổng quan",
         "admin": "Quản lý hệ thống",
@@ -21,7 +30,8 @@
         "personal_information": "Thông tin cá nhân",
         "personnel_list": "Danh sách nhân sự",
         "working_day": "Bảng công",
-        "working_leave": "Công & Phép"
+        "working_leave": "Công & Phép",
+        "Leave_Management": "Quản lý nghỉ phép"
     },
     "dashboard": {
         "intro": "Dashboard Edupia CRM"
@@ -363,11 +373,11 @@
             "tax_code": "Mã số thuế",
             "social_insurance_number": "Mã số BHXH",
             "linked_account": "Tài khoản được liên kết",
-            "messages" : {
-                "create_success" : "Tạo mới nhân sự thành công",
-                "create_fail" : "Tạo mới nhân sự thất bại",
-                "update_success" : "Cập nhật nhân sự thành công",
-                "update_fail" : "Cập nhật nhân sự thất bại"
+            "messages": {
+                "create_success": "Tạo mới nhân sự thành công",
+                "create_fail": "Tạo mới nhân sự thất bại",
+                "update_success": "Cập nhật nhân sự thành công",
+                "update_fail": "Cập nhật nhân sự thất bại"
             }
         },
         "contract": {
@@ -376,7 +386,7 @@
             "update_title": "Cập nhật hợp đồng lao động",
             "detail_title": "Chi tiết hợp đồng lao động",
             "contact_code": "Mã hợp đồng",
-            "status" : "Trạng thái",
+            "status": "Trạng thái",
             "contact_type": "Loại hợp đồng",
             "start_day": "Ngày bắt đầu",
             "end_day": "Ngày kết thúc",
@@ -386,11 +396,11 @@
             "probationary_contract": "Hợp đồng thử việc",
             "definite_term_labor_contract": "Hợp đồng lao động xác định thời hạn",
             "indefinite_term_labor_contract": "Hợp đồng lao động không xác định thời hạn",
-            "messages" : {
-                "create_success" : "Tạo mới hợp đồng thành công",
-                "create_fail" : "Tạo mới hợp đồng thất bại",
-                "update_success" : "Cập nhật hợp đồng thành công",
-                "update_fail" : "Cập nhật hợp đồng thất bại"
+            "messages": {
+                "create_success": "Tạo mới hợp đồng thành công",
+                "create_fail": "Tạo mới hợp đồng thất bại",
+                "update_success": "Cập nhật hợp đồng thành công",
+                "update_fail": "Cập nhật hợp đồng thất bại"
             }
         },
         "employees": {
@@ -414,9 +424,9 @@
         "England": "Anh"
     },
     "gender": {
-        "male" : "Nam",
-        "female" : "Nữ",
-        "other" : "Khác"
+        "male": "Nam",
+        "female": "Nữ",
+        "other": "Khác"
     },
     "marital_status": {
         "single": "Độc thân",
@@ -428,5 +438,16 @@
     "status": {
         "active": "Kích hoạt",
         "deactivate": "Hủy kích hoạt"
+    },
+    "work": {
+        "title": "Bảng công",
+        "columns": {
+            "employee_name": "Tên nhân viên",
+            "leave_days": "Công nghỉ phép",
+            "work_description": "Công công tác",
+            "holiday_leave": "Công nghỉ lễ",
+            "overtime_hours": "Số giờ OT",
+            "late_early_minutes": "Số phút đi muộn về sớm"
+        }
     }
 }

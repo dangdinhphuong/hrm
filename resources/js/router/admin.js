@@ -176,20 +176,13 @@ const admin = [
             },
             {
                 path: "/worktime",
-                component: () => import("../components/subSideBar/SubSidebarWork.vue"),
-                children: [
-                    {
-                        path: "",
-                        name: routeNameConstant.WORK,
-                        component: () => import("../views/works/List.vue"),
-                        meta: {
-                            middleware: {function: abilities, abilities: permissionConstant.ROLE_VIEW},
-                            sidebarKey: SidebarKeyConstant.WORK,
-                            sidebarKeySub: SidebarKeyConstant.WORK,
-                        }
-                    },
-                ]
-            },
+                name: routeNameConstant.WORK,
+                component: () => import("../views/works/List.vue"),
+                meta: {
+                    middleware: {function: abilities, abilities: permissionConstant.ROLE_VIEW},
+                    sidebarKey: SidebarKeyConstant.WORK,
+                }
+            }
         ]
     }
 ];

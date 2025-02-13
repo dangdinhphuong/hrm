@@ -10,6 +10,7 @@
                 :source-data="user"
                 :submit="submit"
                 :cancel="cancel"
+                :before-submit="beforeSubmit"
                 :is-multiple-sections=true
                 classWrapperFormItem="col-12 col-sm-12 d-flex flex-wrap"
                 classFormItem="col-12 col-sm-4 p-2"
@@ -51,7 +52,7 @@ const props = defineProps({
     },
     user: {
         type: Object,
-        default: {}
+        default: {'password': ""}
     },
     errors: {
         type: Object,
@@ -162,13 +163,10 @@ let fields = [
                 name: translate('hrm.personal_information.end_date')
             },
             {
-                type: 'search-select',
-                key: 'user_id',
-                name: translate('hrm.personal_information.linked_account'),
-                options: [],
-                valueType: 'number',
-                multiple: false,
-                entity: EntitySelectConstant.HRM_USER,
+                type: 'text',
+                key: 'password',
+                disabled: true,
+                name: translate('hrm.personal_information.password')
             },
         ]
     },
@@ -316,6 +314,13 @@ let fields = [
                 options: convertConstantObjectToDataSelect(HrmCommonConstant.HRM.LEVEL),
                 default_value: HrmCommonConstant.LEVEL_DEFAULT,
             },
+            {
+                type: 'entity-select',
+                entity: EntitySelectConstant.ROLE,
+                key: 'role_id',
+                name: translate('hrm.personal_information.role'),
+                required: true
+            },
         ]
     }
 
@@ -332,6 +337,12 @@ const prepareFields = () => {
 prepareFields();
 
 const userService = new UserService();
+
+const beforeSubmit = (formData) => {
+    const { code, phone } = formData.value;
+
+    formData.value.password = code && phone ? `${code}@${phone}` : '';
+};
 
 const submit = async (formData) => {
     const {isValid, errorMessages} = await createUserRequest.validate(formData);
@@ -352,7 +363,6 @@ const submit = async (formData) => {
     });
 };
 
-
 const cancel = () => {
     router.push({name: RouteNameConstant.EMPLOYEE});
 }
@@ -360,6 +370,7 @@ const cancel = () => {
 const childComponent = () => {
     props.redirectChildComponent("infoUser.userList")
 }
+
 </script>
 
 <style lang="scss" scoped>

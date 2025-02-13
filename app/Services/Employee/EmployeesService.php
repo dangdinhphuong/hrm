@@ -4,6 +4,7 @@ namespace App\Services\Employee;
 
 use App\Repositories\Department\EmployeeDepartmentRepository;
 use App\Repositories\Employee\EmployeesRepository;
+use App\Services\System\UserService;
 use App\Services\Attachment\AttachmentService;
 use App\Services\Attachment\EavAttachmentService;
 use App\Services\Attachment\FileService;
@@ -25,7 +26,9 @@ class EmployeesService
         AttachmentService            $attachmentService,
         EavAttachmentService         $eavAttachmentService,
         EmployeeDepartmentRepository $employeeDepartmentRepository,
-        FileService                  $fileService
+        FileService                  $fileService,
+        UserService                  $userService
+
     )
     {
         $this->employeesRepository = $employeesRepository;
@@ -33,6 +36,7 @@ class EmployeesService
         $this->attachmentService = $attachmentService;
         $this->eavAttachmentService = $eavAttachmentService;
         $this->fileService = $fileService;
+        $this->userService = $userService;
     }
 
     public function list(array $params = [])
@@ -45,6 +49,19 @@ class EmployeesService
         DB::beginTransaction();
         $status = false;
         try {
+
+            $user = $this->userService->create([
+                'name' => $data['last_name'],
+                'username' => $data['code'],
+                'email' => $data['personal_email'],
+                'password' => $data['code'] . '@' . $data['phone'],
+                'status' => $data['status'],
+                'role' => [$data['role_id']],
+                'department' => $data['department_id']
+            ]);
+
+            $data['user_id'] = $user->id;
+
             $employeeData = $this->save($data);
 
             $this->employeeDepartmentRepository->create(

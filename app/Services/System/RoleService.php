@@ -53,7 +53,6 @@ class RoleService
         }
         DB::rollBack();
         return false;
-
     }
 
     public function getPermissionsByCodes($params)

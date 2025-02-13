@@ -144,7 +144,6 @@ const columns = computed(() => {
     return [...beforeDay, ...day, ...afterDay];
 });
 
-console.log('daysInMonth',daysInMonth.value)
 
 const columns2 = computed(() => {
     return daysInMonth.value.map((day, index) => ({

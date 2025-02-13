@@ -38,7 +38,7 @@ class CreateEmployeeRequest extends FormRequest
             'code' => ['nullable', 'string','min:1', 'max:11', new UniqueInDatabase('employees', 'code', 'mysql')],
             'fingerprint_code' => ['nullable', 'string', 'max:100', new UniqueInDatabase('employees', 'fingerprint_code', 'mysql')],
             'skype_id' => ['nullable', 'string', 'max:100', new UniqueInDatabase('employees', 'skype_id', 'mysql')],
-            'user_id' => ['nullable', 'integer', new UniqueInDatabase('employees', 'user_id', 'mysql')],
+//            'user_id' => ['nullable', 'integer', new UniqueInDatabase('employees', 'user_id', 'mysql')],
             'old_identity_card_number' => ['nullable', 'string', 'max:20', new UniqueInDatabase('employees', 'old_identity_card_number', 'mysql')],
             'identity_card_number' => ['required', 'string', 'max:20', new UniqueInDatabase('employees', 'identity_card_number', 'mysql')],
             'tax_code' => ['nullable', 'string', 'max:20', new UniqueInDatabase('employees', 'tax_code', 'mysql')],

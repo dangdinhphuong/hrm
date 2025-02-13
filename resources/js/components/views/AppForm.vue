@@ -16,7 +16,8 @@
                         :help="errors[item.key] && !item.hiddenTitleAndError ? errors[item.key]: undefined"
                         :class="[classFormItem, item.classAdvancedFormItem ?? '']"
                     >
-                        <span v-if="!item.hiddenTitleAndError">{{ item.name }}<span class="text-danger" v-if="item.required">*</span></span>
+                        <span v-if="!item.hiddenTitleAndError">{{ item.name }}<span class="text-danger"
+                                                                                    v-if="item.required">*</span></span>
                         <app-input
                             v-model="formData[item.key]"
                             :input-key="item.key"
@@ -44,7 +45,9 @@
                     :help="errors[field.key] && !field.hiddenTitleAndError ? errors[field.key]: undefined"
                     :class="[classFormItem, field.classAdvancedFormItem ?? '']"
                 >
-                    <span v-if="!field.hiddenTitleAndError">{{ field.name }}<span class="text-danger" v-if="field.required">*</span></span>
+                    <span v-if="!field.hiddenTitleAndError">{{ field.name }}<span class="text-danger"
+                                                                                  v-if="field.required">*</span></span>
+
                     <app-input
                         v-model="formData[field.key]"
                         :input-key="field.key"
@@ -111,16 +114,21 @@ const props = defineProps({
         default: null
     },
     isMultipleSections: {
-        type:Boolean,
-        default:false
+        type: Boolean,
+        default: false
     },
     canSubmit: {
         type: Boolean,
         default: true
     },
+    beforeSubmit: {
+        type: Function,
+        default: null
+    },
 });
 
 const formData = ref(props.sourceData);
+
 const setDefaultValue = () => {
     const fields = props.isMultipleSections
         ? props.fields.flatMap(group => group.items) // Lấy tất cả các items nếu có nhiều sections
@@ -128,7 +136,7 @@ const setDefaultValue = () => {
     fields.forEach(field => {
         if (isset(field.default_value)) {
             formData.value[field.key] = field.default_value;
-        } else{
+        } else {
             formData.value[field.key] = '';
         }
     });
@@ -138,6 +146,15 @@ if (isEmptyObject(props.sourceData)) {
     formData.value = ref({});
     setDefaultValue();
 }
+
+const beforeSubmit = () => {
+    if (typeof props.beforeSubmit === 'function') {
+        props.beforeSubmit(formData);
+    } else {
+        console.warn('beforeSubmit prop is not provided or is not a function.');
+    }
+};
+
 
 const submit = () => {
     // Helper function to process fields
@@ -171,5 +188,9 @@ const submit = () => {
 const cancel = () => {
     props.cancel();
 }
+
+watch(formData, () => {
+    beforeSubmit();
+}, {deep: true});
 
 </script>

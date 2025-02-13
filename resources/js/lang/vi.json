@@ -343,6 +343,7 @@
             "date_of_birth": "Ngày sinh",
             "start_date": "Ngày bắt đầu làm việc",
             "end_date": "Ngày kết thúc làm việc",
+            "password": "Mật khẩu",
             "gender": "Giới tính",
             "marital_status": "Tình trạng hôn nhân",
             "status": "Trạng thái",
@@ -373,6 +374,7 @@
             "tax_code": "Mã số thuế",
             "social_insurance_number": "Mã số BHXH",
             "linked_account": "Tài khoản được liên kết",
+            "role": "Vai trò",
             "messages": {
                 "create_success": "Tạo mới nhân sự thành công",
                 "create_fail": "Tạo mới nhân sự thất bại",
@@ -395,6 +397,7 @@
             "other": "Khác",
             "probationary_contract": "Hợp đồng thử việc",
             "definite_term_labor_contract": "Hợp đồng lao động xác định thời hạn",
+
             "indefinite_term_labor_contract": "Hợp đồng lao động không xác định thời hạn",
             "messages": {
                 "create_success": "Tạo mới hợp đồng thành công",

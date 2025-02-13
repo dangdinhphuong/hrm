@@ -25,6 +25,7 @@ class EmployeesController extends Controller
     {
         $data = $request->all();
         $employees = $this->employeesService->create($data);
+
         return responseByStatus($employees["status"], $employees["message"]);
     }
 

@@ -17,13 +17,16 @@ class UserService
         $this->userRepository = $userRepository;
     }
 
-    public function all($columns = ['*']){{
-        return $this->userRepository->all($columns);
-    }}
+    public function all($columns = ['*'])
+    {
+        {
+            return $this->userRepository->all($columns);
+        }
+    }
 
     public function list(array $params = [], $paginate = true, $columns = ['*'])
     {
-        return $this->userRepository->list($params,$paginate, $columns);
+        return $this->userRepository->list($params, $paginate, $columns);
     }
 
     public function getUserSale(array $params = [])
@@ -43,15 +46,13 @@ class UserService
                 'name' => $params['name'],
                 'username' => $params['username'],
                 'password' => Hash::make($params['password']),
-                'status' => $params['status'],
-                'gtc_extension' => $params['gtc_extension'] ?? null,
-                'call_center' => $params['call_center'] ?? null,
-                'email' => $params['email'] ?? null,
+                'status' => $params['status']
             ]);
+
             $this->syncUserRoleAndDepartment($user, $params['role'] ?? [], $params['department']);
 
             DB::commit();
-            return true;
+            return $user;
         } catch (\Throwable $exception) {
             Log::error($exception);
         }
@@ -86,9 +87,9 @@ class UserService
 
     private function syncUserRoleAndDepartment(User $user, $roleIds, $departmentId)
     {
-        $user->groups()->sync([
-            $departmentId => ['type' => User::USER_DEPARTMENT_TYPE_MEMBER]
-        ]);
+//        $user->groups()->sync([
+//            $departmentId => ['type' => User::USER_DEPARTMENT_TYPE_MEMBER]
+//        ]);
         $user->roles()->sync($roleIds);
     }
 }

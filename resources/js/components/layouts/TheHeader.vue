@@ -57,7 +57,7 @@ const user = computed(() => store.user);
 
 
 watch(() => store.user.avatar, (newAvatar) => {
-    console.log("Avatar mới:", newAvatar);
+
 });
 
 

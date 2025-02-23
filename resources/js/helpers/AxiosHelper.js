@@ -38,7 +38,6 @@ function request(method, path, params, headers, isUseAccessToken, isLoading) {
 
         if (isUseAccessToken && localStorage.getItem('access_token')) {
             headers.Authorization = `Bearer ${localStorage.getItem('access_token')}`;
-            console.log('headers.Authorization',`Bearer ${localStorage.getItem('access_token')}`)
         }
 
         let axiosConfig = {

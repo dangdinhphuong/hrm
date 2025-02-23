@@ -40,22 +40,22 @@ const menu = [
         route: routeNameConstant.WORK,
         sidebarKey: SidebarKeyConstant.WORK,
         isVisible: currentUser.hasPermissions(permissionConstant.VIEW_EMPLOYEE_LIST),
-        icon: 'hrm'
+        icon: 'leave'
     },
     {
-        name: translate('sidebar.personnel_list'),
+        name: translate('sidebar.human_resource_management'),
         route: routeNameConstant.EMPLOYEE,
         sidebarKey: SidebarKeyConstant.EMPLOYEE,
         isVisible: currentUser.hasPermissions(permissionConstant.VIEW_EMPLOYEE_LIST),
         icon: 'hrm'
     },
-    {
-        name: translate('sidebar.admin'),
-        isVisible: currentUser.hasPermissions(permissionConstant.ROLE_VIEW),
-        route: routeNameConstant.ROLE_VIEW,
-        sidebarKey: SidebarKeyConstant.ROLE,
-        icon: 'system'
-    }
+    // {
+    //     name: translate('sidebar.admin'),
+    //     isVisible: currentUser.hasPermissions(permissionConstant.ROLE_VIEW),
+    //     route: routeNameConstant.ROLE_VIEW,
+    //     sidebarKey: SidebarKeyConstant.ROLE,
+    //     icon: 'system'
+    // }
 ];
 
 const handleClick = menuInfo => {

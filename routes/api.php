@@ -14,6 +14,7 @@ use App\Http\Controllers\Hrm\EmployeesController;
 use App\Http\Controllers\Hrm\CountriesController;
 use App\Http\Controllers\Hrm\ContractController;
 use App\Http\Controllers\Hrm\JobTitleController;
+use App\Http\Controllers\Hrm\TimeSheetController;
 
 /*
 |--------------------------------------------------------------------------
@@ -67,11 +68,12 @@ Route::middleware('auth:sanctum')->group(function () {
         );
 
         Route::prefix('employee')->name('employee.')->group(function () {
+            Route::get('timesheets', [EmployeesController::class, 'getTimesheets']);
+
             Route::prefix('me')->name('me.')->group(function () {
                 Route::get('/detail', [EmployeesController::class, 'getMyDetail'])->name('detail');
                 Route::get('/contract', [ContractController::class, 'getMyContract'])->name('contract.list');
             });
-
             Route::get('/{id}/detail', [EmployeesController::class, 'getDetailById'])->name('detail');
             Route::get('/{employeeId}/contract', [ContractController::class, 'getByEmployeesId'])->name('contract.list');
         });
@@ -79,7 +81,8 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::prefix('contract')->name('contract.')->group(function () {
             Route::post('/', [ContractController::class, 'store'])->name('store');
             Route::post('/{id}', [ContractController::class, 'update'])->name('update');
-            Route::get('/{id}', [ContractController::class, 'getDetailById'])->name('detail');
+            // Route::get('/{id}', [ContractController::class, 'getDetailById'])->name('detail');
+
         });
     });
 
@@ -92,18 +95,13 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::prefix('user')->name('users.')->group(function () {
     Route::get('/sale', [UserController::class, 'getUserSale']);
 });
-
 Route::get('/download', [UserController::class, 'download']);
 
+
 // Api External
-Route::prefix('external')->middleware(['auth:api-key', 'log-request-incoming'])->group(function () {
-
-    Route::prefix('contacts')->group(function () {
-        Route::post('', [ContactController::class, 'create']);
-    });
-
-    Route::prefix('requests')->group(function () {
-        Route::post('/{type}', [RequestController::class, 'create']);
-    });
+Route::prefix('external')->middleware(['log-request-incoming'])->group(function () {
+    Route::get('/find/employee', [EmployeesController::class, 'findEmployee']);
+    Route::post('/attendances', [TimeSheetController::class, 'store']);
 });
+
 

@@ -22,6 +22,21 @@ if (!function_exists('stripVN')) {
     }
 }
 
+if (!function_exists('splitTableColumns')) {
+    function splitTableColumns($columns, $relation = null)
+    {
+        if ($relation) {
+            return array_map(
+                fn($col) => str_replace("$relation.", '', $col),
+                array_filter($columns, fn($col) => str_starts_with($col, "$relation."))
+            );
+        }
+
+        return array_filter($columns, fn($col) => !str_contains($col, '.'));
+    }
+}
+
+
 if (!function_exists('responseByStatus')) {
     function responseByStatus(bool $status, string $message, array $data = null)
     {

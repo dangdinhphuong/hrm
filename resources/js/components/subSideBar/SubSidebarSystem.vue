@@ -25,11 +25,18 @@ const route = useRoute();
 
 const currentUser = authStore();
 
-const icon = computed(() => new URL(`../../../images/icon/setting-dark.svg`, import.meta.url).href);
+ const icon = computed(() => new URL(`../../../images/icon/setting-dark.svg`, import.meta.url).href);
+//const icon = computed(() => new URL(`../../../images/icon/hrm.svg`, import.meta.url).href);
 
 const menu = computed(() => [
     {
-        name: translate('sidebar.role'),
+        name: translate('sidebar.personnel_list'),
+        isVisible: currentUser.hasPermissions(permissionConstant.VIEW_EMPLOYEE_LIST),
+        route: RouteNameConstant.EMPLOYEE,
+        sidebarKey: SidebarKeyConstant.EMPLOYEE,
+    },
+    {
+        name: translate('sidebar.role_list'),
         isVisible: currentUser.hasPermissions(permissionConstant.ROLE_VIEW),
         route: RouteNameConstant.ROLE_VIEW,
         sidebarKey: SidebarKeyConstant.ROLE,

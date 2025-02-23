@@ -32,7 +32,7 @@ class UserController extends Controller
 
     public function find(Request $request)
     {
-        return responder()->success($this->userService->list($request->all(),false, ['id', 'name','username']));
+        return responder()->success($this->userService->list($request->all(),false, ['id', 'name','username','employee.code']));
     }
 
     public function getUserSale()

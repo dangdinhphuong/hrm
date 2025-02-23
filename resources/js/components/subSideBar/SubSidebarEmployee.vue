@@ -97,13 +97,10 @@ const getAvatar = async () => {
         : (route?.name === routeNameConstant.ME_INFO_DETAIL
             ? authStore().getUser.avatar
             : avatarDefault);
-
-    console.log('route', route?.name, routeNameConstant.ME_INFO_DETAIL);
 };
 
 watch(route, (newRoute) => {
     employeeId.value = newRoute?.params.employeeId ?? 0;
-    console.log('employeeId',newRoute?.name);
     getAvatar();
 }, { immediate: true });
 </script>

@@ -50,6 +50,7 @@ const API_PATH = {
     HRM_EMPLOYEE_CREATE: 'employees',
     HRM_EMPLOYEE_EDIT: 'employees/{id}',
     HRM_EMPLOYEE_LIST: 'employees',
+    HRM_EMPLOYEE_TIMESHEETS_LIST: 'employee/timesheets',
     HRM_EMPLOYEE_DETAIL_BY_USER_ID: 'employee/{userId}/detail',
     HRM_MY_EMPLOYEE_DETAIL: 'employee/me/detail',
     HRM_EMPLOYEE_AVATAR_UPLOAD: 'employee/{employeeId}/avatar/upload',

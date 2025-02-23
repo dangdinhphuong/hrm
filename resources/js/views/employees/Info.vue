@@ -351,7 +351,6 @@ const getEmployee = () => {
         //     throwNotFoundModelException();
         // }
         employee.value = data;
-        console.log('employee',employee.value)
         setLoadingComplete();
     })
 }

@@ -77,7 +77,8 @@
         <a-card class="mt-3">
             <a-table :columns="columns" :data-source="data.data ?? []"
                      :row-selection="tableRowSelectionActions ? rowSelectionConfig : null"
-                     :pagination="false" :scroll="scrollTable ? scrollTable : null" >
+                     :pagination="false" :scroll="scrollTable ? scrollTable : null"
+                     :expand-column-width="5">
                 <template #bodyCell="{ column, record }">
                     <template v-if="column.key === 'action'">
                         <template v-if="actionEdit">
@@ -113,6 +114,10 @@
                         </template>
                     </template>
                 </template>
+                <template v-if="innerColumns" #expandedRowRender>
+                    <a-table :columns="innerColumns" :data-source="[]" :pagination="false">
+                    </a-table>
+                </template>
             </a-table>
             <div class="mt-4 d-flex flex-row-reverse me-2 mb-2">
                 <a-pagination
@@ -126,6 +131,7 @@
         </a-card>
     </div>
 </template>
+
 
 <script setup>
 import {ref, watch, defineProps, computed, unref} from "vue";
@@ -156,6 +162,14 @@ const props = defineProps({
     columns: {
         type: Array,
         default: []
+    },
+    innerColumns: {
+        type: Array,
+        default: null
+    },
+    innerData: {
+        type: Function,
+        default: null
     },
     advancedSearchInput: {
         type: Array,
@@ -218,6 +232,7 @@ const props = defineProps({
         default: []
     },
 });
+
 const columns = cloneObject(props.columns, 'array');
 
 const state = ref([]);
@@ -227,7 +242,7 @@ const hasSelected = computed(() => state.value.length > 0);
 const selectedRowKeys = ref([]); // Check here to configure the default column
 
 const onSelectChange = changableRowKeys => {
-   props.tableRowSelected.value = selectedRowKeys.value = changableRowKeys;
+    props.tableRowSelected.value = selectedRowKeys.value = changableRowKeys;
 };
 
 const rowSelectionConfig = computed(() => {
@@ -241,7 +256,7 @@ const rowSelectionConfig = computed(() => {
 
 columns.unshift({
     title: '#',
-    width: 2,
+    width: 5,
     key: 'index',
     fixed: 'left',
     customRender: ({index}) => {
@@ -284,12 +299,11 @@ const setValueTypeBeforeFetchData = () => {
             if (!Array.isArray(searchData.value[field.key])) {
                 if (typeof field.key === 'object') {
                     Object.keys(field.key).forEach((key) => {
-                        if(Number(searchData.value[field.key[key]])){
+                        if (Number(searchData.value[field.key[key]])) {
                             searchData.value[field.key[key]] = Number(searchData.value[field.key[key]]);
                         }
                     });
-                }
-                else if (searchData.value[field.key]) {
+                } else if (searchData.value[field.key]) {
                     searchData.value[field.key] = Number(searchData.value[field.key]);
                 }
 
@@ -316,8 +330,18 @@ const fetchData = async () => {
     } else {
         data.value = customDataSource(dataSource);
     }
+    if(dataSource){
+        // props.innerData(data);
+        // innerData(dataSource);
+    }
+
     visibleAdvancedSearch.value = false;
 }
+const innerData = (data) =>{
+
+console.log(props.innerData(data));
+    return props.innerData(data)
+};
 
 const customDataSource = (dataSource) => {
     dataSource.data = dataSource.data.map(item => ({...item, key: item.id}));

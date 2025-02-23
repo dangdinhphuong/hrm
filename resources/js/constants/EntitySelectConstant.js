@@ -8,6 +8,7 @@ const ENTITY_SELECT = {
     PRODUCT: "product",
     CAMPAIGN: "campaign",
     CATEGORY: "category",
+    EMPLOYEES: "employees",
 
     // hrm
     HRM_BANK: "bank",

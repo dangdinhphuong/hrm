@@ -117,5 +117,10 @@ return [
             'VIEW_PERSONAL_INFO'
         ]
     ],
+    'employee.timesheets' => [
+        'IN' => [
+            'VIEW_TIMESHEETS'
+        ]
+    ],
 ];
 ?>

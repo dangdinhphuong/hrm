@@ -1,5 +1,4 @@
 <template>
-    <div id="container-page">
     <app-page
         :page-title="$t('hrm.employees.title')"
         :advanced-search-input="advancedSearchInput"
@@ -12,7 +11,6 @@
         :action-upload="hasPermissionEdit ? actionUpload : null"
         :action-add="hasPermissionCreate ? actionAdd : null"
         :table-row-selected="tableRowSelected ?? []"/>
-    </div>
 </template>
 
 <script lang="jsx" setup>

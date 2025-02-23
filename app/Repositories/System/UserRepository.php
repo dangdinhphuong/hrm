@@ -46,9 +46,15 @@ class UserRepository extends BaseRepository
             });
         }
 
-        $query = $this->filter($params);
+        $query = $this->filter($params)->with([
+            'employee' => function ($q) use ($columns) {
+                $employeeColumns = splitTableColumns($columns, 'employee');
+                $q->select(array_merge(['id', 'user_id'], $employeeColumns));
+            }
+        ]);
 
-        $paginate =  !empty($params['paginate']) ? filter_var($params['paginate'], FILTER_VALIDATE_BOOLEAN) : $paginate;
+        $columns = splitTableColumns($columns);
+        $paginate = !empty($params['paginate']) ? filter_var($params['paginate'], FILTER_VALIDATE_BOOLEAN) : $paginate;
 
         return $paginate ?
             $query->findWherePaginate($conditions, $params['limit'] ?? null, ['id' => 'desc'], $columns) :

@@ -7,18 +7,42 @@ use App\Http\Requests\Hrm\CreateEmployeeRequest;
 use App\Http\Requests\Hrm\UpdateEmployeeRequest;
 use App\Services\Employee\EmployeesService;
 use Illuminate\Http\Request;
+use App\Services\Attachment\FileService;
 
 class EmployeesController extends Controller
 {
     protected $employeesService;
 
-    public function __construct(EmployeesService $employeesService)
+    public function __construct(
+        EmployeesService $employeesService,
+        FileService      $fileService)
     {
         $this->employeesService = $employeesService;
+        $this->fileService = $fileService;
     }
-    public function  index(Request $request){
+
+    public function index(Request $request)
+    {
 
         return responder()->success($this->employeesService->list($request->all()));
+    }
+
+    public function findEmployee(Request $request)
+    {
+        $employee = $this->employeesService->list($request->all(), columns: ['id', 'code', 'personal_email']);
+
+        foreach ($employee[0]->avatarAttachments as $avatarAttachment) {
+            if ($avatarAttachment->attachment->descriptions == "Avatar") {
+                $employee[0]->avatar = $this->fileService->convertImageToBase64('avatars/67b94e96036f3.jpeg');
+            }
+
+        }
+        return responder()->success($employee);
+    }
+
+    public function getTimesheets(Request $request)
+    {
+        return responder()->success($this->employeesService->getTimesheets($request->all()));
     }
 
     public function store(CreateEmployeeRequest $request)
@@ -33,6 +57,7 @@ class EmployeesController extends Controller
     {
         $data = $request->all();
         $employees = $this->employeesService->update($id, $data);
+
         return responseByStatus($employees["status"], $employees["message"]);
     }
 
@@ -40,9 +65,11 @@ class EmployeesController extends Controller
     {
         return responder()->success($this->employeesService->getDetailById($id));
     }
+
     public function getMyDetail()
     {
         $user = auth()->user()->load(['employee']);
+
         return responder()->success($this->employeesService->getDetailById($user->employee->id ?? 0));
     }
 

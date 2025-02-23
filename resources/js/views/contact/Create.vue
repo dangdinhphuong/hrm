@@ -141,9 +141,7 @@ prepareFields();
 
 const submit = async (formData) => {
     formData.employees_id = employeeId;
-    console.log('formData', formData);
     await contractService.create(formData).then((data) => {
-        console.log('submit', data);
         if (isSuccessRequest(data)) {
             messageSuccess(translate('hrm.contract.messages.create_success'));
             router.push({ name: RouteNameConstant.CONTRACT, params: {employeeId} });

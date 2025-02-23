@@ -195,6 +195,7 @@ const entitySelectMapComponent = {
     [EntitySelectConstant.HRM_USER]: SelectSearchUser,
 
     [EntitySelectConstant.HRM_COUNTRY]: SelectCountry,
+    [EntitySelectConstant.EMPLOYEES]: SelectCountry,
 };
 const entitySelectProvinceDistrict = SelectProvinceDistrict;
 const uploadFile = UploadFiles;

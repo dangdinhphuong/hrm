@@ -62,4 +62,15 @@ class FileService
 
         return response()->download($path);
     }
+
+    public function convertImageToBase64($filePath, $disk = 'public') {
+        if (!Storage::disk($disk)->exists($filePath)) {
+            return response()->json(['error' => 'File not found'], 404);
+        }
+
+        $fileContent = Storage::disk($disk)->get($filePath);
+        $mimeType = Storage::disk($disk)->mimeType($filePath);
+
+        return 'data:' . $mimeType . ';base64,' . base64_encode($fileContent);
+    }
 }

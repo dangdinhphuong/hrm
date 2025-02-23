@@ -17,6 +17,11 @@ export default class EmployeeService {
             return data;
         })
     }
+    async getTimesheets(params = {}) {
+        return await axiosGet(ApiPathConstant.HRM_EMPLOYEE_TIMESHEETS_LIST, params, {}, true, true).then(({data}) => {
+            return data;
+        })
+    }
     async getMyEmployeeDetail(params = {}) {
         return await axiosGet(ApiPathConstant.HRM_MY_EMPLOYEE_DETAIL, params, {}, true, true).then(({data}) => {
             return data;

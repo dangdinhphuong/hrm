@@ -4,20 +4,20 @@
             :page-title="$t('work.title')"
             :advanced-search-input="advancedSearchInput"
             :columns="columns"
+            :inner-columns="innerColumns"
             :fetch-data="fetchData"
+            :inner-data="innerData"
             :action-edit="hasPermissionEdit ? actionEdit : null"
             :action-detail="hasPermissionView ? actionDetail : null"
-            :action-download="hasPermissionEdit ? actionDownload : null"
-            :action-upload="hasPermissionEdit ? actionUpload : null"
             :action-add="hasPermissionCreate ? actionAdd : null"
             :table-row-selected="tableRowSelected ?? []"
-            :scroll-table="{ x: 9000 }"
+            :scroll-table="{ x:200,  y: 300 }"
         />
     </div>
 </template>
 
 <script lang="jsx" setup>
-import {ref, computed } from "vue";
+import {ref, computed} from "vue";
 import AppPage from "@/components/views/AppPage.vue";
 import moment from "moment";
 import {translate, useDaysInMonth} from "@/helpers/CommonHelper.js";
@@ -25,10 +25,8 @@ import {hasPermissions} from "@/helpers/AuthHelper.js";
 import PermissionConstant from "@/constants/PermissionConstant.js";
 import RouteNameConstant from "@/constants/RouteNameConstant.js";
 import router from "@/router/index.js";
-import CommonConstant from "@/constants/CommonConstant.js";
-
-import SelectAction from "@/constants/RowSelectionConstant.js";
 import EmployeeService from "@/services/Employee/EmployeeService.js";
+import EntitySelectConstant from "@/constants/EntitySelectConstant.js";
 
 
 const month = ref(moment().month() + 1); // Mặc định là tháng hiện tại
@@ -40,121 +38,142 @@ const tableRowSelected = ref([]);
 
 const advancedSearchInput = [
     {
-        type: 'phone',
-        key: 'phone',
-        name: translate('delivery_note.phone')
-    },
-    {
-        type: 'date',
+        type: 'range-picker',
         key: 'order_date',
         name: translate('delivery_note.columns.order_date')
-    }
+    },
+    {
+        type: 'entity-select',
+        key: 'sale',
+        name: translate('user.columns.username'),
+        entity: EntitySelectConstant.EMPLOYEES,
+        valueType: 'number'
+    },
 ];
 
 const daysInMonth = computed(() => useDaysInMonth(month.value, year.value));
-
-const columns = computed(() => {
-    const beforeDay = [
-        {
-            title: translate('work.columns.employee_name'),
-            width: 15,
-            dataIndex: 'code',
-            fixed: 'left',
-            key: 'code'
-        }
-    ];
-
-    const day = daysInMonth.value.map((day, index) => ({
-        title: (<div style="text-align: center;">
-                {day.dayOfWeek}
-                <br />
-                {day.date}
-            </div> ),
+const columns = [
+    {
+        title: translate('work.columns.employee_name'),
         width: 15,
-        dataIndex: `day_${index + 1}`, // Tạo key duy nhất
-        key: `day_${index + 1}`,
-        customRender: ({ text, record }) => (
-            <div style="display: flex; flex-direction: column; align-items: center; text-align: center;">
-                <a-button type="primary" danger ghost style={{ marginBottom: "5%" }} >Check in: 08:00</a-button>
-                <a-button ghost style="border-color: green; color: green;">
-                    Check out: 17:30
-                </a-button>
-
+        dataIndex: 'code',
+        fixed: 'left',
+        key: 'code',
+        customRender: ({text, record}) => (
+            <div>
+                <b>{record.first_name} {record.last_name}</b>
             </div>
         )
-    }));
+    },
+    {
+        title: translate('work.columns.employee_code'),
+        width: 15,
+        dataIndex: 'code',
+        fixed: 'left',
+        key: 'code'
+    },
+    {
+        title: translate('work.columns.leave_days'),
+        width: 15,
+        dataIndex: 'leave_days',
+        key: 'leave_days',
+        customRender: ({text, record}) => (
+            <div>
+                {record?.monthly_timesheets?.length > 0 ? record.monthly_timesheets[0].leave_days : 0}
+            </div>
+        )
 
-    const afterDay = [
-        {
-            title: translate('work.columns.leave_days'),
-            width: 15,
-            dataIndex: 'first_name',
-            key: 'first_name',
-            customRender: ({ text, record }) => (
-                <div>
-                    <b>5</b>
-                </div>
-            )
-        },
-        {
-            title: translate('work.columns.work_description'),
-            width: 15,
-            dataIndex: 'position_name',
-            key: 'position_name',
-            customRender: ({ text, record }) => (
-                <div>
-                    <b>2 </b>
-                </div>
-            )
-        },
-        {
-            title: translate('work.columns.holiday_leave'),
-            width: 15,
-            dataIndex: 'status',
-            key: 'status',
-            customRender: ({ text, record }) => {
-                let statusText = CommonConstant.USER_STATUS;
-                return <div>1</div>;
-            }
-        },
-        {
-            title: translate('work.columns.overtime_hours'),
-            width: 15,
-            dataIndex: 'bu',
-            key: 'bu',
-            customRender: ({ text, record }) => (
-                <div>
-                    {record.departments[0].business_unit_type ?? 0}
-                </div>
-            )
-        },
-        {
-            title: translate('work.columns.late_early_minutes'),
-            width: 15,
-            dataIndex: 'bu',
-            key: 'bu',
-            customRender: ({ text, record }) => (
-                <div>
-                    {record.departments[0].business_unit_type ?? 0}
-                </div>
-            )
-        }
-    ];
+    },
+    // {
+    //     title: translate('work.columns.work_description'),
+    //     width: 15,
+    //     dataIndex: 'business_trip_days',
+    //     key: 'business_trip_days',
+    //     customRender: ({text, record}) => (
+    //         <div>
+    //             {record?.monthly_timesheets?.length > 0 ? record.monthly_timesheets[0].business_trip_days : 0}
+    //         </div>
+    //     )
+    // },
+    {
+        title: translate('work.columns.holiday_leave'),
+        width: 15,
+        dataIndex: 'holiday_days',
+        key: 'holiday_days',
+        customRender: ({text, record}) => (
+            <div>
+                {record?.monthly_timesheets?.length > 0 ? record.monthly_timesheets[0].holiday_days : 0}
+            </div>
+        )
+    },
+    {
+        title: translate('work.columns.overtime_hours'),
+        width: 15,
+        dataIndex: 'overtime_hours',
+        key: 'overtime_hours',
+        customRender: ({text, record}) => (
+            <div>
+                {record?.monthly_timesheets?.length > 0 ? record.monthly_timesheets[0].overtime_hours : 0}
+            </div>
+        )
+    },
+    {
+        title: translate('work.columns.late_early_minutes'),
+        width: 20,
+        dataIndex: 'total_late_early_minutes',
+        key: 'total_late_early_minutes',
+        customRender: ({text, record}) => (
+            <div>
+                {record?.monthly_timesheets?.length > 0 ? record.monthly_timesheets[0].total_late_early_minutes : 0}
+            </div>
+        )
+    }
+];
+const day = daysInMonth.value.map((day, index) => ({
+    title: (<div style="text-align: center;">
+        {day.dayOfWeek}
+        <br/>
+        {day.date}
+    </div>),
+    width: 15,
+    dataIndex: `day_${index + 1}`, // Tạo key duy nhất
+    key: `day_${index + 1}`,
+    customRender: ({text, record}) => (
+        <div style=" align-items: center; text-align: center;">
+            <a-button type="primary" danger ghost style={{marginBottom: "5%", marginRight: "2%"}}>08:00</a-button>
+            <a-button ghost style="border-color: green; color: green;"> 17:30</a-button>
+        </div>
+    )
+}));
 
-    return [...beforeDay, ...day, ...afterDay];
-});
+const innerColumns = [
+    {title: translate('date'), dataIndex: 'date', key: 'date', width: 15},
+    {title: translate('work.columns.check_in'), dataIndex: 'check_in', key: 'check_in', width: 15},
+    {title: translate('work.columns.check_out'), dataIndex: 'check_out', key: 'check_out', width: 15}
+];
 
 
-const columns2 = computed(() => {
-    return daysInMonth.value.map((day, index) => ({
-        title: day.date, // Hiển thị ngày tháng làm tiêu đề
-        width: 9,
-        dataIndex: `day_${index + 1}`, // Tạo key duy nhất cho từng ngày
-        key: `day_${index + 1}`
-    }));
-});
+const innerData = (data) =>{
+    data = data.data;
+    console.log("fetchData",data,data.length);
+    const innersData = [];
 
-console.log(columns2.value);
+
+
+
+    for (let i = 1; i <= data.length; ++i) {
+
+        innersData.push({
+                key: i,
+                date: '2014-12-24',
+                check_in: `08:00`,
+                check_out: '17:12',
+            });
+}
+    console.log("innersData",innersData);    return innersData;
+};
+
+
 
 // todo sửa lại quyền sau
 const hasPermissionView = hasPermissions(PermissionConstant.VIEW_EMPLOYEE_LIST);
@@ -162,7 +181,7 @@ const hasPermissionCreate = hasPermissions(PermissionConstant.CREATE_EMPLOYEE);
 const hasPermissionEdit = hasPermissions(PermissionConstant.EDIT_EMPLOYEE_DETAIL);
 
 const fetchData = (params) => {
-    return employeeService.getList(params);
+    return employeeService.getTimesheets(params);
 };
 
 //Action
@@ -185,41 +204,6 @@ const actionAdd = () => {
     router.push({name: RouteNameConstant.INFO_CREATE});
 }
 
-const tableRowSelectionAction = (selectedRowKeys) => {
-    const select = [
-        SelectAction.ALL,
-        SelectAction.INVERT,
-        SelectAction.NONE,
-        {
-            key: 'delete',
-            text: 'Xóa phiếu giao hàng',
-            onSelect: changableRowKeys => {
-                console.log('Xóa phiếu giao hàng', tableRowSelected.value)
-            },
-        },
-        {
-            key: 'odd',
-            text: 'Select Odd Row',
-            onSelect: changableRowKeys => {
-                let newSelectedRowKeys = [];
-                newSelectedRowKeys = changableRowKeys.filter((_key, index) => index % 2 === 0);
-                selectedRowKeys.value = newSelectedRowKeys;
-                console.log('Select Odd Row', tableRowSelected.value)
-            },
-        },
-        {
-            key: 'even',
-            text: 'Select Even Row',
-            onSelect: changableRowKeys => {
-                let newSelectedRowKeys = [];
-                newSelectedRowKeys = changableRowKeys.filter((_key, index) => index % 2 !== 0);
-                selectedRowKeys.value = newSelectedRowKeys;
-            },
-        }
-    ];
-
-    return select;
-};
 </script>
 <style lang="scss" scoped>
 #container-page {

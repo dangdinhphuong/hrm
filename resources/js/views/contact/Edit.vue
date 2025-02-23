@@ -152,7 +152,6 @@ const prepareFields = () => {
 prepareFields();
 
 const submit = async (formData) => {
-    console.log('formData',formData)
     await  contractService.update(contractId, formData).then((data) => {
         if (isSuccessRequest(data)) {
             messageSuccess(translate('hrm.contract.messages.update_success'));

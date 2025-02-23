@@ -131,26 +131,36 @@ const admin = [
                     }
                 ]
             },
+            // {
+            //     path: "employees",
+            //     name: routeNameConstant.EMPLOYEE,
+            //     component: () => import("../views/employees/List.vue"),
+            //     meta: {
+            //         middleware: {function: abilities, abilities: permissionConstant.VIEW_EMPLOYEE_LIST},
+            //         sidebarKey: SidebarKeyConstant.EMPLOYEE
+            //     }
+            // },
             {
                 path: "employees",
-                name: routeNameConstant.EMPLOYEE,
-                component: () => import("../views/employees/List.vue"),
-                meta: {
-                    middleware: {function: abilities, abilities: permissionConstant.VIEW_EMPLOYEE_LIST},
-                    sidebarKey: SidebarKeyConstant.EMPLOYEE
-                }
-            },
-            {
-                path: "/system",
                 component: () => import("../components/subSideBar/SubSidebarSystem.vue"),
                 children: [
+                    {
+                        path: "",
+                        name: routeNameConstant.EMPLOYEE,
+                        component: () => import("../views/employees/List.vue"),
+                        meta: {
+                            middleware: {function: abilities, abilities: permissionConstant.VIEW_EMPLOYEE_LIST},
+                            sidebarKey: SidebarKeyConstant.EMPLOYEE,
+                            sidebarKeySub: SidebarKeyConstant.EMPLOYEE,
+                        }
+                    },
                     {
                         path: "roles",
                         name: routeNameConstant.ROLE_VIEW,
                         component: () => import("../views/roles/List.vue"),
                         meta: {
                             middleware: {function: abilities, abilities: permissionConstant.ROLE_VIEW},
-                            sidebarKey: SidebarKeyConstant.ROLE,
+                            sidebarKey: SidebarKeyConstant.EMPLOYEE,
                             sidebarKeySub: SidebarKeyConstant.ROLE,
                         }
                     },
@@ -160,7 +170,8 @@ const admin = [
                         component: () => import("../views/roles/Create.vue"),
                         meta: {
                             middleware: {function: abilities, abilities: permissionConstant.ROLE_CREATE},
-                            sidebarKey: SidebarKeyConstant.ROLE
+                            sidebarKey: SidebarKeyConstant.EMPLOYEE,
+                            sidebarKeySub: SidebarKeyConstant.ROLE,
                         }
                     },
                     {
@@ -169,7 +180,8 @@ const admin = [
                         component: () => import("../views/roles/Edit.vue"),
                         meta: {
                             middleware: {function: abilities, abilities: permissionConstant.ROLE_EDIT},
-                            sidebarKey: SidebarKeyConstant.ROLE
+                            sidebarKey: SidebarKeyConstant.EMPLOYEE,
+                            sidebarKeySub: SidebarKeyConstant.ROLE,
                         }
                     }
                 ]

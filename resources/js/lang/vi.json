@@ -13,6 +13,7 @@
             "file_unavailable": "Không thể tải file."
         }
     },
+    "date": "Ngày",
     "weekdays": {
         "Sunday": "Chủ Nhật",
         "Monday": "Thứ Hai",
@@ -26,12 +27,15 @@
         "dashboard": "Tổng quan",
         "admin": "Quản lý hệ thống",
         "user": "Người dùng",
-        "role": "Quản lý vai trò",
+        "role": "Vai trò",
+        "role_list": "Danh sách vai trò",
         "personal_information": "Thông tin cá nhân",
         "personnel_list": "Danh sách nhân sự",
         "working_day": "Bảng công",
         "working_leave": "Công & Phép",
-        "Leave_Management": "Quản lý nghỉ phép"
+        "Leave_Management": "Quản lý nghỉ phép",
+        "setting": "Cài đặt",
+        "human_resource_management": "Quản lý nhân sự"
     },
     "dashboard": {
         "intro": "Dashboard Edupia CRM"
@@ -445,12 +449,16 @@
     "work": {
         "title": "Bảng công",
         "columns": {
+            "check_in": "Giờ vào",
+            "check_out": "Giờ ra",
             "employee_name": "Tên nhân viên",
             "leave_days": "Công nghỉ phép",
             "work_description": "Công công tác",
             "holiday_leave": "Công nghỉ lễ",
             "overtime_hours": "Số giờ OT",
-            "late_early_minutes": "Số phút đi muộn về sớm"
+            "late_early_minutes": "Số phút đi muộn về sớm",
+            "employee_code": "Mã nhân viên"
+
         }
     }
 }

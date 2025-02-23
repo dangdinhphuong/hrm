@@ -10,6 +10,8 @@ use App\Models\Department\Department;
 use App\Models\Attachment\EavAttachment;
 use App\Models\System\Bank;
 use App\Models\System\User;
+use App\Models\Work\Timesheet;
+use App\Models\Work\MonthlyTimesheetSummary;
 use DateTimeInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -128,5 +130,14 @@ class Employee extends BaseModel
     {
         return $this->hasMany(EavAttachment::class, 'entity_id')
             ->where('entity_type', 'employee_avatar');
+    }
+
+    public function timesheets()
+    {
+        return $this->hasMany(Timesheet::class);
+    }
+    public function monthlyTimesheets()
+    {
+        return $this->hasMany(MonthlyTimesheetSummary::class);
     }
 }

@@ -39,11 +39,10 @@ class EmployeesService
         $this->userService = $userService;
     }
 
-    public function list(array $params = [])
+    public function list(array $params = [], $paginate = true, $columns = ['*'])
     {
-        return $this->employeesRepository->list($params);
+        return $this->employeesRepository->list($params, $paginate, $columns);
     }
-
     public function create($data)
     {
         DB::beginTransaction();
@@ -200,5 +199,10 @@ class EmployeesService
 
         }
         return ['status' => true, 'message' => $message, 'data' => $data];
+    }
+
+    public function getTimesheets(array $params = [])
+    {
+        return $this->employeesRepository->getTimesheets($params);
     }
 }

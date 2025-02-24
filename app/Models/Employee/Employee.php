@@ -10,6 +10,7 @@ use App\Models\Department\Department;
 use App\Models\Attachment\EavAttachment;
 use App\Models\System\Bank;
 use App\Models\System\User;
+use App\Models\System\Vector;
 use App\Models\Work\Timesheet;
 use App\Models\Work\MonthlyTimesheetSummary;
 use DateTimeInterface;
@@ -139,5 +140,9 @@ class Employee extends BaseModel
     public function monthlyTimesheets()
     {
         return $this->hasMany(MonthlyTimesheetSummary::class);
+    }
+    public function getVectorAttribute()
+    {
+        return Vector::firstWhere('employee_id', (string) $this->id);
     }
 }

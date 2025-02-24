@@ -80,6 +80,17 @@ return [
                 PDO::MYSQL_ATTR_SSL_CA => env('mysql_ATTR_SSL_CA'),
             ]) : [],
         ],
+        'mongodb' => [
+            'driver'    => 'mongodb',
+            'host'      => env('MONGO_DB_HOST_SECOND', '127.0.0.1'),
+            'port'      => env('MONGO_DB_PORT_SECOND', 27017),
+            'database'  => env('MONGO_DB_DATABASE_SECOND'),
+            'username'  => env('MONGO_DB_USERNAME_SECOND'),
+            'password'  => env('MONGO_DB_PASSWORD_SECOND'),
+            'options'   => [
+                'authSource' => 'admin', // Nếu user 'admin' được tạo ở database 'admin'
+            ],
+        ],
 
         'pgsql' => [
             'driver' => 'pgsql',

@@ -29,16 +29,15 @@ class EmployeesController extends Controller
 
     public function findEmployee(Request $request)
     {
-        $employee = $this->employeesService->list($request->all(), columns: ['id', 'code', 'personal_email']);
+        $employees = $this->employeesService->list($request->all(), columns: ['id', 'code', 'personal_email']);
 
-        foreach ($employee[0]->avatarAttachments as $avatarAttachment) {
-            if ($avatarAttachment->attachment->descriptions == "Avatar") {
-                $employee[0]->avatar = $this->fileService->convertImageToBase64('avatars/67b94e96036f3.jpeg');
-            }
-
+        foreach ($employees as $employee){
+            $employee->setRelation('vector', $employee->vector);
         }
-        return responder()->success($employee);
+
+        return responder()->success($employees);
     }
+
 
     public function getTimesheets(Request $request)
     {

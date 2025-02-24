@@ -15,6 +15,8 @@ use App\Http\Controllers\Hrm\CountriesController;
 use App\Http\Controllers\Hrm\ContractController;
 use App\Http\Controllers\Hrm\JobTitleController;
 use App\Http\Controllers\Hrm\TimeSheetController;
+use App\Models\System\Vector;
+use Illuminate\Support\Facades\Log;
 
 /*
 |--------------------------------------------------------------------------

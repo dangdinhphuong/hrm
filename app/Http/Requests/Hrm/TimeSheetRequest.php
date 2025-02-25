@@ -22,7 +22,9 @@ class TimeSheetRequest extends FormRequest
     {
         return [
             'employeeId'  => ['required', 'integer', new ExistsInDatabase('employees', 'id')],
+            'username'    => ['required', 'string'],
             'attendances' => ['required', 'boolean'],
+            'time'        => ['required', 'date_format:H:i:s'], // Kiểm tra định dạng HH:mm:ss
         ];
     }
 

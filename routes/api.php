@@ -15,6 +15,7 @@ use App\Http\Controllers\Hrm\CountriesController;
 use App\Http\Controllers\Hrm\ContractController;
 use App\Http\Controllers\Hrm\JobTitleController;
 use App\Http\Controllers\Hrm\TimeSheetController;
+use App\Http\Controllers\Hrm\VectorController;
 use App\Models\System\Vector;
 use Illuminate\Support\Facades\Log;
 
@@ -49,7 +50,8 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/countries', [CountriesController::class, 'all']);
     });
 
-    Route::middleware('check-permission')->group(function () {
+    // todo thêm middleware permission: middleware('check-permission')
+    Route::name('')->group(function () {
 
         Route::prefix('roles')->name('roles.')->group(function () {
             Route::get('/module-group-permission', [RoleController::class, 'getModuleGroupPermission'])->name('module-group-permission');
@@ -102,7 +104,7 @@ Route::get('/download', [UserController::class, 'download']);
 
 // Api External
 Route::prefix('external')->middleware(['log-request-incoming'])->group(function () {
-    Route::get('/find/employee', [EmployeesController::class, 'findEmployee']);
+    Route::post('/find/vector', [VectorController::class, 'getDetailByUsername']);
     Route::post('/attendances', [TimeSheetController::class, 'store']);
 });
 

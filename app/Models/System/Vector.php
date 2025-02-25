@@ -9,5 +9,5 @@ class Vector extends Eloquent
     protected $connection = 'mongodb';
     protected $collection = 'vector'; // Định nghĩa collection trong MongoDB
 
-    protected $fillable = ['employee_id', 'face_vector']; // Các field có thể insert
+    protected $fillable = ['username', 'employee_id', 'face_vector']; // Các field có thể insert
 }

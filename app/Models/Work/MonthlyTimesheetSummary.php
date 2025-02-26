@@ -4,6 +4,7 @@ namespace App\Models\Work;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Employee\Employee;
 
 class MonthlyTimesheetSummary extends Model
 {
@@ -31,5 +32,12 @@ class MonthlyTimesheetSummary extends Model
     public function employee()
     {
         return $this->belongsTo(Employee::class, 'employee_id', 'id');
+    }
+
+    public function timesheets()
+    {
+        return $this->hasMany(Timesheet::class, 'employee_id', 'employee_id')
+            ->whereYear('work_date', request('year', now()->year))
+            ->whereMonth('work_date', request('month', now()->month));
     }
 }

@@ -62,8 +62,8 @@ const API_PATH = {
     HRM_CONTRACT_LIST: 'employee/{employeesId}/contract',
     HRM_CONTRACT_DETAIL: 'contract/{id}',
 
-    HRM_COUNTRIES: 'all/countries'
-
+    HRM_COUNTRIES: 'all/countries',
+    HRM_TIMESHEET_LIST: 'monthly-timesheets',
 };
 
 export default API_PATH;

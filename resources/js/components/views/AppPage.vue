@@ -114,8 +114,10 @@
                         </template>
                     </template>
                 </template>
+                <!--                todo bóc tách innerData thành các array innerData = [[{....},{....},{....}],[{....},{....},{....}],[{....},{....},{....}]]-->
+                <!--              todo  ta phải chạy một vòng lặp ở đây -->
                 <template v-if="innerColumns" #expandedRowRender>
-                    <a-table :columns="innerColumns" :data-source="[]" :pagination="false">
+                    <a-table :columns="innerColumns" :data-source="innerData" :pagination="false">
                     </a-table>
                 </template>
             </a-table>
@@ -168,8 +170,8 @@ const props = defineProps({
         default: null
     },
     innerData: {
-        type: Function,
-        default: null
+        type: Array,
+        default: []
     },
     advancedSearchInput: {
         type: Array,
@@ -330,18 +332,13 @@ const fetchData = async () => {
     } else {
         data.value = customDataSource(dataSource);
     }
-    if(dataSource){
+    if (dataSource) {
         // props.innerData(data);
         // innerData(dataSource);
     }
 
     visibleAdvancedSearch.value = false;
 }
-const innerData = (data) =>{
-
-console.log(props.innerData(data));
-    return props.innerData(data)
-};
 
 const customDataSource = (dataSource) => {
     dataSource.data = dataSource.data.map(item => ({...item, key: item.id}));

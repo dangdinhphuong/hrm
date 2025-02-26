@@ -11,6 +11,7 @@ use App\Http\Controllers\Hrm\BankController;
 use App\Http\Controllers\Hrm\DepartmentController;
 use App\Http\Controllers\Hrm\PositionController;
 use App\Http\Controllers\Hrm\EmployeesController;
+use App\Http\Controllers\Hrm\MonthlyTimesheetSummaryController;
 use App\Http\Controllers\Hrm\CountriesController;
 use App\Http\Controllers\Hrm\ContractController;
 use App\Http\Controllers\Hrm\JobTitleController;
@@ -88,11 +89,17 @@ Route::middleware('auth:sanctum')->group(function () {
             // Route::get('/{id}', [ContractController::class, 'getDetailById'])->name('detail');
 
         });
+
+
+
     });
 
     Route::prefix('employee')->group(function () {
         Route::post('/{employee}/avatar/upload', [EmployeesController::class, 'uploadAvatar']);
         Route::get('/{employee}/avatar', [EmployeesController::class, 'avatar']);
+    });
+    Route::prefix('monthly-timesheets')->name('')->group(function () {
+        Route::get('', [MonthlyTimesheetSummaryController::class, 'index']);
     });
 });
 
@@ -106,6 +113,9 @@ Route::get('/download', [UserController::class, 'download']);
 Route::prefix('external')->middleware(['log-request-incoming'])->group(function () {
     Route::post('/find/vector', [VectorController::class, 'getDetailByUsername']);
     Route::post('/attendances', [TimeSheetController::class, 'store']);
+    Route::prefix('monthly-timesheets')->name('')->group(function () {
+        Route::get('', [MonthlyTimesheetSummaryController::class, 'index']);
+    });
 });
 
 

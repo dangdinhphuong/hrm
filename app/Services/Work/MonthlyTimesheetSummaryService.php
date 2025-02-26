@@ -19,7 +19,11 @@ class MonthlyTimesheetSummaryService
         $this->timeSheetRepository = $timeSheetRepository;
         $this->monthlyTimesheetSummaryRepository = $monthlyTimesheetSummaryRepository;
     }
-
+    public function list(array $params = [], $paginate = true, $columns = ['*'])
+    {
+        $params += ['year' => now()->year, 'month' => now()->month];
+        return $this->monthlyTimesheetSummaryRepository->list($params, $paginate, $columns);
+    }
     public function updateOrCreate(array $data = [])
     {
         $timeSheetUser = $this->timeSheetRepository->list($data,  false);
@@ -49,12 +53,6 @@ class MonthlyTimesheetSummaryService
                 'line' => $e->getLine(),
                 'data' => $data,
             ]);
-dd([
-    'message' => $e->getMessage(),
-    'file' => $e->getFile(),
-    'line' => $e->getLine(),
-    'data' => $data,
-]);
             return false; // hoặc có thể trả về response cụ thể
         }
     }

@@ -25,17 +25,27 @@ import {hasPermissions} from "@/helpers/AuthHelper.js";
 import PermissionConstant from "@/constants/PermissionConstant.js";
 import RouteNameConstant from "@/constants/RouteNameConstant.js";
 import router from "@/router/index.js";
-import EmployeeService from "@/services/Employee/EmployeeService.js";
+import TimeSheetsService from "@/services/Work/TimeSheetsService.js";
 import EntitySelectConstant from "@/constants/EntitySelectConstant.js";
 
 
 const month = ref(moment().month() + 1); // Mặc định là tháng hiện tại
 const year = ref(moment().year());
 
-const employeeService = new EmployeeService();
+const timeSheetsService = new TimeSheetsService();
 
 const tableRowSelected = ref([]);
+const innerData = ref([]); // innerData là một ref([]), giá trị thực nằm trong innerData.value
 
+for (let i = 1; i <= 5; ++i) {
+    innerData.value.push({
+        key: i,
+        date: '2014-12-24',
+        check_in: `08:00${i}`,
+        check_out: '17:12',
+    });
+    console.log(innerData)
+}
 const advancedSearchInput = [
     {
         type: 'range-picker',
@@ -61,7 +71,7 @@ const columns = [
         key: 'code',
         customRender: ({text, record}) => (
             <div>
-                <b>{record.first_name} {record.last_name}</b>
+                <b>{record?.employee?.first_name} {record?.employee?.last_name}</b>
             </div>
         )
     },
@@ -70,63 +80,38 @@ const columns = [
         width: 15,
         dataIndex: 'code',
         fixed: 'left',
-        key: 'code'
+        key: 'code',
+        customRender: ({text, record}) => (
+            <div>
+                {record?.employee?.code}
+            </div>
+        )
     },
     {
         title: translate('work.columns.leave_days'),
         width: 15,
         dataIndex: 'leave_days',
-        key: 'leave_days',
-        customRender: ({text, record}) => (
-            <div>
-                {record?.monthly_timesheets?.length > 0 ? record.monthly_timesheets[0].leave_days : 0}
-            </div>
-        )
+        key: 'leave_days'
 
     },
-    // {
-    //     title: translate('work.columns.work_description'),
-    //     width: 15,
-    //     dataIndex: 'business_trip_days',
-    //     key: 'business_trip_days',
-    //     customRender: ({text, record}) => (
-    //         <div>
-    //             {record?.monthly_timesheets?.length > 0 ? record.monthly_timesheets[0].business_trip_days : 0}
-    //         </div>
-    //     )
-    // },
+
     {
         title: translate('work.columns.holiday_leave'),
         width: 15,
         dataIndex: 'holiday_days',
-        key: 'holiday_days',
-        customRender: ({text, record}) => (
-            <div>
-                {record?.monthly_timesheets?.length > 0 ? record.monthly_timesheets[0].holiday_days : 0}
-            </div>
-        )
+        key: 'holiday_days'
     },
     {
         title: translate('work.columns.overtime_hours'),
         width: 15,
         dataIndex: 'overtime_hours',
-        key: 'overtime_hours',
-        customRender: ({text, record}) => (
-            <div>
-                {record?.monthly_timesheets?.length > 0 ? record.monthly_timesheets[0].overtime_hours : 0}
-            </div>
-        )
+        key: 'overtime_hours'
     },
     {
         title: translate('work.columns.late_early_minutes'),
         width: 20,
         dataIndex: 'total_late_early_minutes',
-        key: 'total_late_early_minutes',
-        customRender: ({text, record}) => (
-            <div>
-                {record?.monthly_timesheets?.length > 0 ? record.monthly_timesheets[0].total_late_early_minutes : 0}
-            </div>
-        )
+        key: 'total_late_early_minutes'
     }
 ];
 const day = daysInMonth.value.map((day, index) => ({
@@ -153,25 +138,7 @@ const innerColumns = [
 ];
 
 
-const innerData = (data) =>{
-    data = data.data;
-    console.log("fetchData",data,data.length);
-    const innersData = [];
 
-
-
-
-    for (let i = 1; i <= data.length; ++i) {
-
-        innersData.push({
-                key: i,
-                date: '2014-12-24',
-                check_in: `08:00`,
-                check_out: '17:12',
-            });
-}
-    console.log("innersData",innersData);    return innersData;
-};
 
 
 
@@ -180,9 +147,10 @@ const hasPermissionView = hasPermissions(PermissionConstant.VIEW_EMPLOYEE_LIST);
 const hasPermissionCreate = hasPermissions(PermissionConstant.CREATE_EMPLOYEE);
 const hasPermissionEdit = hasPermissions(PermissionConstant.EDIT_EMPLOYEE_DETAIL);
 
-const fetchData = (params) => {
-    // todo lấy dữ từ bảng monthly_timesheet_summary xong truy xuất sang timesheets, và employees
-    return employeeService.getTimesheets(params);
+const fetchData = async (params) => {
+    const response = await timeSheetsService.getList(params);
+    console.log("fetchData", response.data); // In toàn bộ object
+    return response; // Trả về dữ liệu thực tế
 };
 
 //Action

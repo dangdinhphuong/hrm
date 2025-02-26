@@ -76,6 +76,31 @@ if (!function_exists('getDayStartAndEnd')) {
     }
 }
 
+if (!function_exists('getMonthStartAndEnd')) {
+    /**
+     * Get the start and end of a specific month.
+     *
+     * @param int $year
+     * @param int $month
+     * @param string $format
+     * @return array
+     */
+    function getMonthStartAndEnd($year, $month, $format = 'Y-m-d')
+    {
+        // Create a Carbon instance for the given year and month
+        $date = \Carbon\Carbon::create($year, $month, 1);
+
+        // Get the start and end of the month
+        $startOfMonth = $date->startOfMonth()->format($format);
+        $endOfMonth = $date->endOfMonth()->format($format);
+
+        return [
+            $startOfMonth,
+            $endOfMonth
+        ];
+    }
+}
+
 
 if (!function_exists('processBase64Image')) {
     function processBase64Image($base64Image, $type)

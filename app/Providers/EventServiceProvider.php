@@ -6,11 +6,11 @@ use App\Events\Order\GenerateCode;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Event;
-use App\Events\Order\CreateOrder as CreateOrderEvents;
 use App\Listeners\Order\ShipmentDistributeAuto;
 use App\Listeners\Order\GenerateActivationCode;
 use App\Listeners\Order\GenerateActivationCodeWithGifts;
+use App\Events\Work\TimesheetUpdated;
+use App\Listeners\Work\UpdateMonthlyTimesheetSummaryListener;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -22,6 +22,9 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         Registered::class => [
             SendEmailVerificationNotification::class,
+        ],
+        TimesheetUpdated::class => [
+            UpdateMonthlyTimesheetSummaryListener::class,
         ],
     ];
 

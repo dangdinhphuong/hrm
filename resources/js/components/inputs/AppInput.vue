@@ -22,6 +22,23 @@
     <template v-if="type ==='range-picker'">
         <a-range-picker :value="modelValue" :size="size" :disabled="disabled" @change="handleChangeRangePicker"/>
     </template>
+    <template v-if="type ==='range-date-picker'">
+        <a-date-picker :value="modelValue" :size="size"  @change="handleChangePicker" />
+    </template>
+    <template v-if="type ==='range-week-picker'">
+        {{ modelValue}}
+        <a-date-picker :value="modelValue" :size="size" picker="week" @change="handleChangePicker" />
+    </template>
+    <template v-if="type ==='range-month-picker'">
+        {{ modelValue}}
+        <a-date-picker :value="modelValue" :size="size" picker="month" @change="handleChangePicker" />
+    </template>
+    <template v-if="type ==='range-quarter-picker'">
+        <a-date-picker :value="modelValue" :size="size" picker="quarter" @change="handleChangePicker" />
+    </template>
+    <template v-if="type ==='range-year-picker'">
+        <a-date-picker :value="modelValue" :size="size" picker="year" @change="handleChangePicker" />
+    </template>
     <template v-if="type ==='phone'">
         <a-input :value="modelValue" type="phone" :size="size" :disabled="disabled" @input="handleChangeInput"/>
     </template>
@@ -29,6 +46,7 @@
         <a-select :value="modelValue" :size="size" :disabled="disabled" :options="options" @change="handleChangeSelect"
                   style="width: 100%"/>
     </template>
+
     <template v-if="type ==='multi-select'">
         <a-select :value="modelValue ?? []" :size="size" :disabled="disabled" :max-tag-count="maxTagCount"
                   :options="options"
@@ -104,7 +122,7 @@
 
 <script setup>
 
-import {defineProps, defineEmits} from "vue";
+import {defineProps, defineEmits, computed } from "vue";
 import EntitySelectConstant from "@/constants/EntitySelectConstant.js";
 import SelectRole from "@/components/inputs/selects/SelectRole.vue";
 import SelectDepartment from "@/components/inputs/selects/SelectDepartment.vue";
@@ -121,8 +139,10 @@ import SelectHrmPosition from "@/components/inputs/selects/SelectPosition.vue";
 import SelectSearchUser from "@/components/inputs/selects/SelectSearchUser.vue";
 import SelectCountry from "@/components/inputs/selects/SelectCountry.vue";
 import SelectJobTitle from "@/components/inputs/selects/SelectJobTitle.vue";
+import SelectEmployees from "@/components/inputs/selects/SelectEmployees.vue";
+import moment from "moment";
 
-defineProps({
+const props = defineProps({
     size: {
         type: String,
         default: 'large'
@@ -195,12 +215,19 @@ const entitySelectMapComponent = {
     [EntitySelectConstant.HRM_USER]: SelectSearchUser,
 
     [EntitySelectConstant.HRM_COUNTRY]: SelectCountry,
-    [EntitySelectConstant.EMPLOYEES]: SelectCountry,
+    [EntitySelectConstant.EMPLOYEES]: SelectEmployees,
 };
 const entitySelectProvinceDistrict = SelectProvinceDistrict;
 const uploadFile = UploadFiles;
 const emit = defineEmits(['update:modelValue']);
+
 const handleChangeRangePicker = (value) => {
+    emit('update:modelValue', value);
+};
+
+const handleChangePicker = (value) => {
+
+    console.log('handleChangePicker', value);
     emit('update:modelValue', value);
 };
 const handleChangeSelect = (value) => {

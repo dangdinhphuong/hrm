@@ -114,12 +114,15 @@
                         </template>
                     </template>
                 </template>
-                <!--                todo bóc tách innerData thành các array innerData = [[{....},{....},{....}],[{....},{....},{....}],[{....},{....},{....}]]-->
-                <!--              todo  ta phải chạy một vòng lặp ở đây -->
-                <template v-if="innerColumns" #expandedRowRender>
-                    <a-table :columns="innerColumns" :data-source="innerData" :pagination="false">
-                    </a-table>
+                <template v-if="innerColumns" #expandedRowRender="{ record }">
+                    <div v-if="innerDatas.length">
+                        <div v-for="(innerData, i) in innerDatas" :key="i">
+                            <a-table v-if="innerData.id == record.id" :columns="innerColumns"
+                                     :data-source="innerData.data" :pagination="false"></a-table>
+                        </div>
+                    </div>
                 </template>
+
             </a-table>
             <div class="mt-4 d-flex flex-row-reverse me-2 mb-2">
                 <a-pagination
@@ -147,6 +150,7 @@ import ButtonRefresh from "@/components/buttons/ButtonRefresh.vue";
 import AppInput from "@/components/inputs/AppInput.vue";
 import {isEmptyObject, translate, cloneObject} from "@/helpers/CommonHelper.js";
 import router from "@/router/index.js";
+import moment from "moment";
 
 const props = defineProps({
     sizeButton: {
@@ -169,15 +173,15 @@ const props = defineProps({
         type: Array,
         default: null
     },
-    innerData: {
-        type: Array,
-        default: []
-    },
     advancedSearchInput: {
         type: Array,
         default: []
     },
     fetchData: {
+        type: Function,
+        required: true
+    },
+    fetchInnerData: {
         type: Function,
         required: true
     },
@@ -282,7 +286,8 @@ const defaultSearchData = {
 const searchData = ref(cloneObject(defaultSearchData));
 const visibleAdvancedSearch = ref(false);
 const data = ref({});
-
+const innerDatas = ref([]);
+const params = ref({});
 //Fetch data
 const setValueTypeBeforeFetchData = () => {
     props.advancedSearchInput.forEach(field => {
@@ -316,12 +321,22 @@ const setValueTypeBeforeFetchData = () => {
                 );
             }
         }
+    });
+};
 
+const setValueTypeBeforeRouterPush = async () => {
+    params.value = cloneObject(searchData.value);
+    props.advancedSearchInput.forEach(field => {
+        if (field.valueType === 'time', params.value[field.key]) {
+             params.value[field.key] = moment(params.value[field.key]).utc().format("ddd, DD MMM YYYY HH:mm:ss [GMT]")
+        }
     });
 };
 
 const fetchData = async () => {
-    router.push({query: searchData.value});
+   await setValueTypeBeforeFetchData();
+    await setValueTypeBeforeRouterPush();
+    router.push({query: params.value});
     const dataSource = await props.fetchData(searchData.value);
 
     if (!dataSource) {
@@ -334,25 +349,52 @@ const fetchData = async () => {
     }
     if (dataSource) {
         // props.innerData(data);
-        // innerData(dataSource);
+        fetchInnerData(dataSource);
     }
 
     visibleAdvancedSearch.value = false;
 }
+
+const fetchInnerData = async (dataSource) => {
+    innerDatas.value = await props.fetchInnerData(dataSource);
+};
 
 const customDataSource = (dataSource) => {
     dataSource.data = dataSource.data.map(item => ({...item, key: item.id}));
     return dataSource;
 }
 
-const firstFetchData = () => {
+
+const preprocessQuery = async (query) => {
+    let processedQuery = { ...query }; // Sao chép object đầu vào
+
+    // Duyệt qua từng key-value trong object query
+    Object.entries(processedQuery).forEach(([key, value]) => {
+
+        // props.advancedSearchInput.forEach(field => {
+        //     if (field.valueType === 'time', params.value[field.key]) {
+        //         params.value[field.key] = moment(params.value[field.key]).utc().format("ddd, DD MMM YYYY HH:mm:ss [GMT]")
+        //     }
+        // });
+/todo chuyển các param route về dạng khác  page=1&limit=10&week=Wed,+26+Feb+2025+17:00:00+GMT&monthly_work=Wed,+26+Feb+2025+17:00:00+GMT
+        console.log(`Key: ${key}, Value:`, value,processedQuery[key]);
+    });
+
+    return processedQuery;
+};
+
+
+
+const firstFetchData = async () => {
     const routeQuery = router.currentRoute.value.query;
     if (!isEmptyObject(routeQuery)) {
-        searchData.value = routeQuery;
+        await preprocessQuery(routeQuery);
+       // searchData.value = await preprocessQuery(routeQuery);
     }
-    setValueTypeBeforeFetchData();
-    fetchData();
-}
+    // setValueTypeBeforeFetchData();
+    // fetchData();
+};
+
 firstFetchData();
 
 //Pagination

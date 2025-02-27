@@ -46,7 +46,7 @@ class AuthController extends Controller
 
     public function meInfo()
     {
-        $user = auth()->user()->load(['employee.avatarAttachments.attachment']);
+        $user = auth()->user()->load(['employee.avatarAttachment.attachment']);
         return responder()->success(new MeResource($user));
     }
 }

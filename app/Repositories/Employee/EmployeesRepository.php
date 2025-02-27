@@ -17,9 +17,11 @@ class EmployeesRepository extends BaseRepository
         return Employee::class;
     }
 
-    public function list(array $params = [], $paginate = true, $columns)
+    public function list(array $params = [], bool $paginate = true, $columns)
     {
         $conditions = [];
+
+
 
         if (!empty($params['keyword'])) {
             $conditions['orWhere'] = [
@@ -33,14 +35,13 @@ class EmployeesRepository extends BaseRepository
         }
 
 
-        $query = $this->filter($params)->with(['position', 'departments','avatarAttachments.attachment']);
+        $query = $this->with(['position', 'departments','avatarAttachment.attachment']);
 
         $paginate = !empty($params['paginate']) ? filter_var($params['paginate'], FILTER_VALIDATE_BOOLEAN) : $paginate;
 
-        $columns = splitTableColumns($columns);
         return $paginate ?
             $query->findWherePaginate($conditions, $params['limit'] ?? null, columns:$columns) :
-            $query->findWhere($conditions, columns:$columns)->take($params['limit'] ?? '');
+            $query->findWhere($conditions, columns:$columns)->take($params['limit'] ?? null);
     }
 
     public function getDetailById(int $id)

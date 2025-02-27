@@ -1,24 +1,20 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\External\ContactController;
-use App\Http\Controllers\External\RequestController;
+use App\Http\Controllers\Hrm\BankController;
+use App\Http\Controllers\Hrm\ContractController;
+use App\Http\Controllers\Hrm\CountriesController;
+use App\Http\Controllers\Hrm\DepartmentController;
+use App\Http\Controllers\Hrm\EmployeesController;
+use App\Http\Controllers\Hrm\JobTitleController;
+use App\Http\Controllers\Hrm\MonthlyTimesheetSummaryController;
+use App\Http\Controllers\Hrm\PositionController;
+use App\Http\Controllers\Hrm\TimeSheetController;
+use App\Http\Controllers\Hrm\VectorController;
 use App\Http\Controllers\System\PermissionController;
 use App\Http\Controllers\System\RoleController;
 use App\Http\Controllers\System\UserController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Hrm\BankController;
-use App\Http\Controllers\Hrm\DepartmentController;
-use App\Http\Controllers\Hrm\PositionController;
-use App\Http\Controllers\Hrm\EmployeesController;
-use App\Http\Controllers\Hrm\MonthlyTimesheetSummaryController;
-use App\Http\Controllers\Hrm\CountriesController;
-use App\Http\Controllers\Hrm\ContractController;
-use App\Http\Controllers\Hrm\JobTitleController;
-use App\Http\Controllers\Hrm\TimeSheetController;
-use App\Http\Controllers\Hrm\VectorController;
-use App\Models\System\Vector;
-use Illuminate\Support\Facades\Log;
 
 /*
 |--------------------------------------------------------------------------

@@ -5,14 +5,13 @@ namespace App\Models\Employee;
 use App\Models\Address\Country;
 use App\Models\Address\District;
 use App\Models\Address\Province;
+use App\Models\Attachment\EavAttachment;
 use App\Models\BaseModel;
 use App\Models\Department\Department;
-use App\Models\Attachment\EavAttachment;
 use App\Models\System\Bank;
 use App\Models\System\User;
-use App\Models\System\Vector;
-use App\Models\Work\Timesheet;
 use App\Models\Work\MonthlyTimesheetSummary;
+use App\Models\Work\Timesheet;
 use DateTimeInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -127,9 +126,9 @@ class Employee extends BaseModel
             ->withTimestamps(); // Nếu bạn sử dụng timestamps trong bảng trung gian
     }
 
-    public function avatarAttachments()
+    public function avatarAttachment()
     {
-        return $this->hasMany(EavAttachment::class, 'entity_id')
+        return $this->hasOne(EavAttachment::class, 'entity_id')
             ->where('entity_type', 'employee_avatar');
     }
 

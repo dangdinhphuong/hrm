@@ -2,9 +2,8 @@
 
 namespace App\Repositories\Employee;
 
-use App\Models\System\Vector;
+use App\Models\Employee\Vector;
 use App\Repositories\BaseRepository;
-use Illuminate\Support\Facades\DB;
 
 class VectorRepository extends BaseRepository
 {
@@ -26,7 +25,14 @@ class VectorRepository extends BaseRepository
     }
     public function getDetailByUsername($username , $columns = ['*'])
     {
-        $conditions = [];
+        $this->with(
+            [
+                'employee' => function ($q) use ($columns) {
+                    $columns = splitTableColumns($columns, 'employee');
+                    $q->select(empty($columns) ? ['*'] : array_merge(['id'], $columns));
+                }
+            ]);
+
         return $this->findWhereFirst(['username' => $username], columns:$columns);
     }
 }

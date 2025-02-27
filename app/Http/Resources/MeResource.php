@@ -21,7 +21,7 @@ class MeResource extends JsonResource
             'roles' => $this->getRoles(),
             'permissions' => $this->getPermissions(),
             'employeeId' => $this->employee->id ?? 0,
-            'avatar' => $this->employee->avatarAttachments[0]->attachment->file_path ?? "",
+            'avatar' => $this->employee->avatarAttachment->attachment->file_path ?? "",
         ];
     }
 }

@@ -457,8 +457,8 @@
             "holiday_leave": "Công nghỉ lễ",
             "overtime_hours": "Số giờ OT",
             "late_early_minutes": "Số phút đi muộn về sớm",
-            "employee_code": "Mã nhân viên"
-
+            "employee_code": "Mã nhân viên",
+            "monthly_work_table": "Bảng công tháng"
         }
     }
 }

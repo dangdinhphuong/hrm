@@ -98,6 +98,7 @@ const handleOk = async () => {
 
         let avatar = cropper.value.getCroppedCanvas({willReadFrequently: true}).toDataURL();
         loading.value = true;
+        console.log('avatar',avatar);
         try {
             const validationResult = await validateFace(avatar);
 
@@ -107,22 +108,7 @@ const handleOk = async () => {
                 return;
             }
             messageSuccess("Anh hợp lệ");
-            avatar = await compressImage(avatar, 1); // Nén ảnh nếu lớn hơn 1 MB
-            const response = await employeeService.uploadAvatar(employeeId, {
-                avatar,
-                vector: validationResult.descriptor
-            });
-            if (isSuccessRequest(response)) {
-                messageSuccess(response.message);
-                // Cập nhật state user trong Pinia
-                if (userEmployeeId == employeeId) {
-                    userStore.setAvatar(response.data.file);
-                }
-                emit('update:avatar', response.data.file);
-                handleCancel();
-            } else {
-                messageError(response.message);
-            }
+
         } catch (error) {
             console.error('Lỗi tải ảnh:', error);
         } finally {
@@ -240,9 +226,10 @@ const compressImage = async (base64Image, maxSizeMB) => {
 
 const validateFace = async (image) => {
     // Load models
-    await faceapi.nets.ssdMobilenetv1.loadFromUri(getEnv('APP_URL') + '/face-api.js-models/ssd_mobilenetv1/');
-    await faceapi.nets.faceLandmark68Net.loadFromUri(getEnv('APP_URL') + '/face-api.js-models/face_landmark_68/');
-    await faceapi.nets.faceRecognitionNet.loadFromUri(getEnv('APP_URL') + '/face-api.js-models/face_recognition/');
+    console.log('SEVER_URL',getEnv('SEVER_URL'))
+    await faceapi.nets.ssdMobilenetv1.loadFromUri(getEnv('SEVER_URL') + '/models/');
+    await faceapi.nets.faceLandmark68Net.loadFromUri(getEnv('SEVER_URL') + '/models/');
+    await faceapi.nets.faceRecognitionNet.loadFromUri(getEnv('SEVER_URL') + '/models/');
 
     return new Promise((resolve, reject) => {
         const img = new Image();
@@ -321,7 +308,6 @@ const isBrightEnough = (img) => {
     brightness /= pixels.length / 4;
     return brightness > 80; // Tăng ngưỡng độ sáng tối thiểu
 };
-
 
 </script>
 

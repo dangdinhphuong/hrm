@@ -131,15 +131,6 @@ const admin = [
                     }
                 ]
             },
-            // {
-            //     path: "employees",
-            //     name: routeNameConstant.EMPLOYEE,
-            //     component: () => import("../views/employees/List.vue"),
-            //     meta: {
-            //         middleware: {function: abilities, abilities: permissionConstant.VIEW_EMPLOYEE_LIST},
-            //         sidebarKey: SidebarKeyConstant.EMPLOYEE
-            //     }
-            // },
             {
                 path: "employees",
                 component: () => import("../components/subSideBar/SubSidebarSystem.vue"),
@@ -194,7 +185,23 @@ const admin = [
                     middleware: {function: abilities, abilities: permissionConstant.ROLE_VIEW},
                     sidebarKey: SidebarKeyConstant.WORK,
                 }
-            }
+            },
+            {
+                path: "setting",
+                component: () => import("../components/subSideBar/SubSidebarSetting.vue"),
+                children: [
+                    {
+                        path: "",
+                        name: routeNameConstant.SETTING_GENERAL,
+                        component: () => import("../views/setting/index.vue"),
+                        meta: {
+                            middleware: {function: abilities, abilities: permissionConstant.VIEW_PERSONAL_INFO},
+                            sidebarKey: SidebarKeyConstant.SETTING_GENERAL,
+                            sidebarKeySub: SidebarKeyConstant.SETTING_GENERAL,
+                        }
+                    }
+                ]
+            },
         ]
     }
 ];

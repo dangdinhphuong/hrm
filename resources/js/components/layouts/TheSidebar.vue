@@ -49,13 +49,13 @@ const menu = [
         isVisible: currentUser.hasPermissions(permissionConstant.VIEW_EMPLOYEE_LIST),
         icon: 'hrm'
     },
-    // {
-    //     name: translate('sidebar.admin'),
-    //     isVisible: currentUser.hasPermissions(permissionConstant.ROLE_VIEW),
-    //     route: routeNameConstant.ROLE_VIEW,
-    //     sidebarKey: SidebarKeyConstant.ROLE,
-    //     icon: 'system'
-    // }
+    {
+        name: translate('sidebar.setting'),
+        isVisible: currentUser.hasPermissions(permissionConstant.ROLE_VIEW),
+        route: routeNameConstant.SETTING_GENERAL,
+        sidebarKey: SidebarKeyConstant.SETTING_GENERAL,
+        icon: 'system'
+    }
 ];
 
 const handleClick = menuInfo => {

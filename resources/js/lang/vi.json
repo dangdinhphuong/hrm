@@ -35,6 +35,8 @@
         "working_leave": "Công & Phép",
         "Leave_Management": "Quản lý nghỉ phép",
         "setting": "Cài đặt",
+        "setting_general": "Cài đặt chung",
+        "setting_work": "Cài đặt chấm công",
         "human_resource_management": "Quản lý nhân sự"
     },
     "dashboard": {

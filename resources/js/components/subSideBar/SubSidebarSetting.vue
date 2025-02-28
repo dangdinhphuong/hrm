@@ -30,16 +30,16 @@ const icon = computed(() => new URL(`../../../images/icon/setting-dark.svg`, imp
 
 const menu = computed(() => [
     {
-        name: translate('sidebar.personnel_list'),
+        name: translate('sidebar.setting_general'),
         isVisible: currentUser.hasPermissions(permissionConstant.VIEW_EMPLOYEE_LIST),
         route: RouteNameConstant.EMPLOYEE,
         sidebarKey: SidebarKeyConstant.EMPLOYEE,
     },
     {
-        name: translate('sidebar.role_list'),
+        name: translate('sidebar.setting_work'),
         isVisible: currentUser.hasPermissions(permissionConstant.ROLE_VIEW),
-        route: RouteNameConstant.ROLE_VIEW,
-        sidebarKey: SidebarKeyConstant.ROLE,
+        route: RouteNameConstant.SETTING_GENERAL,
+        sidebarKey: SidebarKeyConstant.SETTING_GENERAL,
     }
 ].filter(item => item.isVisible));
 

@@ -29,6 +29,7 @@ const ROUTE_NAME = {
     CONTRACT_CREATE: "contract-create",
     CONTRACT_EDIT: "contract-edit",
     WORK: "work",
+    SETTING_GENERAL: "setting-general",
 };
 
 export default ROUTE_NAME;

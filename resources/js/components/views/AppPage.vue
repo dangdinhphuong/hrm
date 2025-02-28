@@ -365,34 +365,34 @@ const customDataSource = (dataSource) => {
 }
 
 
-const preprocessQuery = async (query) => {
-    let processedQuery = { ...query }; // Sao chép object đầu vào
-
-    // Duyệt qua từng key-value trong object query
-    Object.entries(processedQuery).forEach(([key, value]) => {
-
-        // props.advancedSearchInput.forEach(field => {
-        //     if (field.valueType === 'time', params.value[field.key]) {
-        //         params.value[field.key] = moment(params.value[field.key]).utc().format("ddd, DD MMM YYYY HH:mm:ss [GMT]")
-        //     }
-        // });
-/todo chuyển các param route về dạng khác  page=1&limit=10&week=Wed,+26+Feb+2025+17:00:00+GMT&monthly_work=Wed,+26+Feb+2025+17:00:00+GMT
-        console.log(`Key: ${key}, Value:`, value,processedQuery[key]);
-    });
-
-    return processedQuery;
-};
+// const preprocessQuery = async (query) => {
+//     let processedQuery = { ...query }; // Sao chép object đầu vào
+//
+//     // Duyệt qua từng key-value trong object query
+//     Object.entries(processedQuery).forEach(([key, value]) => {
+//
+//         // props.advancedSearchInput.forEach(field => {
+//         //     if (field.valueType === 'time', params.value[field.key]) {
+//         //         params.value[field.key] = moment(params.value[field.key]).utc().format("ddd, DD MMM YYYY HH:mm:ss [GMT]")
+//         //     }
+//         // });
+//       //todo chuyển các param route về dạng khác  page=1&limit=10&week=Wed,+26+Feb+2025+17:00:00+GMT&monthly_work=Wed,+26+Feb+2025+17:00:00+GMT
+//         console.log(`Key: ${key}, Value:`, value,processedQuery[key]);
+//     });
+//
+//     return processedQuery;
+// };
 
 
 
 const firstFetchData = async () => {
     const routeQuery = router.currentRoute.value.query;
     if (!isEmptyObject(routeQuery)) {
-        await preprocessQuery(routeQuery);
-       // searchData.value = await preprocessQuery(routeQuery);
+        // await preprocessQuery(routeQuery);
+        searchData.value = routeQuery;
     }
-    // setValueTypeBeforeFetchData();
-    // fetchData();
+    setValueTypeBeforeFetchData();
+    fetchData();
 };
 
 firstFetchData();

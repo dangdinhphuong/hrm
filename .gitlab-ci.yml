@@ -1,0 +1,69 @@
+stages:
+  - build-compose
+  - build
+  - deploy
+variables:
+  #DOCKER_HOST: tcp://172
+  DOCKER_DRIVER: overlay2
+  MODULE_NAME: hrm
+  PROJECT_NAME: crm
+before_script:
+  - export IMAGE_NAME=192.168.1.205/$PROJECT_NAME/$CI_COMMIT_REF_NAME/$MODULE_NAME
+  - export IMAGE_TAG=$(date +%d.%m.%y)-${CI_COMMIT_SHA::8}
+  - export IMAGE_NAME_PRO=hub.educa.vn/$PROJECT_NAME/$CI_COMMIT_REF_NAME/$MODULE_NAME
+
+web-images(build):
+  stage: build
+  # image: docker:23.0.1-cli-alpine3.17
+  tags:
+    - build-shell
+  script:
+    - echo hello $IMAGE_NAME:$IMAGE_TAG
+    - docker build   --cache-from $IMAGE_NAME:latest --tag $IMAGE_NAME:latest  --tag $IMAGE_NAME:$IMAGE_TAG -f  Dockerfile .
+    - docker login -u admin -p Admin123 192.168.1.205
+    - docker push $IMAGE_NAME:$IMAGE_TAG
+
+  only:
+    - /(testing)/
+
+web-images_product(build):
+  stage: build
+  # image: docker:23.0.1-cli-alpine3.17
+  tags:
+    - build-shell
+
+  script:
+    - echo hello $IMAGE_NAME_PRO:$IMAGE_TAG
+    - docker build   --cache-from $IMAGE_NAME_PRO:latest --tag $IMAGE_NAME_PRO:latest  --tag $IMAGE_NAME_PRO:$IMAGE_TAG -f  Dockerfile .
+    - docker push $IMAGE_NAME_PRO:$IMAGE_TAG
+
+  only:
+    - /(master)/
+
+promote-to-dev-environment:
+  stage: deploy
+  tags:
+    - build-shell
+  variables:
+    MODULE: hrm
+    GITLAB_TOKEN: $GIT_LAB_TOKEN
+    REPO_URL: gitlab.edupiakid.vn/crm-devops/hrm.git
+    MODULE_BRANCH: $CI_COMMIT_REF_NAME
+  # https://gitlab.edupiakid.vn/self-learning-devops/php-app/educa-web.gitaaa
+  script:
+    #- MODULE_BRANCH=$(echo "$MODULE" | sed 's/\//-/g')
+  #  - echo "promote to dev environment -> ${GITLAB_TOKEN} and ${MODULE}"
+    - rm -rf $MODULE || true
+    - git clone -b $MODULE_BRANCH https://oauth2:${GIT_LAB_TOKEN}@${REPO_URL} $MODULE
+    - cd $MODULE && cd $MODULE_BRANCH
+    - echo "images to dev environment -> $IMAGE_NAME:$IMAGE_TAG"
+    - ls -la
+
+    - kustomize edit set image $IMAGE_NAME:$IMAGE_TAG
+    - cat kustomization.yml
+    - git commit -am 'deploy argocd'
+    - git push origin $MODULE_BRANCH
+
+  only:
+    refs:
+      - /(testing)/

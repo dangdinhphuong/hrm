@@ -191,9 +191,9 @@ const admin = [
                 component: () => import("../components/subSideBar/SubSidebarSetting.vue"),
                 children: [
                     {
-                        path: "",
+                        path: "general",
                         name: routeNameConstant.SETTING_GENERAL,
-                        component: () => import("../views/setting/index.vue"),
+                        component: () => import("../views/setting/General.vue"),
                         meta: {
                             middleware: {function: abilities, abilities: permissionConstant.VIEW_PERSONAL_INFO},
                             sidebarKey: SidebarKeyConstant.SETTING_GENERAL,

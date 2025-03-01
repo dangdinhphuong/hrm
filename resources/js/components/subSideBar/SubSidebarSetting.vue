@@ -32,14 +32,14 @@ const menu = computed(() => [
     {
         name: translate('sidebar.setting_general'),
         isVisible: currentUser.hasPermissions(permissionConstant.VIEW_EMPLOYEE_LIST),
-        route: RouteNameConstant.EMPLOYEE,
-        sidebarKey: SidebarKeyConstant.EMPLOYEE,
+        route: RouteNameConstant.SETTING_GENERAL,
+        sidebarKey: SidebarKeyConstant.SETTING_GENERAL,
     },
     {
         name: translate('sidebar.setting_work'),
         isVisible: currentUser.hasPermissions(permissionConstant.ROLE_VIEW),
-        route: RouteNameConstant.SETTING_GENERAL,
-        sidebarKey: SidebarKeyConstant.SETTING_GENERAL,
+        route: RouteNameConstant.WORK,
+        sidebarKey: SidebarKeyConstant.WORK,
     }
 ].filter(item => item.isVisible));
 

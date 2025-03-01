@@ -332,6 +332,7 @@
     },
     "hrm": {
         "basic_information": "Thông tin cơ bản",
+        "business_information": "Thông tin doanh nghiệp",
         "general_information": "Thông tin chung",
         "identity_information": "Thông tin danh tính",
         "current_address": "Nơi ở hiện tại",
@@ -461,6 +462,28 @@
             "late_early_minutes": "Số phút đi muộn về sớm",
             "employee_code": "Mã nhân viên",
             "monthly_work_table": "Bảng công tháng"
+        }
+    },
+    "setting": {
+        "title": "Cài đặt",
+        "general": {
+            "title": "Cài đặt chung",
+            "columns": {
+                "company_name": "Tên công ty",
+                "contact_email": "Email liên hệ",
+                "company_address": "Địa chỉ công ty",
+                "contact_phone": "Số điện thoại",
+                "default_timezone": "Múi giờ mặc định",
+                "language": "Ngôn ngữ",
+                "default_currency": "Tiền tệ mặc định",
+                "logo": "Logo",
+                "favicon": "Logo favicon"
+            }
+        },
+        "work": {
+            "title": "Cài đặt chấm công",
+            "columns": {
+            }
         }
     }
 }

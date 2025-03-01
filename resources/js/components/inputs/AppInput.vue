@@ -8,6 +8,9 @@
     <template v-if="type ==='number'">
         <a-input :value="modelValue" :size="size" :disabled="disabled" type="number" @input="handleChangeInput"/>
     </template>
+    <template v-if="type ==='email'">
+        <a-input :value="modelValue" :size="size" :disabled="disabled" type="email" @input="handleChangeInput"/>
+    </template>
     <template v-if="type === 'text-area'">
         <a-textarea :rows="textAreaRow" :value="modelValue" :size="size" :disabled="disabled" @input="handleChangeInput"
                     allow-clear/>

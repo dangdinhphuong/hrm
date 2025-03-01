@@ -183,7 +183,7 @@ const props = defineProps({
     },
     fetchInnerData: {
         type: Function,
-        required: true
+        required: null
     },
     triggerFetchData: {
         type: null,

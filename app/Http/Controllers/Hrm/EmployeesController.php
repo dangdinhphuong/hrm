@@ -78,18 +78,12 @@ class EmployeesController extends Controller
 
     public function uploadAvatar(Request $request, $employeeId)
     {
-
-        $request->merge(['employeeId' => $employeeId]);
-
         // Validate the request
         $request->validate([
-            'avatar' => 'required|string', // Đảm bảo avatar là chuỗi base64 hoặc URL
-            'employeeId' => ['required', 'integer', new ExistsInDatabase('employees', 'id')],
-            'vector' => 'required|array', // Đảm bảo vector là một mảng
+            'avatar' => 'required|string', // Ensures image data is provided and is a string
         ]);
 
         $employeeAvatar = $this->employeesService->uploadAvatar($request->avatar, $employeeId);
-        $this->vectorService->createOrUpdateVector($request->all(), $employeeId);
 
         return responseByStatus($employeeAvatar["status"], $employeeAvatar["message"], $employeeAvatar['data']);
     }

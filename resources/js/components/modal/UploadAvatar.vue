@@ -67,11 +67,11 @@ import {
 import {isSuccessRequest} from '@/helpers/AxiosHelper.js';
 import {messageError, messageSuccess} from '@/helpers/MessageHelper.js';
 import empty from '@assets/images/original.png';
-import {getEnv} from "@/helpers/CommonHelper.js";
+import {translate} from "@/helpers/CommonHelper.js";
 import EmployeeService from "@/services/Employee/EmployeeService.js";
 import {getCurrentRouteParams} from "@/helpers/RouteHelper.js";
 import {authStore} from "@/stores/AuthStore.js";
-import * as faceapi from 'face-api.js';
+import { Potrace } from 'potrace';
 
 const imgSrc = ref(''); // URL ảnh để hiển thị
 const input = ref(null); // Tham chiếu đến input file
@@ -95,27 +95,28 @@ watch(() => props.showModal, newVal => open.value = newVal);
 // Xử lý khi nhấn nút "Gửi"
 const handleOk = async () => {
     if (cropper.value) {
-
-        let avatar = cropper.value.getCroppedCanvas({willReadFrequently: true}).toDataURL();
+        let avatar = cropper.value.getCroppedCanvas().toDataURL();
         loading.value = true;
-        console.log('avatar',avatar);
         try {
-            const validationResult = await validateFace(avatar);
+            avatar = await compressImage(avatar, 1); // Nén ảnh nếu lớn hơn 1 MB
+            const response = await employeeService.uploadAvatar(employeeId, {avatar});
+            if (isSuccessRequest(response)) {
+                messageSuccess(response.message);
+                // Cập nhật state user trong Pinia
+                if(userEmployeeId == employeeId){
+                    userStore.setAvatar(response.data.file);
+                }
+                emit('update:avatar', response.data.file);
 
-            if (!validationResult.success) {
-                messageError(validationResult.message);
-                loading.value = false;
-                return;
+                handleCancel();
+            } else {
+                messageError(response.message);
             }
-            messageSuccess("Anh hợp lệ");
-
         } catch (error) {
             console.error('Lỗi tải ảnh:', error);
         } finally {
             loading.value = false;
         }
-
-
     } else {
         messageError('Cropper chưa được khởi tạo');
     }
@@ -222,91 +223,6 @@ const compressImage = async (base64Image, maxSizeMB) => {
             resolve(newBase64);
         };
     });
-};
-
-const validateFace = async (image) => {
-    // Load models
-    console.log('SEVER_URL',getEnv('SEVER_URL'))
-    await faceapi.nets.ssdMobilenetv1.loadFromUri(getEnv('SEVER_URL') + '/models/');
-    await faceapi.nets.faceLandmark68Net.loadFromUri(getEnv('SEVER_URL') + '/models/');
-    await faceapi.nets.faceRecognitionNet.loadFromUri(getEnv('SEVER_URL') + '/models/');
-
-    return new Promise((resolve, reject) => {
-        const img = new Image();
-        img.src = image;
-
-        img.onload = async () => {
-            try {
-                // Kiểm tra độ sáng ảnh
-                if (!isBrightEnough(img)) {
-                    return resolve({success: false, message: "Ảnh quá tối, vui lòng chọn ảnh sáng hơn."});
-                }
-
-                // Nhận diện khuôn mặt với SSD MobileNetV1
-                const detections = await faceapi.detectAllFaces(img)
-                    .withFaceLandmarks()
-                    .withFaceDescriptors(); // Trả về vector khuôn mặt
-
-                if (detections.length === 0) {
-                    return resolve({success: false, message: "Không phát hiện khuôn mặt nào, vui lòng chọn ảnh khác."});
-                }
-
-                if (detections.length > 1) {
-                    return resolve({
-                        success: false,
-                        message: "Ảnh có nhiều hơn 1 khuôn mặt, vui lòng chọn ảnh chỉ có 1 khuôn mặt."
-                    });
-                }
-
-                const face = detections[0];
-                const faceArea = face.detection.box.width * face.detection.box.height;
-                const imageArea = img.width * img.height;
-
-                // Kiểm tra kích thước khuôn mặt
-                if (face.detection.box.width < 70 || face.detection.box.height < 70 || faceArea < imageArea * 0.05) {
-                    return resolve({
-                        success: false,
-                        message: "Khuôn mặt quá nhỏ, vui lòng chọn ảnh có khuôn mặt lớn hơn."
-                    });
-                }
-
-                return resolve({
-                    success: true,
-                    message: "Ảnh hợp lệ.",
-                    descriptor: face.descriptor // Trả về vector khuôn mặt
-                });
-
-            } catch (error) {
-                console.error("Lỗi nhận diện khuôn mặt:", error);
-                reject({success: false, message: "Lỗi xử lý ảnh, vui lòng thử lại."});
-            }
-        };
-
-        img.onerror = () => {
-            console.error("Lỗi tải ảnh:", image);
-            reject({success: false, message: "Lỗi tải ảnh, vui lòng chọn ảnh khác."});
-        };
-    });
-};
-
-// Kiểm tra độ sáng của ảnh
-const isBrightEnough = (img) => {
-    const canvas = document.createElement("canvas");
-    const ctx = canvas.getContext("2d");
-    canvas.width = img.width;
-    canvas.height = img.height;
-    ctx.drawImage(img, 0, 0);
-
-    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-    const pixels = imageData.data;
-    let brightness = 0;
-
-    for (let i = 0; i < pixels.length; i += 4) {
-        brightness += (pixels[i] + pixels[i + 1] + pixels[i + 2]) / 3;
-    }
-
-    brightness /= pixels.length / 4;
-    return brightness > 80; // Tăng ngưỡng độ sáng tối thiểu
 };
 
 </script>

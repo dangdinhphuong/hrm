@@ -30,6 +30,7 @@ class VectorController extends Controller
         $request->validate([
             'username' => ['required', 'string', new ExistsInMongoDB('vector', 'username')]
         ]);
+
         $vector = $this->vectorService->getDetailByUsername($request->username ?? '', ['username',
             'employee_id',
             'face_vector',

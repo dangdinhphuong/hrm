@@ -20,6 +20,7 @@ import moment from "moment";
 import {translate, useDaysInMonth} from "@/helpers/CommonHelper.js";
 import TimeSheetsService from "@/services/Work/TimeSheetsService.js";
 import EntitySelectConstant from "@/constants/EntitySelectConstant.js";
+import dayjs from 'dayjs';
 
 // Define current month and year as default values
 const month = ref(moment().month() + 1);
@@ -118,19 +119,34 @@ const day = daysInMonth.value.map((day, index) => ({
 const innerColumns = [
     {title: translate('date'), dataIndex: 'date', key: 'date', width: 15},
     {title: translate('work.columns.check_in'), dataIndex: 'check_in', key: 'check_in', width: 15},
-    {title: translate('work.columns.check_out'), dataIndex: 'check_out', key: 'check_out', width: 15}
+    {title: translate('work.columns.check_out'), dataIndex: 'check_out', key: 'check_out', width: 15},
+    {title: translate('work.columns.arrive_late'), dataIndex: 'arrive_late', key: 'arrive_late', width: 15},
+    {title: translate('work.columns.leave_early'), dataIndex: 'leave_early', key: 'leave_early', width: 15},
+    {title: translate('work.columns.status'), dataIndex: 'status', key: 'status', width: 15}
 ];
 
 // Fetch detailed timesheet data for inner table
 const fetchInnerData = async (response) => {
     return response.data.map(item => ({
         id: item.id,
-        data: item.timesheets.map((timesheet, i) => ({
-            key: i,
-            date: timesheet.work_date,
-            check_in: timesheet.check_in,
-            check_out: timesheet.check_out,
-        }))
+        data: item.timesheets.map((timesheet, i) => {
+            const getTime = (time) => (time ? dayjs(time, 'HH:mm:ss') : null);
+
+            const workStart = getTime('08:00:00');
+            const workEnd = getTime('17:30:00');
+            const checkIn = getTime(timesheet.check_in);
+            const checkOut = getTime(timesheet.check_out);
+
+            return {
+                key: i,
+                date: timesheet.work_date,
+                check_in: timesheet.check_in,
+                check_out: timesheet.check_out,
+                status: "Chưa duyệt đơn",
+                arrive_late: checkIn?.isAfter(workStart) ? checkIn.diff(workStart, 'minute') : 0,
+                leave_early: checkOut?.isBefore(workEnd) ? workEnd.diff(checkOut, 'minute') : 0
+            };
+        })
     }));
 };
 
@@ -148,8 +164,9 @@ const fetchData = async (params) => {
     margin: 17px 16px 0 16px;
     border-radius: 6px;
 }
+
 #container-page {
-    overflow: hidden;  // Prevents reflow issues
+    overflow: hidden; // Prevents reflow issues
 }
 
 </style>

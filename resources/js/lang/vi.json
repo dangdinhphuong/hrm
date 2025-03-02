@@ -454,6 +454,9 @@
         "columns": {
             "check_in": "Giờ vào",
             "check_out": "Giờ ra",
+            "arrive_late": "Vào muộn",
+            "leave_early": "Ra sớm",
+            "status": "Trạng thái",
             "employee_name": "Tên nhân viên",
             "leave_days": "Công nghỉ phép",
             "work_description": "Công công tác",

@@ -480,7 +480,8 @@
                 "language": "Ngôn ngữ",
                 "default_currency": "Tiền tệ mặc định",
                 "logo": "Logo",
-                "favicon": "Logo favicon"
+                "favicon": "Logo favicon",
+                "sidebar_color": "Màu thanh bên"
             }
         },
         "work": {

@@ -8,6 +8,9 @@
     <template v-if="type ==='number'">
         <a-input :value="modelValue" :size="size" :disabled="disabled" type="number" @input="handleChangeInput"/>
     </template>
+    <template v-if="type ==='color'">
+        <a-input :value="modelValue" :size="size" :disabled="disabled" type="color" @input="handleChangeInput"/>
+    </template>
     <template v-if="type ==='email'">
         <a-input :value="modelValue" :size="size" :disabled="disabled" type="email" @input="handleChangeInput"/>
     </template>
@@ -23,7 +26,7 @@
         <a-input :value="modelValue" type="date" :size="size" :disabled="disabled" @input="handleChangeInput" :max="maxDate" />
     </template>
     <template v-if="type ==='range-picker'">
-        <a-range-picker :value="modelValue" :size="size" :disabled="disabled" @change="handleChangeRangePicker"/>
+        <a-range-picker :value="modelValue" :size="size" :disabled="disabled" @change="handleChangeInput"/>
     </template>
     <template v-if="type ==='range-date-picker'">
         <a-date-picker :value="modelValue" :size="size"  @change="handleChangePicker" />
@@ -135,7 +138,7 @@ import SelectCountryProvinceDistrict from "@/components/inputs/selects/SelectCou
 import SelectHrmCountryProvinceDistrict from "@/components/inputs/selects/SelectCountryProvinceDistrict.vue";
 import SelectUser from "@/components/inputs/selects/SelectUser.vue";
 import SelectUserSale from "@/components/inputs/selects/SelectUserSale.vue";
-import UploadFiles from "@/components/inputs/uploads/UploadFile.vue";
+import UploadFiles from "@/components/inputs/uploads/File.vue";
 import SelectHrmBank from "@/components/inputs/selects/SelectBank.vue";
 import SelectHrmDepartment from "@/components/inputs/selects/SelectDepartment.vue";
 import SelectHrmPosition from "@/components/inputs/selects/SelectPosition.vue";
@@ -143,7 +146,6 @@ import SelectSearchUser from "@/components/inputs/selects/SelectSearchUser.vue";
 import SelectCountry from "@/components/inputs/selects/SelectCountry.vue";
 import SelectJobTitle from "@/components/inputs/selects/SelectJobTitle.vue";
 import SelectEmployees from "@/components/inputs/selects/SelectEmployees.vue";
-import moment from "moment";
 
 const props = defineProps({
     size: {

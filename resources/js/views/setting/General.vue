@@ -7,7 +7,6 @@
             <app-form
                 :fields="fields"
                 :errors="errors"
-                :source-data="user"
                 :submit="submit"
                 :cancel="cancel"
                 :before-submit="beforeSubmit"
@@ -34,12 +33,11 @@ import {
     cloneObject
 } from "@/helpers/CommonHelper.js";
 import AppForm from "@/components/views/AppForm.vue";
-import UserService from "@/services/system/UserService.js";
-import EntitySelectConstant from "@/constants/EntitySelectConstant.js";
 import {useLoading} from "@/composables/loading.js";
 import EmployeeService from "@/services/Employee/EmployeeService.js";
 import {isSuccessRequest} from "@/helpers/AxiosHelper.js";
 import {messageError, messageSuccess} from "@/helpers/MessageHelper.js";
+
 
 const {isLoadingComplete, setLoading, setLoadingComplete} = useLoading();
 const props = defineProps({
@@ -47,18 +45,11 @@ const props = defineProps({
         type: String,
         default: translate('setting.general.title')
     },
-    user: {
-        type: Object,
-        default: {'password': ""}
-    },
     errors: {
         type: Object,
         default: {}
     },
-    updateUser: {
-        type: Function,
-        default: null
-    },
+
     disabledField: {
         type: Array,
         default: []
@@ -74,7 +65,6 @@ const props = defineProps({
 });
 const employeeService = new EmployeeService();
 const errors = ref(cloneObject(props.errors));
-
 let fields = [
     {
         groupName: translate('hrm.basic_information'),
@@ -94,6 +84,13 @@ let fields = [
                 maxCount: 1,
                 classAdvancedFormItem: 'col-sm-12',
                 name: translate('setting.general.columns.favicon')
+            }
+            ,
+            {
+                type: 'color',
+                key: 'subsidebar_color',
+                name: translate('setting.general.columns.sidebar_color'),
+                default_value: '#0d6efd',
             }
         ]
     },
@@ -121,13 +118,6 @@ let fields = [
                 key: 'company_address',
                 name: translate('setting.general.columns.company_address'),
                 required: true
-            },
-            {
-                type: 'entity-select',
-                entity: EntitySelectConstant.HRM_COUNTRY,
-                key: 'language',
-                name: translate('setting.general.columns.language'),
-                required: true
             }
             ]
     }
@@ -143,7 +133,6 @@ const prepareFields = () => {
 }
 prepareFields();
 
-const userService = new UserService();
 
 const beforeSubmit = (formData) => {
     const { code, phone } = formData.value;
@@ -152,24 +141,22 @@ const beforeSubmit = (formData) => {
 };
 
 const submit = async (formData) => {
-    await employeeService.create(formData).then((data) => {
-        if (isSuccessRequest(data)) {
-            messageSuccess(translate('hrm.personal_information.messages.create_success'));
-            router.push({name: RouteNameConstant.EMPLOYEE});
-        } else {
-            messageError(translate('hrm.personal_information.messages.create_fail'));
-            errors.value = data.data ?? {};
-        }
-    });
+    console.log('formData', formData);
+    // await employeeService.create(formData).then((data) => {
+    //     if (isSuccessRequest(data)) {
+    //         messageSuccess(translate('hrm.personal_information.messages.create_success'));
+    //         router.push({name: RouteNameConstant.EMPLOYEE});
+    //     } else {
+    //         messageError(translate('hrm.personal_information.messages.create_fail'));
+    //         errors.value = data.data ?? {};
+    //     }
+    // });
 };
 
 const cancel = () => {
     router.push({name: RouteNameConstant.WORK});
 }
 
-const childComponent = () => {
-    props.redirectChildComponent("infoUser.userList")
-}
 
 </script>
 

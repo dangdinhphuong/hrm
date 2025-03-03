@@ -144,6 +144,7 @@ const setDefaultValue = () => {
 
 if (isEmptyObject(props.sourceData)) {
     formData.value = ref({});
+    console.log('isEmptyObject', formData.value)
     setDefaultValue();
 }
 

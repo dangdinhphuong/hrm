@@ -107,7 +107,7 @@ Route::get('/download', [UserController::class, 'download']);
 
 // Api External
 Route::prefix('external')->middleware(['log-request-incoming'])->group(function () {
-    Route::post('/find/vector', [VectorController::class, 'getDetailByUsername']);
+    Route::post('/find/employee', [EmployeesController::class, 'getDetailByUsername']);
     Route::post('/attendances', [TimeSheetController::class, 'store']);
     Route::prefix('monthly-timesheets')->name('')->group(function () {
         Route::get('', [MonthlyTimesheetSummaryController::class, 'index']);

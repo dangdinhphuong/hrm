@@ -45,6 +45,7 @@ class MonthlyTimesheetSummaryRepository extends BaseRepository
                     $q->select(empty($columns) ? ['*'] : array_merge(['id'], $columns));
                 }
             ]);
+
         return $paginate ?
             $this->findWherePaginate(where: $conditions, limit: $params['limit'] ?? null) :
             $this->findWhere(where: $conditions);

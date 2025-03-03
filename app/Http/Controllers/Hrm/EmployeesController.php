@@ -76,6 +76,24 @@ class EmployeesController extends Controller
         return responder()->success($this->employeesService->getDetailById($user->employee->id ?? 0));
     }
 
+    public function getDetailByUsername(Request $request)
+    {
+        $columns = [
+            'first_name',
+            'last_name',
+            'personal_email',
+            'phone',
+            'code',
+            'current_address',
+        ];
+        $employees = $this->employeesService->getDetailByUsername($request->username ?? "", $columns);
+        $employees->avartar = $employees?->avatarAttachment?->attachment?->file_path;
+        $employees->avartarBase64 =  $employees->avartar
+            ? $this->fileService->convertImageToBase64(str_replace(url('/storage') . '/', '',  $employees->avartar))
+            : null;
+        return responder()->success($employees);
+    }
+
     public function uploadAvatar(Request $request, $employeeId)
     {
         // Validate the request

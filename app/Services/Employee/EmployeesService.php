@@ -140,6 +140,11 @@ class EmployeesService
         return $result ?? [];
     }
 
+    public function getDetailByUsername($username, $columns = ["*"])
+    {
+        return $this->employeesRepository->getDetailByUsername($username, $columns);
+    }
+
     public function uploadAvatar($file, $employeeId)
     {
         $status = false;

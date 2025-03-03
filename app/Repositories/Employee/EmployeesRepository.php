@@ -22,7 +22,6 @@ class EmployeesRepository extends BaseRepository
         $conditions = [];
 
 
-
         if (!empty($params['keyword'])) {
             $conditions['orWhere'] = [
                 [
@@ -35,13 +34,13 @@ class EmployeesRepository extends BaseRepository
         }
 
 
-        $query = $this->with(['position', 'departments','avatarAttachment.attachment']);
+        $query = $this->with(['position', 'departments', 'avatarAttachment.attachment']);
 
         $paginate = !empty($params['paginate']) ? filter_var($params['paginate'], FILTER_VALIDATE_BOOLEAN) : $paginate;
 
         return $paginate ?
-            $query->findWherePaginate($conditions, $params['limit'] ?? null, columns:$columns) :
-            $query->findWhere($conditions, columns:$columns)->take($params['limit'] ?? null);
+            $query->findWherePaginate($conditions, $params['limit'] ?? null, columns: $columns) :
+            $query->findWhere($conditions, columns: $columns)->take($params['limit'] ?? null);
     }
 
     public function getDetailById(int $id)
@@ -61,6 +60,11 @@ class EmployeesRepository extends BaseRepository
         return $this->findWhereFirst(['id' => $id]);
     }
 
+    public function getDetailByUsername($username, $columns)
+    {
+        return $this->findWhereFirst(['code' => $username]);
+    }
+
     public function getTimesheets(array $params = [], $paginate = true)
     {
         $conditions = [];
@@ -74,11 +78,10 @@ class EmployeesRepository extends BaseRepository
             ]);
 
 
-
         $paginate = !empty($params['paginate']) ? filter_var($params['paginate'], FILTER_VALIDATE_BOOLEAN) : $paginate;
 
         return $paginate ?
-            $query->findWherePaginate($conditions, $params['limit'] ?? null, orderBy: ['status' => 'asc'], columns: ["id","first_name", "last_name", "code"]) :
-            $query->findWhere($conditions, orderBy: ['status' => 'asc'],columns: ["id", "first_name", "last_name", "code"])->take($params['limit'] ?? '');
+            $query->findWherePaginate($conditions, $params['limit'] ?? null, orderBy: ['status' => 'asc'], columns: ["id", "first_name", "last_name", "code"]) :
+            $query->findWhere($conditions, orderBy: ['status' => 'asc'], columns: ["id", "first_name", "last_name", "code"])->take($params['limit'] ?? '');
     }
 }

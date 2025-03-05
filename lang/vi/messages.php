@@ -40,5 +40,9 @@ return [
             'update_success' => "Cập nhât hợp đồng thành công",
             'update_error' => "Cập nhât hợp đồng  thất bại ",
         ],
+        'setting' => [
+            'update_success' => "Cập nhât cấu hình thành công",
+            'update_error' => "Cập nhât cấu hình thất bại ",
+        ],
     ]
 ];

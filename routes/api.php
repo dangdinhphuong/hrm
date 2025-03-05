@@ -10,7 +10,7 @@ use App\Http\Controllers\Hrm\JobTitleController;
 use App\Http\Controllers\Hrm\MonthlyTimesheetSummaryController;
 use App\Http\Controllers\Hrm\PositionController;
 use App\Http\Controllers\Hrm\TimeSheetController;
-use App\Http\Controllers\Hrm\VectorController;
+use App\Http\Controllers\System\ConfigController;
 use App\Http\Controllers\System\PermissionController;
 use App\Http\Controllers\System\RoleController;
 use App\Http\Controllers\System\UserController;
@@ -64,6 +64,7 @@ Route::middleware('auth:sanctum')->group(function () {
                 'roles' => RoleController::class,
                 'users' => UserController::class,
                 'employees' => EmployeesController::class,
+                'config' => ConfigController::class,
             ],
             ['except' => 'destroy']
         );
@@ -85,8 +86,6 @@ Route::middleware('auth:sanctum')->group(function () {
             // Route::get('/{id}', [ContractController::class, 'getDetailById'])->name('detail');
 
         });
-
-
 
     });
 

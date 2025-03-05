@@ -64,6 +64,7 @@ const API_PATH = {
 
     HRM_COUNTRIES: 'all/countries',
     HRM_TIMESHEET_LIST: 'monthly-timesheets',
+    HRM_CONFIG_CREATE: 'config',
 };
 
 export default API_PATH;

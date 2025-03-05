@@ -17,8 +17,7 @@
                 upload
             </a-button>
             <div class="text-danger">
-                ( Định dạng pdf, doc, docx, xls, xlsx, txt, img và tổng kích thước các file không quá
-                {{ formatSize(maxSize) }} )
+                ( Tổng kích thước các file không quá {{ formatSize(maxSize) }} )
             </div>
         </a-upload>
         <a-modal :open="previewVisible" :title="previewTitle" :footer="null" @cancel="handleCancelPreview">

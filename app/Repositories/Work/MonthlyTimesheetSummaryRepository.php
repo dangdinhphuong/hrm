@@ -32,7 +32,6 @@ class MonthlyTimesheetSummaryRepository extends BaseRepository
             $conditions['orWhereIn'] = ['updated_by', 'IN', convertToArray($params['updated_by'])];
         }
 
-
         $this->filter($params)->with(
             [
                 'timesheets' => function ($q) use ($columns) {

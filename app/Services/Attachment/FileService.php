@@ -73,4 +73,13 @@ class FileService
 
         return 'data:' . $mimeType . ';base64,' . base64_encode($fileContent);
     }
+
+    public function isValidFile($file)
+    {
+        if ($file instanceof \Illuminate\Http\UploadedFile) {
+            return $file->isValid();
+        }
+        return false;
+    }
+
 }

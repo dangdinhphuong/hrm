@@ -36,6 +36,14 @@ if (!function_exists('splitTableColumns')) {
     }
 }
 
+if (!function_exists('get_setting')) {
+    function get_setting($key, $default = null)
+    {
+        return \Illuminate\Support\Facades\Cache::remember($key, 3600, function () use ($key, $default) {
+            return \App\Models\System\Setting::where('key', $key)->value('value') ?? $default;
+        });
+    }
+}
 
 if (!function_exists('responseByStatus')) {
     function responseByStatus(bool $status, string $message, array $data = null)

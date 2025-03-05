@@ -34,7 +34,7 @@ import {
 } from "@/helpers/CommonHelper.js";
 import AppForm from "@/components/views/AppForm.vue";
 import {useLoading} from "@/composables/loading.js";
-import EmployeeService from "@/services/Employee/EmployeeService.js";
+import ConfigService from "@/services/system/ConfigService.js";
 import {isSuccessRequest} from "@/helpers/AxiosHelper.js";
 import {messageError, messageSuccess} from "@/helpers/MessageHelper.js";
 
@@ -63,7 +63,7 @@ const props = defineProps({
         default: {}
     },
 });
-const employeeService = new EmployeeService();
+const configService = new ConfigService();
 const errors = ref(cloneObject(props.errors));
 let fields = [
     {
@@ -71,24 +71,22 @@ let fields = [
         items: [
             {
                 type: 'upload-file',
-                key: 'file',
+                key: 'setting_logo',
                 listTypeUpload: 'picture',
-                maxCount: 1,
                 classAdvancedFormItem: 'col-sm-12',
                 name: translate('setting.general.columns.logo')
             },
             {
                 type: 'upload-file',
-                key: 'file',
+                key: 'setting_favicon',
                 listTypeUpload: 'picture',
-                maxCount: 1,
                 classAdvancedFormItem: 'col-sm-12',
                 name: translate('setting.general.columns.favicon')
             }
             ,
             {
                 type: 'color',
-                key: 'subsidebar_color',
+                key: 'setting_subsidebar_color',
                 name: translate('setting.general.columns.sidebar_color'),
                 default_value: '#0d6efd',
             }
@@ -99,23 +97,23 @@ let fields = [
         items: [
             {
                 type: 'text',
-                key: 'company_name',
+                key: 'setting_company_name',
                 name: translate('setting.general.columns.company_name'),
                 required: true
             },
             {
                 type: 'phone',
-                key: 'contact_phone',
+                key: 'setting_contact_phone',
                 name: translate('setting.general.columns.contact_phone'),
                 required: true
             }, {
                 type: 'email',
-                key: 'contact_email',
+                key: 'setting_contact_email',
                 name: translate('setting.general.columns.contact_email')
             },
             {
                 type: 'text',
-                key: 'company_address',
+                key: 'setting_company_address',
                 name: translate('setting.general.columns.company_address'),
                 required: true
             }
@@ -142,15 +140,14 @@ const beforeSubmit = (formData) => {
 
 const submit = async (formData) => {
     console.log('formData', formData);
-    // await employeeService.create(formData).then((data) => {
-    //     if (isSuccessRequest(data)) {
-    //         messageSuccess(translate('hrm.personal_information.messages.create_success'));
-    //         router.push({name: RouteNameConstant.EMPLOYEE});
-    //     } else {
-    //         messageError(translate('hrm.personal_information.messages.create_fail'));
-    //         errors.value = data.data ?? {};
-    //     }
-    // });
+    await configService.create(formData).then((data) => {
+        if (isSuccessRequest(data)) {
+            messageSuccess(translate('hrm.personal_information.messages.create_success'));
+        } else {
+            messageError(translate('hrm.personal_information.messages.create_fail'));
+            errors.value = data.data ?? {};
+        }
+    });
 };
 
 const cancel = () => {

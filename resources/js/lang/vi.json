@@ -487,7 +487,14 @@
         "work": {
             "title": "Cài đặt chấm công",
             "columns": {
+                "checkin": "Giờ vào",
+                "checkout": "Giờ ra",
+                "days_off_per_month": "Số ngày nghỉ mỗi tháng"
             }
+        },
+        "messages": {
+            "update_success": "Cập nhât cấu hình thành công",
+            "update_fail": "Cập nhật cấu hình thất bại"
         }
     }
 }

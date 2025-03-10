@@ -38,8 +38,8 @@ const menu = computed(() => [
     {
         name: translate('sidebar.setting_work'),
         isVisible: currentUser.hasPermissions(permissionConstant.ROLE_VIEW),
-        route: RouteNameConstant.WORK,
-        sidebarKey: SidebarKeyConstant.WORK,
+        route: RouteNameConstant.SETTING_WORK_TIME,
+        sidebarKey: SidebarKeyConstant.SETTING_WORK_TIME,
     }
 ].filter(item => item.isVisible));
 

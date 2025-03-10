@@ -12,6 +12,7 @@ const SIDEBAR_KEYS = {
     ME_CONTRACT: "me-contract",
     WORK: "work",
     SETTING_GENERAL: "setting-general",
+    SETTING_WORK_TIME: "setting-work-time",
 };
 
 export default SIDEBAR_KEYS;

@@ -83,7 +83,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::prefix('contract')->name('contract.')->group(function () {
             Route::post('/', [ContractController::class, 'store'])->name('store');
             Route::post('/{id}', [ContractController::class, 'update'])->name('update');
-            // Route::get('/{id}', [ContractController::class, 'getDetailById'])->name('detail');
+             Route::get('/{id}', [ContractController::class, 'getDetailById'])->name('detail');
 
         });
 

@@ -20,8 +20,19 @@ class ConfigService
 
     public function list(array $params = [], $paginate = true, $columns = ['*'])
     {
-        return $this->configRepository->list($params, $paginate, $columns);
+        $settings = $this->configRepository->list($params, $paginate, $columns);
+
+        // Tạo một mảng mới để lưu kết quả
+        $formattedSettings = [];
+
+        foreach ($settings as $setting) {
+            $formattedSettings[$setting['key']] = $setting['value'];
+        }
+
+
+        return $formattedSettings ?? [];
     }
+
 
     public function create($data)
     {
@@ -40,6 +51,8 @@ class ConfigService
                                 $this->fileService->delete($oldPath);
                             }
                             $value = $this->fileService->upload($item, 'setting');
+                        }elseif (!empty($item["thumbUrl"])){
+                            $value = $item["thumbUrl"];
                         }
                     }
                 }
@@ -50,7 +63,6 @@ class ConfigService
                     ['value' => $value]
                 );
             }
-
             DB::commit();
             $status = true;
             $message = __('messages.hrm.setting.update_success');

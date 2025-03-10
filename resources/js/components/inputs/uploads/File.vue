@@ -49,6 +49,7 @@ const props = defineProps({
         type: Number,
         default: 7 // 7MB
     },
+    inputKey: {type: String, default: ''},
     formData: {type: Object, default: () => ({})},
     disabled: {default: false}
 })
@@ -126,22 +127,33 @@ const handleFileChange = info => {
 const formatSize = (size) => {
     return (size / (1024 * 1024)).toFixed(0) + 'MB'; // Chuyển đổi kích thước sang MB và làm tròn 2 chữ số thập phân
 };
+
 const getFiles = async () => {
+    const filePath = props.formData[props.inputKey];
     const data = props.formData.file;
 
-    if (data) {
-        const result = data.map(item => ({
-            uid: item.id,
-            name: item.descriptions,
+    // Kiểm tra nếu filePath không phải chuỗi thì bỏ qua
+    const generateFileList = (files) => files
+        .filter(item => item && typeof (item.file_path || item) === 'string') // Lọc phần tử hợp lệ
+        .map(item => ({
+            uid: item.id || 0,
+            name: item.descriptions || '',
             status: 'done',
-            url: item.file_path,
-            thumbUrl: item.file_path
+            url: String(item.file_path || item), // Đảm bảo giá trị là chuỗi
+            thumbUrl: String(item.file_path || item)
         }));
 
-        fileList.value = result ?? [];
-        emit('update:value', fileList.value);
+    if (filePath && typeof filePath === 'string') {
+        fileList.value = generateFileList([filePath]);
+    } else if (Array.isArray(data)) {
+        fileList.value = generateFileList(data);
+    } else {
+        fileList.value = [];
     }
+
+    emit('update:value', fileList.value);
 };
+
 
 onMounted(async () => {
     await getFiles();

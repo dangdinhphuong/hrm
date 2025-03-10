@@ -13,7 +13,7 @@ export default class ConfigService {
         })
     }
     async getList(params = {}) {
-        return await axiosGet(ApiPathConstant.HRM_EMPLOYEE_LIST, params, {}, true, true).then(({data}) => {
+        return await axiosGet(ApiPathConstant.HRM_CONFIG_LIST, params, {}, true, true).then(({data}) => {
             return data;
         })
     }

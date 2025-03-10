@@ -14,6 +14,9 @@
     <template v-if="type ==='email'">
         <a-input :value="modelValue" :size="size" :disabled="disabled" type="email" @input="handleChangeInput"/>
     </template>
+    <template v-if="type ==='time'">
+        <a-input :value="modelValue" :size="size" :disabled="disabled" type="time" @input="handleChangeInput"/>
+    </template>
     <template v-if="type === 'text-area'">
         <a-textarea :rows="textAreaRow" :value="modelValue" :size="size" :disabled="disabled" @input="handleChangeInput"
                     allow-clear/>
@@ -115,6 +118,7 @@
 
     <template v-if="type === 'upload-file'">
         <component :is="uploadFile"
+                   :input-key="inputKey ?? {}"
                    :value="modelValue"
                    :list-type-upload="listTypeUpload"
                    :errors="errors ?? {}"

@@ -19,7 +19,6 @@ class ConfigController extends Controller
     }
     public function index(Request $request)
     {
-
         return responder()->success($this->configService->list($request->all()));
     }
     public function getDetailByKey($key)

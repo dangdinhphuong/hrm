@@ -21,24 +21,7 @@ class ConfigRepository extends BaseRepository
     {
         $conditions = [];
 
-
-        if (!empty($params['keyword'])) {
-            $conditions['orWhere'] = [
-                [
-                    ['first_name', 'like', "%{$params['keyword']}%"],
-                    ['last_name', 'like', "%{$params['keyword']}%"],
-                    ['code', 'like', "%{$params['keyword']}%"],
-                    [DB::raw("CONCAT(first_name, ' ', last_name)"), 'like', "%{$params['keyword']}%"]
-                ]
-            ];
-        }
-
-
-        $paginate = !empty($params['paginate']) ? filter_var($params['paginate'], FILTER_VALIDATE_BOOLEAN) : $paginate;
-
-        return $paginate ?
-            $this->findWherePaginate($conditions, $params['limit'] ?? null, columns: $columns) :
-            $this->findWhere($conditions, columns: $columns)->take($params['limit'] ?? null);
+        return $this->findWhere($conditions, columns: $columns);
     }
 
     public function getDetailById(int $id)

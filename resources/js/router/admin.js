@@ -199,6 +199,16 @@ const admin = [
                             sidebarKey: SidebarKeyConstant.SETTING_GENERAL,
                             sidebarKeySub: SidebarKeyConstant.SETTING_GENERAL,
                         }
+                    },
+                    {
+                        path: "worktime",
+                        name: routeNameConstant.SETTING_WORK_TIME,
+                        component: () => import("../views/setting/Work.vue"),
+                        meta: {
+                            middleware: {function: abilities, abilities: permissionConstant.VIEW_PERSONAL_INFO},
+                            sidebarKey: SidebarKeyConstant.SETTING_WORK_TIME,
+                            sidebarKeySub: SidebarKeyConstant.SETTING_WORK_TIME,
+                        }
                     }
                 ]
             },

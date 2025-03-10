@@ -44,7 +44,7 @@ const {isLoadingComplete, setLoading, setLoadingComplete} = useLoading();
 const props = defineProps({
     pageTitle: {
         type: String,
-        default: translate('setting.general.title')
+        default: translate('setting.work.title')
     },
     errors: {
         type: Object,
@@ -71,54 +71,22 @@ let fields = [
         groupName: translate('hrm.basic_information'),
         items: [
             {
-                type: 'upload-file',
-                key: 'setting_logo',
-                listTypeUpload: 'picture',
-                classAdvancedFormItem: 'col-sm-12',
-                name: translate('setting.general.columns.logo')
+                type: 'time',
+                key: 'setting_checkin',
+                name: translate('setting.work.columns.checkin')
             },
             {
-                type: 'upload-file',
-                key: 'setting_favicon',
-                listTypeUpload: 'picture',
-                classAdvancedFormItem: 'col-sm-12',
-                name: translate('setting.general.columns.favicon')
-            }
-            ,
+                type: 'time',
+                key: 'setting_checkout',
+                name: translate('setting.work.columns.checkout')
+            },
             {
-                type: 'color',
-                key: 'setting_subsidebar_color',
-                name: translate('setting.general.columns.sidebar_color'),
-                default_value: '#0d6efd',
+                type: 'text',
+                key: 'setting_leave_day',
+                default_value: 1,
+                name: translate('setting.work.columns.days_off_per_month')
             }
         ]
-    },
-    {
-        groupName: translate('hrm.business_information'),
-        items: [
-            {
-                type: 'text',
-                key: 'setting_company_name',
-                name: translate('setting.general.columns.company_name'),
-                required: true
-            },
-            {
-                type: 'phone',
-                key: 'setting_contact_phone',
-                name: translate('setting.general.columns.contact_phone'),
-                required: true
-            }, {
-                type: 'email',
-                key: 'setting_contact_email',
-                name: translate('setting.general.columns.contact_email')
-            },
-            {
-                type: 'text',
-                key: 'setting_company_address',
-                name: translate('setting.general.columns.company_address'),
-                required: true
-            }
-            ]
     }
 ];
 const settings = ref(0);

@@ -5,6 +5,7 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Database\Seeders\PermissionSeeder;
 use Database\Seeders\SettingSeeder;
+use Database\Seeders\RolePermissionSeeder;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -23,5 +24,6 @@ class DatabaseSeeder extends Seeder
 //        $this->call(UpdateRegionProvinceSeeder::class);
   //      $this->call(SettingSeeder::class);
         $this->call(PermissionSeeder::class);
+        $this->call(RolePermissionSeeder::class);
     }
 }

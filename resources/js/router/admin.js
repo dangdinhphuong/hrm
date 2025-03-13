@@ -151,7 +151,7 @@ const admin = [
                         component: () => import("../views/roles/List.vue"),
                         meta: {
                             middleware: {function: abilities, abilities: permissionConstant.ROLE_VIEW},
-                            sidebarKey: SidebarKeyConstant.EMPLOYEE,
+                            sidebarKey: SidebarKeyConstant.ROLE,
                             sidebarKeySub: SidebarKeyConstant.ROLE,
                         }
                     },
@@ -195,7 +195,7 @@ const admin = [
                         name: routeNameConstant.SETTING_GENERAL,
                         component: () => import("../views/setting/General.vue"),
                         meta: {
-                            middleware: {function: abilities, abilities: permissionConstant.VIEW_PERSONAL_INFO},
+                            middleware: {function: abilities, abilities: permissionConstant.VIEW_CONFIG},
                             sidebarKey: SidebarKeyConstant.SETTING_GENERAL,
                             sidebarKeySub: SidebarKeyConstant.SETTING_GENERAL,
                         }
@@ -205,7 +205,7 @@ const admin = [
                         name: routeNameConstant.SETTING_WORK_TIME,
                         component: () => import("../views/setting/Work.vue"),
                         meta: {
-                            middleware: {function: abilities, abilities: permissionConstant.VIEW_PERSONAL_INFO},
+                            middleware: {function: abilities, abilities: permissionConstant.VIEW_CONFIG},
                             sidebarKey: SidebarKeyConstant.SETTING_WORK_TIME,
                             sidebarKeySub: SidebarKeyConstant.SETTING_WORK_TIME,
                         }

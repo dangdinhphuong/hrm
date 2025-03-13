@@ -27,7 +27,7 @@ const currentUser = authStore();
 
 const icon = computed(() => new URL(`../../../images/icon/setting-dark.svg`, import.meta.url).href);
 //const icon = computed(() => new URL(`../../../images/icon/hrm.svg`, import.meta.url).href);
-
+console.log('currentUser.hasPermissions(permissionConstant.VIEW_EMPLOYEE_LIST)', currentUser.hasPermissions(permissionConstant.VIEW_EMPLOYEE_LIST))
 const menu = computed(() => [
     {
         name: translate('sidebar.personnel_list'),
@@ -37,7 +37,7 @@ const menu = computed(() => [
     },
     {
         name: translate('sidebar.role_list'),
-        isVisible: currentUser.hasPermissions(permissionConstant.ROLE_VIEW),
+        isVisible: currentUser.hasPermissions(permissionConstant.VIEW_ROLE_LIST),
         route: RouteNameConstant.ROLE_VIEW,
         sidebarKey: SidebarKeyConstant.ROLE,
     }

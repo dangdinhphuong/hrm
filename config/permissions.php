@@ -3,7 +3,7 @@
 return [
     'roles.index' => [
         'IN' => [
-            'VIEW_ROLE'
+            'VIEW_ROLE_LIST'
         ]
     ],
     'roles.store' => [
@@ -13,7 +13,7 @@ return [
     ],
     'roles.show' => [
         'IN' => [
-            'VIEW_ROLE_DETAIL'
+            'ASSIGN_ROLE'
         ]
     ],
     'roles.update' => [
@@ -40,7 +40,7 @@ return [
 
     'permissions.index' => [
         'IN' => [
-            'VIEW_ROLE'
+            'VIEW_ROLE_LIST'
         ]
     ],
 
@@ -120,6 +120,16 @@ return [
     'employee.timesheets' => [
         'IN' => [
             'VIEW_TIMESHEETS'
+        ]
+    ],
+    'config.store' => [
+        'IN' => [
+            'EDIT_CONFIG'
+        ]
+    ],
+    'config.index' => [
+        'IN' => [
+            'VIEW_CONFIG'
         ]
     ],
 
@@ -305,6 +315,38 @@ return [
                 'code' => 'DOWNLOAD_LEAVE_REQUEST',
                 'name' => 'Tải xuống đơn nghỉ',
                 'description' => 'Cho phép tải xuống danh sách đơn nghỉ của nhân sự',
+                'is_active' => 1
+            ],
+        ],
+        'ATTENDANCE' => [
+            [
+                'code' => 'VIEW_ATTENDANCE_LIST',
+                'name' => 'Xem danh sách chấm công',
+                'description' => 'Hiển thị danh sách chấm công của nhân sự',
+                'is_active' => 1
+            ],
+            [
+                'code' => 'EDIT_ATTENDANCE',
+                'name' => 'Chỉnh sửa chấm công',
+                'description' => 'Cho phép chỉnh sửa dữ liệu chấm công của nhân sự',
+                'is_active' => 1
+            ],
+            [
+                'code' => 'APPROVE_ATTENDANCE',
+                'name' => 'Duyệt dữ liệu chấm công',
+                'description' => 'Cho phép duyệt bảng công của nhân sự',
+                'is_active' => 1
+            ],
+            [
+                'code' => 'UPLOAD_ATTENDANCE',
+                'name' => 'Tải lên dữ liệu chấm công',
+                'description' => 'Cho phép tải lên file chấm công',
+                'is_active' => 1
+            ],
+            [
+                'code' => 'DOWNLOAD_ATTENDANCE',
+                'name' => 'Tải xuống dữ liệu chấm công',
+                'description' => 'Cho phép tải xuống danh sách chấm công của nhân sự',
                 'is_active' => 1
             ],
         ],

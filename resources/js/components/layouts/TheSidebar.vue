@@ -39,7 +39,7 @@ const menu = [
         name: translate('sidebar.working_day'),
         route: routeNameConstant.WORK,
         sidebarKey: SidebarKeyConstant.WORK,
-        isVisible: currentUser.hasPermissions(permissionConstant.VIEW_EMPLOYEE_LIST),
+        isVisible: currentUser.hasPermissions(permissionConstant.VIEW_ATTENDANCE_LIST),
         icon: 'leave'
     },
     {
@@ -51,7 +51,7 @@ const menu = [
     },
     {
         name: translate('sidebar.setting'),
-        isVisible: currentUser.hasPermissions(permissionConstant.ROLE_VIEW),
+        isVisible: currentUser.hasPermissions(permissionConstant.VIEW_CONFIG),
         route: routeNameConstant.SETTING_GENERAL,
         sidebarKey: SidebarKeyConstant.SETTING_GENERAL,
         icon: 'system'

@@ -48,7 +48,7 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     // todo thêm middleware permission: middleware('check-permission')
-    Route::name('')->group(function () {
+    Route::name('')->middleware('check-permission')->group(function () {
 
         Route::prefix('roles')->name('roles.')->group(function () {
             Route::get('/module-group-permission', [RoleController::class, 'getModuleGroupPermission'])->name('module-group-permission');

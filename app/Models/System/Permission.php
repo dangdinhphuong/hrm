@@ -18,7 +18,6 @@ class Permission extends BaseModel
         'code',
         'description',
         'parent_id',
-        'parent_id',
         'created_by',
         'updated_by',
     ];

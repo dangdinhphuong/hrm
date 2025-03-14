@@ -7,8 +7,6 @@
         :action-edit="hasPermissionEdit ? actionEdit : null"
         :action-detail="hasPermissionView ? actionDetail : null"
         :table-row-selection-actions="tableRowSelectionAction"
-        :action-download="hasPermissionEdit ? actionDownload : null"
-        :action-upload="hasPermissionEdit ? actionUpload : null"
         :action-add="hasPermissionCreate ? actionAdd : null"
         :table-row-selected="tableRowSelected ?? []"/>
 </template>
@@ -31,16 +29,16 @@ const employeeService = new EmployeeService();
 const tableRowSelected = ref([]);
 
 const advancedSearchInput = [
-    {
-        type: 'phone',
-        key: 'phone',
-        name: translate('delivery_note.phone')
-    },
-    {
-        type: 'date',
-        key: 'order_date',
-        name: translate('delivery_note.columns.order_date')
-    }
+    // {
+    //     type: 'phone',
+    //     key: 'phone',
+    //     name: translate('delivery_note.phone')
+    // },
+    // {
+    //     type: 'date',
+    //     key: 'order_date',
+    //     name: translate('delivery_note.columns.order_date')
+    // }
 ];
 
 const columns = [

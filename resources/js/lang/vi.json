@@ -483,7 +483,8 @@
                 "big_logo": "Logo lớn",
                 "small_logo": "Logo nhỏ",
                 "favicon": "Logo favicon",
-                "sidebar_color": "Màu thanh bên"
+                "sidebar_color": "Màu thanh bên",
+                "background_login": "background login"
             }
         },
         "work": {

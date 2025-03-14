@@ -308,10 +308,10 @@ let fields = [
                 required: true
             },
             {
-                type: 'select',
+                type: 'number',
                 key: 'level',
                 name: translate('hrm.personal_information.current_level'),
-                options: convertConstantObjectToDataSelect(HrmCommonConstant.HRM.LEVEL),
+                 options: convertConstantObjectToDataSelect(HrmCommonConstant.HRM.LEVEL),
                 default_value: HrmCommonConstant.LEVEL_DEFAULT,
             },
             {

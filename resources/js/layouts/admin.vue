@@ -59,12 +59,21 @@ const triggerSidebarCollapse = () => {
     collapsed.value = !collapsed.value;
 };
 const configStore = useConfigStore(); // Gọi store đúng cách
+const updateFavicon = (url) => {
+    let link = document.querySelector("link[rel~='icon']");
+    if (!link) {
+        link = document.createElement("link");
+        link.rel = "icon";
+        document.head.appendChild(link);
+    }
+    link.href = url;
+    link.type = "image/x-icon";
+}
+
 onMounted(async () => {
     await configStore.loadConfig();
     config.value =  await configStore.settings;
-});
-watch(() => configStore.settings, (newValue) => {
-    console.log("Admin - Settings đã cập nhật:", newValue);
+    updateFavicon(config.value.setting_favicon)
 });
 </script>
 

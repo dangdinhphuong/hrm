@@ -182,7 +182,7 @@ const admin = [
                 name: routeNameConstant.WORK,
                 component: () => import("../views/works/List.vue"),
                 meta: {
-                    middleware: {function: abilities, abilities: permissionConstant.ROLE_VIEW},
+                    middleware: {function: abilities, abilities: permissionConstant.VIEW_ATTENDANCE_LIST},
                     sidebarKey: SidebarKeyConstant.WORK,
                 }
             },

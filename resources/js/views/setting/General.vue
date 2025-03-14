@@ -28,7 +28,7 @@ const fields = ref([
                 key: 'setting_logo',
                 classAdvancedFormItem: 'col-sm-12',
                 listTypeUpload: 'picture',
-                name: translate('setting.general.columns.big_logo')
+                name: translate('setting.general.columns.background_login')
             },
             {
                 type: 'upload-file',

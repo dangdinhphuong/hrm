@@ -9,6 +9,7 @@
             :fetch-inner-data="fetchInnerData"
             :table-row-selected="tableRowSelected ?? []"
             :scroll-table="{ x: 200, y: 300 }"
+            :can-search=false
         />
     </div>
 </template>
@@ -38,25 +39,25 @@ const innerData = ref([]);
 
 // Define search input fields
 const advancedSearchInput = [
-    {
-        type: 'range-week-picker',
-        key: 'week',
-        valueType: 'time',
-        name: translate('work.columns.monthly_work_table')
-    },
-    {
-        type: 'range-month-picker',
-        key: 'monthly_work',
-        valueType: 'time',
-        name: translate('work.columns.monthly_work_table')
-    },
-    {
-        type: 'entity-select',
-        key: 'username',
-        name: translate('work.columns.employee_code'),
-        entity: EntitySelectConstant.EMPLOYEES,
-        valueType: 'number'
-    },
+    // {
+    //     type: 'range-week-picker',
+    //     key: 'week',
+    //     valueType: 'time',
+    //     name: translate('work.columns.monthly_work_table')
+    // },
+    // {
+    //     type: 'range-month-picker',
+    //     key: 'monthly_work',
+    //     valueType: 'time',
+    //     name: translate('work.columns.monthly_work_table')
+    // },
+    // {
+    //     type: 'entity-select',
+    //     key: 'username',
+    //     name: translate('work.columns.employee_code'),
+    //     entity: EntitySelectConstant.EMPLOYEES,
+    //     valueType: 'number'
+    // },
 ];
 
 // Compute the number of days in the selected month

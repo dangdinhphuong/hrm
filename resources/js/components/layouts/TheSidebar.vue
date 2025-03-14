@@ -47,7 +47,7 @@ const menu = [
     },
     {
         name: translate('sidebar.requests'), // Thêm mục Đơn
-        route: routeNameConstant.REQUESTS,  // Định nghĩa route tương ứng
+        route: routeNameConstant.WORK,  // Định nghĩa route tương ứng
         sidebarKey: SidebarKeyConstant.REQUESTS, // Định nghĩa sidebarKey tương ứng
         isVisible: currentUser.hasPermissions(permissionConstant.VIEW_REQUESTS), // Kiểm tra quyền
         icon: 'requests' // Icon tương ứng
@@ -79,10 +79,6 @@ const {selectedKeys, openKeys} = storeToRefs(menuStore())
 
 const configStore = useConfigStore(); // Gọi store đúng cách
 const config = computed(() => configStore.settings);
-
-watch(() => useConfigStore().settings, (newValue) => {
-    console.log("TheSidebar - Settings từ store:", newValue);
-});
 </script>
 
 <style lang="scss" scoped>

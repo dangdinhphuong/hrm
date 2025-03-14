@@ -179,7 +179,7 @@ const props = defineProps({
     },
     fetchData: {
         type: Function,
-        required: true
+        required: null
     },
     fetchInnerData: {
         type: Function,

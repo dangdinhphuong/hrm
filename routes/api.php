@@ -108,6 +108,7 @@ Route::get('/download', [UserController::class, 'download']);
 Route::prefix('external')->middleware(['log-request-incoming'])->group(function () {
     Route::post('/find/employee', [EmployeesController::class, 'getDetailByUsername']);
     Route::post('/attendances', [TimeSheetController::class, 'store']);
+    Route::get('/configs', [ConfigController::class, 'index']);
     Route::prefix('monthly-timesheets')->name('')->group(function () {
         Route::get('', [MonthlyTimesheetSummaryController::class, 'index']);
     });

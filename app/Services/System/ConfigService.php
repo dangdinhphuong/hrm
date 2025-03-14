@@ -7,12 +7,13 @@ use Illuminate\Support\Facades\DB;
 use App\Services\Attachment\FileService;
 use Illuminate\Support\Facades\Cache;
 use Log;
+
 class ConfigService
 {
     private $configRepository;
 
     public function __construct(ConfigRepository $configRepository,
-                                FileService $fileService)
+                                FileService      $fileService)
     {
         $this->configRepository = $configRepository;
         $this->fileService = $fileService;
@@ -33,6 +34,10 @@ class ConfigService
         return $formattedSettings ?? [];
     }
 
+    public function getDetailByKey($key)
+    {
+        return $this->configRepository->getDetailByKey($key);
+    }
 
     public function create($data)
     {
@@ -51,7 +56,7 @@ class ConfigService
                                 $this->fileService->delete($oldPath);
                             }
                             $value = $this->fileService->upload($item, 'setting');
-                        }elseif (!empty($item["thumbUrl"])){
+                        } elseif (!empty($item["thumbUrl"])) {
                             $value = $item["thumbUrl"];
                         }
                     }

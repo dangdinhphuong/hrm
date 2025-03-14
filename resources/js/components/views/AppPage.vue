@@ -183,7 +183,7 @@ const props = defineProps({
     },
     fetchInnerData: {
         type: Function,
-        required: true
+        default: null
     },
     triggerFetchData: {
         type: null,
@@ -347,8 +347,8 @@ const fetchData = async () => {
     } else {
         data.value = customDataSource(dataSource);
     }
-    if (dataSource) {
-        // props.innerData(data);
+    if (dataSource && props.innerColumns) {
+
         fetchInnerData(dataSource);
     }
 

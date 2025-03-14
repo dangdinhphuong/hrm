@@ -13,6 +13,7 @@ const SIDEBAR_KEYS = {
     WORK: "work",
     SETTING_GENERAL: "setting-general",
     SETTING_WORK_TIME: "setting-work-time",
+    REQUESTS: "requests",
 };
 
 export default SIDEBAR_KEYS;

@@ -37,13 +37,14 @@
         "setting": "Cài đặt",
         "setting_general": "Cài đặt chung",
         "setting_work": "Cài đặt chấm công",
-        "human_resource_management": "Quản lý nhân sự"
+        "human_resource_management": "Quản lý nhân sự",
+        "requests": "Yêu cầu"
     },
     "dashboard": {
         "intro": "Dashboard Edupia CRM"
     },
     "footer": {
-        "intro": "© 2023 Educa Corporation. All rights reserved"
+        "intro": "© 2023 {company} Corporation. All rights reserved"
     },
     "logout": "Đăng xuất",
     "common": {
@@ -69,7 +70,7 @@
     },
     "login": {
         "title": "Đăng nhập",
-        "intro": "Chào mừng bạn đến với hệ thống vận hành của Educa. <br> Vui lòng đăng nhập để tiếp tục công việc!",
+        "intro": "Chào mừng bạn đến với hệ thống vận hành của {company}. <br> Vui lòng đăng nhập để tiếp tục công việc!",
         "buttons": {
             "login": "Đăng nhập"
         },
@@ -479,7 +480,8 @@
                 "default_timezone": "Múi giờ mặc định",
                 "language": "Ngôn ngữ",
                 "default_currency": "Tiền tệ mặc định",
-                "logo": "Logo",
+                "big_logo": "Logo lớn",
+                "small_logo": "Logo nhỏ",
                 "favicon": "Logo favicon",
                 "sidebar_color": "Màu thanh bên"
             }
@@ -489,7 +491,8 @@
             "columns": {
                 "checkin": "Giờ vào",
                 "checkout": "Giờ ra",
-                "days_off_per_month": "Số ngày nghỉ mỗi tháng"
+                "days_off_per_month": "Số ngày nghỉ mỗi tháng",
+                "late_minutes_per_month": "Số phút đi muộn mỗi tháng (phút)"
             }
         },
         "messages": {

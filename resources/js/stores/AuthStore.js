@@ -22,6 +22,7 @@ export const authStore = defineStore('authStore', {
                 return;
             }
             if (new AuthService().getAccessToken()) {
+                console.log('loadUser');
                 this.user = await new AuthService().getCurrentUser();
             }
         },

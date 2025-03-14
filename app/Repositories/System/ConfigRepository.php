@@ -24,45 +24,8 @@ class ConfigRepository extends BaseRepository
         return $this->findWhere($conditions, columns: $columns);
     }
 
-    public function getDetailById(int $id)
+    public function getDetailByKey($key)
     {
-        $this->with([
-            'currentCountry:id,name',
-            'currentProvince:id,name',
-            'currentDistrict:id,name',
-            'currentNationality:id,name',
-            'user:id,name,username',
-            'bank:id,name',
-            'position:id,name,code',
-            'jobTitle:id,name',
-            'departments',
-
-        ]);
-        return $this->findWhereFirst(['id' => $id]);
-    }
-
-    public function getDetailByUsername($username, $columns)
-    {
-        return $this->findWhereFirst(['code' => $username]);
-    }
-
-    public function getTimesheets(array $params = [], $paginate = true)
-    {
-        $conditions = [];
-        $query = $this->filter($params)
-            ->with([
-                'timesheets',
-                'monthlyTimesheets' => function ($query) {
-                    $query->where('year', now()->year)
-                        ->where('month', now()->month);
-                }
-            ]);
-
-
-        $paginate = !empty($params['paginate']) ? filter_var($params['paginate'], FILTER_VALIDATE_BOOLEAN) : $paginate;
-
-        return $paginate ?
-            $query->findWherePaginate($conditions, $params['limit'] ?? null, orderBy: ['status' => 'asc'], columns: ["id", "first_name", "last_name", "code"]) :
-            $query->findWhere($conditions, orderBy: ['status' => 'asc'], columns: ["id", "first_name", "last_name", "code"])->take($params['limit'] ?? '');
+        return $this->findWhereFirst(['key' => $key]);
     }
 }

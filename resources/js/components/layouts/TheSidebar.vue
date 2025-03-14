@@ -6,6 +6,7 @@
             style="width: 100%"
             mode="vertical"
             @click="handleClick"
+            :style="{ background: config.setting_subsidebar_color }"
         >
             <menuRecursive :tree="menu"></menuRecursive>
         </a-menu>
@@ -22,7 +23,9 @@ import {storeToRefs} from "pinia";
 import permissionConstant from "@/constants/PermissionConstant.js";
 import routeNameConstant from "@/constants/RouteNameConstant.js";
 import SidebarKeyConstant from "@/constants/SidebarKeyConstant.js";
+import {configStore as useConfigStore} from "@/stores/ConfigStore.js"; // Đổi tên import
 import {useRoute} from "vue-router";
+import {computed, watch} from "vue";
 
 const route = useRoute();
 const currentUser = authStore();
@@ -43,6 +46,13 @@ const menu = [
         icon: 'leave'
     },
     {
+        name: translate('sidebar.requests'), // Thêm mục Đơn
+        route: routeNameConstant.REQUESTS,  // Định nghĩa route tương ứng
+        sidebarKey: SidebarKeyConstant.REQUESTS, // Định nghĩa sidebarKey tương ứng
+        isVisible: currentUser.hasPermissions(permissionConstant.VIEW_REQUESTS), // Kiểm tra quyền
+        icon: 'requests' // Icon tương ứng
+    },
+    {
         name: translate('sidebar.human_resource_management'),
         route: routeNameConstant.EMPLOYEE,
         sidebarKey: SidebarKeyConstant.EMPLOYEE,
@@ -60,13 +70,19 @@ const menu = [
 
 const handleClick = menuInfo => {
     let routeName = menuInfo.item.to;
-    if (route.name === routeName){
+    if (route.name === routeName) {
         router.go(0);
     }
     router.push({name: routeName});
 };
 const {selectedKeys, openKeys} = storeToRefs(menuStore())
 
+const configStore = useConfigStore(); // Gọi store đúng cách
+const config = computed(() => configStore.settings);
+
+watch(() => useConfigStore().settings, (newValue) => {
+    console.log("TheSidebar - Settings từ store:", newValue);
+});
 </script>
 
 <style lang="scss" scoped>

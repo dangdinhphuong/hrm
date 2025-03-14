@@ -38,6 +38,7 @@
             </div>
 
             <div :class="classWrapperFormItem" v-else>
+
                 <a-form-item
                     v-for="(field,index) in fields"
                     :key="index"

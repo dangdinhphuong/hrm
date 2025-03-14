@@ -14,13 +14,14 @@
 </template>
 
 <script lang="jsx" setup>
-import {ref, computed} from "vue";
+import {ref, computed, watch} from "vue";
 import AppPage from "@/components/views/AppPage.vue";
 import moment from "moment";
 import {translate, useDaysInMonth} from "@/helpers/CommonHelper.js";
 import TimeSheetsService from "@/services/Work/TimeSheetsService.js";
 import EntitySelectConstant from "@/constants/EntitySelectConstant.js";
 import dayjs from 'dayjs';
+import {configStore as useConfigStore} from "@/stores/ConfigStore.js";
 
 // Define current month and year as default values
 const month = ref(moment().month() + 1);
@@ -131,9 +132,8 @@ const fetchInnerData = async (response) => {
         id: item.id,
         data: item.timesheets.map((timesheet, i) => {
             const getTime = (time) => (time ? dayjs(time, 'HH:mm:ss') : null);
-
-            const workStart = getTime('08:00:00');
-            const workEnd = getTime('17:30:00');
+            const workStart = getTime(config.value.setting_checkin + ':00');
+            const workEnd = getTime(config.setting_checkout+':00');
             const checkIn = getTime(timesheet.check_in);
             const checkOut = getTime(timesheet.check_out);
 
@@ -155,6 +155,13 @@ const fetchData = async (params) => {
     const response = await timeSheetsService.getList(params);
     return response;
 };
+
+const configStore = useConfigStore(); // Gọi store đúng cách
+const config = computed(() => configStore.settings);
+
+watch(() => useConfigStore().settings, (newValue) => {
+    console.log("TheSidebar - Settings từ store:", newValue);
+});
 </script>
 
 <style lang="scss" scoped>

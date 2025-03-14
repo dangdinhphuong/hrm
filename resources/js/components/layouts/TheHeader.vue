@@ -32,6 +32,7 @@
 import {ref, computed, onMounted, watch } from "vue";
 import {MenuFoldOutlined, MenuUnfoldOutlined, DownOutlined} from "@ant-design/icons-vue";
 import {authStore} from "@/stores/AuthStore.js";
+
 import logoUser from '@assets/images/logo/user.png';
 import AuthService from "@/services/system/AuthService.js";
 
@@ -45,6 +46,7 @@ const triggerSidebarCollapse = () => {
 };
 
 const store = authStore();
+
 
 // Load user khi component được mounted
 onMounted(() => {

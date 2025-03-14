@@ -17,31 +17,11 @@ export default class ConfigService {
             return data;
         })
     }
-    async getTimesheets(params = {}) {
-        return await axiosGet(ApiPathConstant.HRM_EMPLOYEE_TIMESHEETS_LIST, params, {}, true, true).then(({data}) => {
+    async getListExternal(params = {}) {
+        return await axiosGet(ApiPathConstant.EXTERNAL_HRM_CONFIG_LIST, params, {}, true, true).then(({ data }) => {
             return data;
-        })
-    }
-    async getMyEmployeeDetail(params = {}) {
-        return await axiosGet(ApiPathConstant.HRM_MY_EMPLOYEE_DETAIL, params, {}, true, true).then(({data}) => {
-            return data;
-        })
+        });
     }
 
-    async getDetailByUserId(userId) {
-        return await axiosGet(buildApiPathWithParams(ApiPathConstant.HRM_EMPLOYEE_DETAIL_BY_USER_ID, {userId: userId}), {}, {}, true, true).then(({data}) => {
-            return data ?? {};
-        })
-    }
-    async uploadAvatar(employeeId, params, headers = {}) {
-        return await axiosPost(buildApiPathWithParams(ApiPathConstant.HRM_EMPLOYEE_AVATAR_UPLOAD, {employeeId: employeeId}), params, headers).then((data) => {
-            return data;
-        })
-    }
-
-    async getAvatar(employeeId) {
-        return await axiosGet(buildApiPathWithParams(ApiPathConstant.HRM_EMPLOYEE_AVATAR, {employeeId: employeeId})).then(({data}) => {
-            return data ?? {};
-        })
-    }
 }
+

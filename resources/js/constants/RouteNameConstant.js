@@ -31,6 +31,7 @@ const ROUTE_NAME = {
     WORK: "work",
     SETTING_GENERAL: "setting-general",
     SETTING_WORK_TIME: "setting-work-time",
+    REQUESTS: "requests",
 };
 
 export default ROUTE_NAME;

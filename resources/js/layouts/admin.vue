@@ -2,11 +2,17 @@
     <div id="layout">
         <a-layout>
 
-            <a-layout-sider v-model:collapsed="collapsed" :trigger="null" collapsible :width="260">
-                <div class="logo text-center mb-3" @click="actionHome" style="cursor: pointer;">
+            <a-layout-sider
+                v-model:collapsed="collapsed"
+                :trigger="null"
+                collapsible
+                :width="260"
+                :style="{ background: config.setting_subsidebar_color }"
+            >
+            <div class="logo text-center mb-3" @click="actionHome" style="cursor: pointer;">
                     <h2 class="text-white">
                         <b v-if="collapsed">HRM</b>
-                        <b v-else>EDUPIA HRM</b>
+                        <b v-else> <img :src="config.setting_small_logo" alt="img" class=""></b>
                     </h2>
                 </div>
                 <the-sidebar></the-sidebar>
@@ -36,20 +42,30 @@
 </template>
 
 <script setup>
-import {ref} from 'vue';
+import {watch , onMounted, ref} from "vue";
 import TheSidebar from "../components/layouts/TheSidebar.vue";
 import TheHeader from "../components/layouts/TheHeader.vue";
 import TheFooter from "../components/layouts/TheFooter.vue";
 import router from "@/router/index.js";
 import RouteNameConstant from "@/constants/RouteNameConstant.js";
+import { configStore as useConfigStore } from "@/stores/ConfigStore.js"; // Đổi tên import
 
-const collapsed = ref(false)
+const config = ref({});
+const collapsed = ref(false);
 const actionHome = () => {
-    router.push({name: RouteNameConstant.HOME_PAGE});
-}
+    router.push({ name: RouteNameConstant.HOME_PAGE });
+};
 const triggerSidebarCollapse = () => {
     collapsed.value = !collapsed.value;
-}
+};
+const configStore = useConfigStore(); // Gọi store đúng cách
+onMounted(async () => {
+    await configStore.loadConfig();
+    config.value =  await configStore.settings;
+});
+watch(() => configStore.settings, (newValue) => {
+    console.log("Admin - Settings đã cập nhật:", newValue);
+});
 </script>
 
 <style lang="scss" scoped>

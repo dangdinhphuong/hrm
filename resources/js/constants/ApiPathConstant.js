@@ -66,6 +66,7 @@ const API_PATH = {
     HRM_TIMESHEET_LIST: 'monthly-timesheets',
     HRM_CONFIG_CREATE: 'config',
     HRM_CONFIG_LIST: 'config',
+    EXTERNAL_HRM_CONFIG_LIST: 'external/configs',
 };
 
 export default API_PATH;

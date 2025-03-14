@@ -51,6 +51,7 @@ if (!function_exists('responseByStatus')) {
         return $status ? responder()->success($data, $message) : responder()->fail($message);
     }
 }
+
 if (!function_exists('convertToArray')) {
     function convertToArray($data) {
         if (is_array($data)) {
@@ -108,7 +109,6 @@ if (!function_exists('getMonthStartAndEnd')) {
         ];
     }
 }
-
 
 if (!function_exists('processBase64Image')) {
     function processBase64Image($base64Image, $type)

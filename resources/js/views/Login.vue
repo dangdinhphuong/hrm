@@ -1,20 +1,20 @@
 <template>
     <div class="container-fluid">
         <div class="row" style="min-height: 100vh;">
-            <div class="d-none d-sm-flex col-sm-8 wrapper-col-left">
+            <div class="d-none d-sm-flex col-sm-8 wrapper-col-left" :style="{ backgroundColor }">
                 <div>
-                    <img :src="logoCrm" alt="img" style="width:65%">
+                    <img :src="configs?.setting_logo ?? logoCrm" alt="img" style="width:65%">
                 </div>
             </div>
             <div class="col-12 col-sm-4 d-flex flex-column justify-content-between">
                 <div class="login-header mt-3" style="width: 80%;margin:0 auto;">
-                    <img :src="logoEdupia" alt="img" class="">
+                    <img :src="configs?.setting_small_logo ?? logoEdupia" alt="img" class="">
                 </div>
 
                 <div class="login-content" style="width: 80%;margin:0 auto">
                     <div class="login-intro">
                         <h2><b>{{ $t('login.title') }}</b></h2>
-                        <p v-html="$t('login.intro')"></p>
+                        <p v-html="$t('login.intro', { company: configs?.setting_company_name ?? 'Educa' })"></p>
                     </div>
                     <div class="login-form mt-3">
                         <a-form
@@ -68,7 +68,7 @@
                 </div>
 
                 <div class="login-footer text-center mt-3 mb-3">
-                    {{ $t('footer.intro') }}
+                    {{ $t('footer.intro', { company: configs?.setting_company_name ?? 'Educa' }) }}
                 </div>
             </div>
         </div>
@@ -76,28 +76,38 @@
 </template>
 
 <script setup>
-import {reactive, ref} from 'vue';
+import { onBeforeMount, reactive, ref, computed  } from 'vue';
 import logoCrm from '@assets/images/logo/crm.png';
 import logoEdupia from '@assets/images/logo/edupia.png';
 import AuthService from "@/services/system/AuthService.js";
-
+import {getFromLocalStorage, saveToLocalStorage} from "@/helpers/CommonHelper.js";
+const backgroundColor = computed(() => configs.value?.setting_subsidebar_color || '#6993FF');
+// State
+const configs = ref([]);
 const isLoginFail = ref(false);
-const images = reactive({
-    logoCrm,
-    logoEdupia
-});
-
-const formData = reactive({
-    username: '',
-    password: ''
-});
-
-
-function login(formData) {
-    new AuthService().login(formData.username, formData.password).catch((error) => {
+const images = reactive({ logoCrm, logoEdupia });
+const formData = reactive({ username: '', password: '' });
+// Methods
+const login = async () => {
+    try {
+        await new AuthService().login(formData.username, formData.password);
+    } catch (error) {
         isLoginFail.value = true;
-    });
+    }
+};
+// Lifecycle Hooks
+
+async function loadConfigs() {
+    const configData = await getFromLocalStorage('configs');
+
+    if (configData.length > 0) {
+        configs.value = configData[0] || 'Unknown';
+    }
+
+    console.log('Configs:', configData);
 }
+
+onBeforeMount(loadConfigs);
 </script>
 
 <style lang="scss" scoped>

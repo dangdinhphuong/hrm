@@ -1,5 +1,6 @@
 import {$t} from "@assets/js/lang/index.js";
 import moment from "moment";
+import ConfigService from "@/services/system/ConfigService.js";
 
 export function isEmptyObject(object) {
     return !object || Object.keys(object).length === 0;
@@ -90,7 +91,6 @@ export function convertConstantObjectToDataSelect(data, valueType = "Number") {
     return result;
 }
 
-
 export function createStyleElement(styleAdded, classQuery) {
     // Thêm style tùy chỉnh
     if (styleAdded) {
@@ -139,5 +139,33 @@ export function useDaysInMonth(month = moment().month() + 1, year = moment().yea
     }
 
     return result;
+}
+
+export function saveToLocalStorage(key, array = []) {
+    localStorage.setItem(key, JSON.stringify(Array.isArray(array) ? array : [array]));
+}
+
+export async function getConfigs() {
+    try {
+        const response = await new ConfigService().getListExternal(); // Chờ lấy dữ liệu
+        console.log(response);
+        saveToLocalStorage('configs', response);
+        return response; // Trả về dữ liệu sau khi lưu
+    } catch (error) {
+        console.error("Error fetching configs:", error);
+        return []; // Trả về mảng rỗng nếu lỗi
+    }
+}
+
+export async function getFromLocalStorage(key) {
+    let data = localStorage.getItem(key);
+
+    if (!data) {
+        console.log(`Dữ liệu ${key} trống, đang tải lại configs...`);
+        await getConfigs(); // Gọi API để cập nhật dữ liệu
+        data = localStorage.getItem(key); // Thử lấy lại từ LocalStorage
+    }
+
+    return data ? JSON.parse(data) : [];
 }
 

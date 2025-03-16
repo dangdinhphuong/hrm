@@ -212,6 +212,16 @@ const admin = [
                     }
                 ]
             },
+
+            {
+                path: "/requests",
+                name: routeNameConstant.REQUESTS,
+                component: () => import("../views/requests/List.vue"),
+                meta: {
+                    middleware: {function: abilities, abilities: permissionConstant.VIEW_REQUESTS},
+                    sidebarKey: SidebarKeyConstant.REQUESTS,
+                }
+            }
         ]
     }
 ];

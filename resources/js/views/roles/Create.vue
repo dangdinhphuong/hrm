@@ -57,6 +57,7 @@ import {messageSuccess, messageError} from "@/helpers/MessageHelper.js";
 import {translate} from "@/helpers/CommonHelper.js";
 import {cloneObject} from "@/helpers/CommonHelper.js";
 import AppForm from "@/components/views/AppForm.vue";
+import { authStore as useAuthStore } from "@/stores/AuthStore.js";
 
 const props = defineProps({
     pageTitle: {
@@ -130,7 +131,7 @@ const buildTreeData = async () => {
     // Gán dữ liệu cây cho treeData
     treeData.value = permissionTree;
 };
-
+const authStore = useAuthStore(); // Gọi store đúng cách
 // Hàm xử lý checkedKeys sau khi treeData đã được load
 const loadCheckedKeys = () => {
     // Gán giá trị checkedKeys từ props.role.permissions
@@ -162,23 +163,30 @@ const getOnlyPermissionId = () => {
     return permissionIds; // Chỉ trả về các quyền con
 };
 
-const submit = (formData) => {
+const submit = async (formData) => {
     formData.permissions = getOnlyPermissionId();
+
     if (props.updateRole) {
         props.updateRole(formData);
         return;
     }
 
-    roleService.create(formData).then((data) => {
+    try {
+        const data = await roleService.create(formData);
         if (isSuccessRequest(data)) {
             messageSuccess(translate('role.messages.create_success'));
-            router.push({name: RouteNameConstant.ROLE_VIEW});
+            await authStore.loadUser(true);
+            router.push({ name: RouteNameConstant.ROLE_VIEW });
             return;
         }
         messageError(translate('role.messages.create_fail'));
         errors.value = data.data ?? {};
-    })
-}
+    } catch (error) {
+        messageError(translate('role.messages.create_fail'));
+        console.error(error);
+    }
+};
+
 
 const cancel = () => {
     router.push({name: RouteNameConstant.ROLE_VIEW});

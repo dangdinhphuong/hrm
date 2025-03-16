@@ -20,11 +20,13 @@ import {isSuccessRequest} from "@/helpers/AxiosHelper.js";
 import {messageError, messageSuccess} from "@/helpers/MessageHelper.js";
 import router from "@/router/index.js";
 import {useLoading} from "@/composables/loading.js";
+import {authStore as useAuthStore} from "@/stores/AuthStore.js";
 
 const {isLoadingComplete, setLoading, setLoadingComplete} = useLoading();
 const roleId = getCurrentRouteParams('id');
 const role = ref({});
 const errors = ref({});
+const authStore = useAuthStore(); // Gọi store đúng cách
 
 const roleService = new RoleService();
 const getDetailRole = () => {
@@ -40,17 +42,24 @@ const getDetailRole = () => {
 }
 getDetailRole();
 
-const submit = (formData) => {
+const submit = async (formData) => {
     setLoading();
-    roleService.update(roleId, formData).then((data) => {
+    try {
+        const data = await roleService.update(roleId, formData);
         if (isSuccessRequest(data)) {
             messageSuccess(translate('role.messages.update_success'));
+            await authStore.loadUser(true);
             router.back();
-            return;
+        } else {
+            messageError(translate('role.messages.update_fail'));
+            errors.value = data.data ?? {};
         }
+    } catch (error) {
         messageError(translate('role.messages.update_fail'));
-        errors.value = data.data ?? {};
-        setLoadingComplete();
-    })
-}
+        console.error(error);
+    } finally {
+        setLoadingComplete(); // ✅ Đảm bảo luôn tắt loading
+    }
+};
+
 </script>

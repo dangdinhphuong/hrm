@@ -17,10 +17,11 @@ export const authStore = defineStore('authStore', {
                 this.user.avatar = avatarUrl;
             }
         },
-        async loadUser() {
-            if (!isEmptyObject(this.user)) {
+        async loadUser(forceReload = false) {
+            if (!forceReload &&!isEmptyObject(this.user)) {
                 return;
             }
+
             if (new AuthService().getAccessToken()) {
                 console.log('loadUser');
                 this.user = await new AuthService().getCurrentUser();

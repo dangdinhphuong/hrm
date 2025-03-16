@@ -124,7 +124,7 @@ const props = defineProps({
     },
     beforeSubmit: {
         type: Function,
-        default: false
+        default: null
     },
 });
 

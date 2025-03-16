@@ -29,6 +29,12 @@ const fields = ref([
                 key: 'setting_late_minutes',
                 default_value: 0, // Giá trị mặc định là 0 phút đi muộn
                 name: translate('setting.work.columns.late_minutes_per_month')
+            },
+            {
+                type: "number",
+                key: "setting_missed_punches",
+                default_value: 0,
+                name: translate("setting.work.columns.missed_punches_per_month")
             }
         ]
     }

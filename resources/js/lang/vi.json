@@ -468,6 +468,19 @@
             "monthly_work_table": "Bảng công tháng"
         }
     },
+    "requests": {
+        "title": "Bảng yêu cầu",
+        "columns": {
+            "employee_name": "Tên nhân viên",
+            "employee_code": "Mã nhân viên",
+            "time": "Thời gian",
+            "request_type": "Loại đơn",
+            "request_content": "Nội dung đơn",
+            "hr_approval": "HR duyệt",
+            "manager_approval": "Quản lý duyệt",
+            "manager_reject_reason": "Lý do từ chối"
+        }
+    },
     "setting": {
         "title": "Cài đặt",
         "general": {
@@ -493,7 +506,8 @@
                 "checkin": "Giờ vào",
                 "checkout": "Giờ ra",
                 "days_off_per_month": "Số ngày nghỉ mỗi tháng",
-                "late_minutes_per_month": "Số phút đi muộn mỗi tháng (phút)"
+                "late_minutes_per_month": "Số phút đi muộn mỗi tháng (phút)",
+                "missed_punches_per_month": "Số lần quên chấm công mỗi tháng"
             }
         },
         "messages": {

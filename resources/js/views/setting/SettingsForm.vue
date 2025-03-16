@@ -14,6 +14,7 @@
                 :is-multiple-sections="true"
                 classWrapperFormItem="col-12 col-sm-12 "
                 classFormItem="col-12 col-sm-4 p-2"
+                :can-submit="hasPermissionEdit ? true : false"
             >
                 <template v-slot:title-form>
                     <div class="page-title">
@@ -26,17 +27,19 @@
 </template>
 
 <script setup>
-import { ref, defineProps, onMounted } from "vue";
+import {ref, defineProps, onMounted} from "vue";
 import router from "@/router/index.js";
 import RouteNameConstant from "@/constants/RouteNameConstant.js";
 import {translate, cloneObject, getConfigs} from "@/helpers/CommonHelper.js";
 import AppForm from "@/components/views/AppForm.vue";
-import { useLoading } from "@/composables/loading.js";
+import {useLoading} from "@/composables/loading.js";
 import ConfigService from "@/services/system/ConfigService.js";
-import { isSuccessRequest } from "@/helpers/AxiosHelper.js";
-import { messageError, messageSuccess } from "@/helpers/MessageHelper.js";
+import {isSuccessRequest} from "@/helpers/AxiosHelper.js";
+import {messageError, messageSuccess} from "@/helpers/MessageHelper.js";
+import {hasPermissions} from "@/helpers/AuthHelper.js";
+import PermissionConstant from "@/constants/PermissionConstant.js";
 
-const { isLoadingComplete, setLoading, setLoadingComplete } = useLoading();
+const {isLoadingComplete, setLoading, setLoadingComplete} = useLoading();
 const props = defineProps({
     pageTitle: String,
     fields: Array,
@@ -47,11 +50,10 @@ const props = defineProps({
         default: null
     },
 });
-
+const hasPermissionEdit = hasPermissions(PermissionConstant.EDIT_CONFIG);
 const configService = new ConfigService();
 const errors = ref(cloneObject(props.errors));
 const settings = ref(0);
-
 
 const getSettings = async () => {
     setLoading();
@@ -74,7 +76,7 @@ const submit = async (formData) => {
 };
 
 const cancel = () => {
-    router.push({ name: RouteNameConstant.WORK });
+    router.push({name: RouteNameConstant.WORK});
 };
 
 onMounted(() => {

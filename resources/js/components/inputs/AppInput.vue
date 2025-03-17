@@ -17,6 +17,9 @@
     <template v-if="type ==='time'">
         <a-input :value="modelValue" :size="size" :disabled="disabled" type="time" @input="handleChangeInput"/>
     </template>
+    <template v-if="type ==='month'">
+        <a-input :value="modelValue" :size="size" :disabled="disabled" type="month" @input="handleChangeInput"/>
+    </template>
     <template v-if="type === 'text-area'">
         <a-textarea :rows="textAreaRow" :value="modelValue" :size="size" :disabled="disabled" @input="handleChangeInput"
                     allow-clear/>

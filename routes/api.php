@@ -14,6 +14,7 @@ use App\Http\Controllers\System\ConfigController;
 use App\Http\Controllers\System\PermissionController;
 use App\Http\Controllers\System\RoleController;
 use App\Http\Controllers\System\UserController;
+use App\Http\Controllers\Work\RequestController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -65,6 +66,7 @@ Route::middleware('auth:sanctum')->group(function () {
                 'users' => UserController::class,
                 'employees' => EmployeesController::class,
                 'config' => ConfigController::class,
+                'requests' => RequestController::class,
             ],
             ['except' => 'destroy']
         );

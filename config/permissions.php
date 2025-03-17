@@ -59,6 +59,16 @@ return [
             'user-view'
         ]
     ],
+    'requests.index' => [
+        'IN' => [
+            'VIEW_LEAVE_REQUESTS'
+        ]
+    ],
+    'requests.store' => [
+        'IN' => [
+            'CREATE_LEAVE_REQUEST'
+        ]
+    ],
     'users.update' => [
         'IN' => [
             'user-update'

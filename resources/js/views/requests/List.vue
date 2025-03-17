@@ -16,14 +16,19 @@
 import {ref, computed, watch} from "vue";
 import AppPage from "@/components/views/AppPage.vue";
 import moment from "moment";
-import {translate, useDaysInMonth} from "@/helpers/CommonHelper.js";
+import {convertConstantToDataSelect, translate, useDaysInMonth} from "@/helpers/CommonHelper.js";
 import TimeSheetsService from "@/services/Work/TimeSheetsService.js";
 
 import {configStore as useConfigStore} from "@/stores/ConfigStore.js";
 import router from "@/router/index.js";
 import RouteNameConstant from "@/constants/RouteNameConstant.js";
 import {hasPermissions} from "@/helpers/AuthHelper.js";
-import PermissionConstant from "@/constants/PermissionConstant.js";
+import PermissionConstant from "@/constants/PermissionConstant.js"
+import RequestService from "@/services/Work/RequestService.js";
+import CommonConstant from "@/constants/CommonConstant.js";
+import HrmCommonConstant from "@/constants/CommonConstant.js";
+
+const requestService = new RequestService();
 
 // Define current month and year as default values
 const month = ref(moment().month() + 1);
@@ -38,16 +43,16 @@ const tableRowSelected = ref([]);
 // Define search input fields
 const advancedSearchInput = [
     {
-        type: 'range-week-picker',
-        key: 'week',
-        valueType: 'time',
+        type: 'month',
+        key: 'year-month',
         name: translate('requests.columns.employee_code')
     },
     {
-        type: 'range-week-picker',
-        key: 'week',
-        valueType: 'time',
-        name: translate('requests.columns.request_type')
+        type: 'select',
+        key: 'leave_type',
+        options: convertConstantToDataSelect(HrmCommonConstant.LEAVE_REASONS),
+        name: translate('requests.columns.request_type'),
+        valueType: 'number'
     }
 ];
 
@@ -72,25 +77,62 @@ const columns = [
         fixed: 'left',
         key: 'code',
         customRender: ({text, record}) => (
-            <div>{record?.employee?.code}</div>
+            <div>{record?.date}</div>
         )
+    }, {
+        title: translate('requests.columns.request_type'),
+        width: 15,
+        dataIndex: 'leave_days',
+        key: 'leave_days',
+        customRender: ({text, record}) => {
+            let statusText = CommonConstant.LEAVE_REASONS;
+            return (
+                <div>
+                    {statusText.get(record.leave_type)}
+                </div>
+            );
+        }
     },
-    {title: translate('requests.columns.request_type'), width: 15, dataIndex: 'leave_days', key: 'leave_days'},
-    {title: translate('requests.columns.request_content'), width: 15, dataIndex: 'leave_days', key: 'leave_days'},
-    {title: translate('requests.columns.hr_approval'), width: 15, dataIndex: 'holiday_days', key: 'holiday_days'},
-    {title: translate('requests.columns.manager_approval'), width: 15, dataIndex: 'overtime_hours', key: 'overtime_hours'},
+    {title: translate('requests.columns.request_content'), width: 15, dataIndex: 'content', key: 'content'},
+    {
+        title: translate('requests.columns.hr_approval'),
+        width: 15,
+        dataIndex: 'hr_approval',
+        key: 'hr_approval',
+        customRender: ({text, record}) => {
+            let statusText = CommonConstant.APPROVAL_STATUS;
+            return (
+                <div>
+                    {statusText.get(record.hr_status)}
+                </div>
+            );
+        }
+    }, {
+        title: translate('requests.columns.manager_approval'),
+        width: 15,
+        dataIndex: 'overtime_hours',
+        key: 'overtime_hours',
+        customRender: ({text, record}) => {
+            let statusText = CommonConstant.APPROVAL_STATUS;
+            return (
+                <div>
+                    {statusText.get(record.manager_status)}
+                </div>
+            );
+        }
+    },
     {
         title: translate('requests.columns.manager_reject_reason'),
         width: 20,
-        dataIndex: 'total_late_early_minutes',
-        key: 'total_late_early_minutes'
+        dataIndex: 'reject_reason',
+        key: 'reject_reason'
     }
 ];
 
 // Generate daily columns dynamically
 // Fetch main timesheet data
 const fetchData = async (params) => {
-    const response = await timeSheetsService.getList(params);
+    const response = await requestService.getList(params);
     return response;
 };
 

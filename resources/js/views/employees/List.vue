@@ -74,6 +74,19 @@ const columns = [
         }
     },
     {
+        title: translate('hrm.personal_information.department'),
+        width: 5,
+        dataIndex: 'department',
+        key: 'department',
+        customRender: ({text, record}) => {
+            return (
+                <div>
+                    {record.departments[0].name ?? ''}
+                </div>
+            );
+        }
+    },
+    {
         title: translate('hrm.employees.status'),
         width: 5,
         dataIndex: 'status',
@@ -83,19 +96,6 @@ const columns = [
             return (
                 <div>
                     {statusText.get(record.status)}
-                </div>
-            );
-        }
-    },
-    {
-        title: translate('hrm.employees.bu'),
-        width: 5,
-        dataIndex: 'bu',
-        key: 'bu',
-        customRender: ({text, record}) => {
-            return (
-                <div>
-                    {record.departments[0].business_unit_type ?? 0}
                 </div>
             );
         }

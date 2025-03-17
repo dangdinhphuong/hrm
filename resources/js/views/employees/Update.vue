@@ -31,7 +31,7 @@ import RouteNameConstant from "@/constants/RouteNameConstant.js";
 import {
     translate,
     cloneObject,
-    convertConstantObjectToDataSelect
+    convertConstantObjectToDataSelect, convertConstantToDataSelect
 } from "@/helpers/CommonHelper.js";
 import AppForm from "@/components/views/AppForm.vue";
 import UserService from "@/services/system/UserService.js";
@@ -102,7 +102,8 @@ let fields = [
             }, {
                 type: 'text',
                 key: 'personal_email',
-                name: translate('hrm.personal_information.personal_email')
+                name: translate('hrm.personal_information.personal_email'),
+                required: true
             },
             {
                 type: 'phone',
@@ -174,6 +175,7 @@ let fields = [
                 valueType: 'number',
                 multiple: false,
                 entity: EntitySelectConstant.HRM_USER,
+                disabled: true,
             },
         ]
     },
@@ -305,13 +307,6 @@ let fields = [
                 entity: EntitySelectConstant.HRM_POSITION,
                 key: 'position_id',
                 name: translate('hrm.personal_information.position'),
-                required: true
-            },
-            {
-                type: 'entity-select',
-                entity: EntitySelectConstant.HRM_JOB_TITLE,
-                key: 'job_title_id',
-                name: translate('hrm.personal_information.job_title'),
                 required: true
             },
             {

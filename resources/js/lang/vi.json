@@ -480,7 +480,25 @@
             "hr_approval": "HR duyệt",
             "manager_approval": "Quản lý duyệt",
             "manager_reject_reason": "Lý do từ chối",
-            "create_title": "Tạo mới yêu cầu"
+            "create_title": "Tạo mới yêu cầu",
+            "annual_leave": "Nghỉ phép",
+            "unpaid_leave": "Nghỉ không lương",
+            "missing_checkin": "Quên chấm công",
+            "business_trip": "Công tác",
+            "other": "Khác",
+            "pending_approval": "Chờ duyệt",
+            "approved": "Đã duyệt",
+            "rejected": "Đã từ chối"
+        },
+        "messages": {
+            "create_success": "Tạo mới yêu cầu thành công",
+            "create_fail": "Tạo mới yêu cầu thất bại",
+
+
+            "update_success": "Cập nhật yêu cầu thành công",
+            "update_fail": "Cập nhật yêu cầu thất bại",
+            "active_success": "Active yêu cầuthành công",
+            "active_fail": "Active yêu cầu thất bại"
         }
     },
     "setting": {

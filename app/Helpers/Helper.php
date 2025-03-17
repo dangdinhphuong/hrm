@@ -94,8 +94,10 @@ if (!function_exists('getMonthStartAndEnd')) {
      * @param string $format
      * @return array
      */
-    function getMonthStartAndEnd($year, $month, $format = 'Y-m-d')
+    function getMonthStartAndEnd($year = null, $month = null, $format = 'Y-m-d')
     {
+        $year = $year ?? Carbon\Carbon::now()->year;
+        $month = $month ?? Carbon\Carbon::now()->month;
         // Create a Carbon instance for the given year and month
         $date = \Carbon\Carbon::create($year, $month, 1);
 

@@ -134,7 +134,6 @@ const setDefaultValue = () => {
     const fields = props.isMultipleSections
         ? props.fields.flatMap(group => group.items) // Lấy tất cả các items nếu có nhiều sections
         : props.fields; // Nếu không có nhiều sections, lấy fields trực tiếp
-    console.log(fields);
     fields.forEach(field => {
         if (isset(field.default_value)) {
             formData.value[field.key] = field.default_value;

@@ -73,7 +73,21 @@ const HRM = {
         [4]: translate('hrm.contract.indefinite_term_labor_contract'),
     },
     LEVEL
+
 }
+
+const LEAVE_REASONS = new Map([
+    [1, translate('requests.columns.annual_leave')], // Nghỉ phép
+    [2, translate('requests.columns.unpaid_leave')], // Nghỉ không lương
+    [3, translate('requests.columns.missing_checkin')], // Quên chấm công
+    [4, translate('requests.columns.business_trip')], // Đi công tác/Làm việc ngoài văn phòng Công ty
+    [5, translate('requests.columns.other')] // Lý do khác
+]);
+const APPROVAL_STATUS = new Map([
+    [0, translate('requests.columns.pending_approval')], // Chờ duyệt
+    [1, translate('requests.columns.approved')], // Đã duyệt
+    [2, translate('requests.columns.rejected')] // Từ chối
+]);
 
 export default {
     HRM,
@@ -96,5 +110,7 @@ export default {
     COUNTRY,
     VIETNAM,
     ENGLAND,
-    CONTRACT_TYPE_DEFAULT
+    CONTRACT_TYPE_DEFAULT,
+    LEAVE_REASONS,
+    APPROVAL_STATUS
 };

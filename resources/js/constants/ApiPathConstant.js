@@ -67,6 +67,8 @@ const API_PATH = {
     HRM_CONFIG_CREATE: 'config',
     HRM_CONFIG_LIST: 'config',
     EXTERNAL_HRM_CONFIG_LIST: 'external/configs',
+    HRM_REQUESTS_LIST: 'requests',
+    HRM_REQUESTS_CREATE: 'requests',
 };
 
 export default API_PATH;

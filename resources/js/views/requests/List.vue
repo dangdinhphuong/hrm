@@ -98,7 +98,7 @@ const configStore = useConfigStore(); // Gọi store đúng cách
 const config = computed(() => configStore.settings);
 const hasPermissionCreate = hasPermissions(PermissionConstant.CREATE_REQUESTS);
 const actionAdd = () => {
-    router.push({name: RouteNameConstant.CONTRACT_CREATE});
+    router.push({name: RouteNameConstant.REQUESTS_CREATE});
 }
 </script>
 

@@ -134,6 +134,7 @@ const setDefaultValue = () => {
     const fields = props.isMultipleSections
         ? props.fields.flatMap(group => group.items) // Lấy tất cả các items nếu có nhiều sections
         : props.fields; // Nếu không có nhiều sections, lấy fields trực tiếp
+    console.log(fields);
     fields.forEach(field => {
         if (isset(field.default_value)) {
             formData.value[field.key] = field.default_value;
@@ -145,7 +146,6 @@ const setDefaultValue = () => {
 
 if (isEmptyObject(props.sourceData)) {
     formData.value = ref({});
-    console.log('isEmptyObject', formData.value)
     setDefaultValue();
 }
 
@@ -156,7 +156,6 @@ const beforeSubmit = () => {
         console.warn('beforeSubmit prop is not provided or is not a function.');
     }
 };
-
 
 const submit = () => {
     // Helper function to process fields

@@ -474,11 +474,13 @@
             "employee_name": "Tên nhân viên",
             "employee_code": "Mã nhân viên",
             "time": "Thời gian",
+            "date": "Ngày",
             "request_type": "Loại đơn",
             "request_content": "Nội dung đơn",
             "hr_approval": "HR duyệt",
             "manager_approval": "Quản lý duyệt",
-            "manager_reject_reason": "Lý do từ chối"
+            "manager_reject_reason": "Lý do từ chối",
+            "create_title": "Tạo mới yêu cầu"
         }
     },
     "setting": {

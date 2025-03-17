@@ -14,6 +14,7 @@ const SIDEBAR_KEYS = {
     SETTING_GENERAL: "setting-general",
     SETTING_WORK_TIME: "setting-work-time",
     REQUESTS: "requests",
+    REQUESTS_CREATE: "requests-create",
 };
 
 export default SIDEBAR_KEYS;

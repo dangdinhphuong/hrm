@@ -215,12 +215,27 @@ const admin = [
 
             {
                 path: "/requests",
-                name: routeNameConstant.REQUESTS,
-                component: () => import("../views/requests/List.vue"),
-                meta: {
-                    middleware: {function: abilities, abilities: permissionConstant.VIEW_REQUESTS},
-                    sidebarKey: SidebarKeyConstant.REQUESTS,
-                }
+                children: [
+                    {
+                        path: "",
+                        name: routeNameConstant.REQUESTS,
+                        component: () => import("../views/requests/List.vue"),
+                        meta: {
+                            middleware: {function: abilities, abilities: permissionConstant.VIEW_REQUESTS},
+                            sidebarKey: SidebarKeyConstant.REQUESTS,
+                        }
+                    },
+                    {
+                        path: "create",
+                        name: routeNameConstant.REQUESTS_CREATE,
+                        component: () => import("../views/requests/Create.vue"),
+                        meta: {
+                            middleware: {function: abilities, abilities: permissionConstant.CREATE_REQUESTS},
+                            sidebarKey: SidebarKeyConstant.REQUESTS_CREATE,
+                            sidebarKeySub: SidebarKeyConstant.REQUESTS_CREATE,
+                        }
+                    }
+                ]
             }
         ]
     }

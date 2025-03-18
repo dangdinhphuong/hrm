@@ -21,7 +21,6 @@ class EmployeesRepository extends BaseRepository
     {
         $conditions = [];
 
-
         if (!empty($params['keyword'])) {
             $conditions['orWhere'] = [
                 [
@@ -33,8 +32,13 @@ class EmployeesRepository extends BaseRepository
             ];
         }
 
+        $departmentId = $params['departmentId'] ?? null;
 
-        $query = $this->with(['position', 'departments', 'avatarAttachment.attachment']);
+        $query = $this->with([
+            'position',
+            'departments',
+            'avatarAttachment.attachment'
+        ]);
 
         $paginate = !empty($params['paginate']) ? filter_var($params['paginate'], FILTER_VALIDATE_BOOLEAN) : $paginate;
 
@@ -42,6 +46,7 @@ class EmployeesRepository extends BaseRepository
             $query->findWherePaginate($conditions, $params['limit'] ?? null, columns: $columns) :
             $query->findWhere($conditions, columns: $columns)->take($params['limit'] ?? null);
     }
+
 
     public function getDetailById(int $id)
     {

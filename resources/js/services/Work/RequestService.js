@@ -12,4 +12,9 @@ export default class RequestService {
             return data;
         })
     }
+    async update(id, params) {
+        return await axiosPatch(buildApiPathWithParams(ApiPathConstant.HRM_REQUESTS_EDIT, {id: id}), params).then((data) => {
+            return data;
+        })
+    }
 }

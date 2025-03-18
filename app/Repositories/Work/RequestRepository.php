@@ -18,15 +18,24 @@ class RequestRepository extends BaseRepository
     {
         $conditions = [];
 
-
         if (!empty($params['leave_type'])) {
             $conditions['leave_type'] = ['leave_type', '=', $params['leave_type']];
         }
         if (!empty($params['year-month'])) {
             list($params['year'], $params['month']) = explode('-', $params['year-month']);
         }
+        if (!empty($params['hr_status'])) {
+            $conditions['hr_status'] = ['hr_status', '=', $params['hr_status']];
+        }
+        if (!empty($params['manager_status'])) {
+            $conditions['manager_status'] = ['manager_status', '=', $params['manager_status']];
+        }
+        if (!empty($params['employee_id'])) {
+            $conditions['employee_id'] = ['employee_id', 'IN', $params['employee_id']];
+        }
 
         $conditions['date'] = ['date', 'BETWEEN', getMonthStartAndEnd($params['year'] ?? null, $params['month'] ?? null)];
+
         $query = $this->with(['employee']);
 
         $paginate = !empty($params['paginate']) ? filter_var($params['paginate'], FILTER_VALIDATE_BOOLEAN) : $paginate;

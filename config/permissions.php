@@ -69,6 +69,11 @@ return [
             'CREATE_LEAVE_REQUEST'
         ]
     ],
+    'requests.update' => [
+        'IN' => [
+            'APPROVE_LEAVE_REQUEST'
+        ]
+    ],
     'users.update' => [
         'IN' => [
             'user-update'

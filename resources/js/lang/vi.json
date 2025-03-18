@@ -494,11 +494,12 @@
             "create_success": "Tạo mới yêu cầu thành công",
             "create_fail": "Tạo mới yêu cầu thất bại",
 
-
             "update_success": "Cập nhật yêu cầu thành công",
-            "update_fail": "Cập nhật yêu cầu thất bại",
-            "active_success": "Active yêu cầuthành công",
-            "active_fail": "Active yêu cầu thất bại"
+            "update_fail": "Cập nhật yêu cầu thất bại"
+        },
+        "modal": {
+            "title": "Xác nhận",
+            "content": "Bạn có chắc chắn muốn cập nhật yêu cầu này không?"
         }
     },
     "setting": {

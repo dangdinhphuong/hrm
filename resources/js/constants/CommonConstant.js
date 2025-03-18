@@ -83,13 +83,22 @@ const LEAVE_REASONS = new Map([
     [4, translate('requests.columns.business_trip')], // Đi công tác/Làm việc ngoài văn phòng Công ty
     [5, translate('requests.columns.other')] // Lý do khác
 ]);
+
+const PENDING_APPROVAL = 0;
+const APPROVED = 1;
+const REJECTED = 2;
+
 const APPROVAL_STATUS = new Map([
-    [0, translate('requests.columns.pending_approval')], // Chờ duyệt
-    [1, translate('requests.columns.approved')], // Đã duyệt
-    [2, translate('requests.columns.rejected')] // Từ chối
+    [PENDING_APPROVAL, translate('requests.columns.pending_approval')], // Chờ duyệt
+    [APPROVED, translate('requests.columns.approved')], // Đã duyệt
+    [REJECTED, translate('requests.columns.rejected')] // Từ chối
 ]);
 
+
 export default {
+    PENDING_APPROVAL,
+    APPROVED,
+    REJECTED,
     HRM,
     STATUS_ACTIVE,
     STATUS_DEACTIVATE,

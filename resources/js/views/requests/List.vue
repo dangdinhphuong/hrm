@@ -8,6 +8,9 @@
             :table-row-selected="tableRowSelected ?? []"
             :scroll-table="{ x: 200, y: 300 }"
             :action-add="hasPermissionCreate ? actionAdd : null"
+            :click-action-other="hasPermissionApprove ?clickActionOther : null"
+            :get-action-other="hasPermissionApprove ? getActionOther : null"
+            :trigger-fetch-data="timeFetchData"
         />
     </div>
 </template>
@@ -27,6 +30,9 @@ import PermissionConstant from "@/constants/PermissionConstant.js"
 import RequestService from "@/services/Work/RequestService.js";
 import CommonConstant from "@/constants/CommonConstant.js";
 import HrmCommonConstant from "@/constants/CommonConstant.js";
+import {modalConfirm} from "@/helpers/ModalHelper.js";
+import {isSuccessRequest} from "@/helpers/AxiosHelper.js";
+import {messageError, messageSuccess} from "@/helpers/MessageHelper.js";
 
 const requestService = new RequestService();
 
@@ -96,41 +102,56 @@ const columns = [
     {title: translate('requests.columns.request_content'), width: 15, dataIndex: 'content', key: 'content'},
     {
         title: translate('requests.columns.hr_approval'),
-        width: 15,
+        width: 10,
         dataIndex: 'hr_approval',
         key: 'hr_approval',
         customRender: ({text, record}) => {
             let statusText = CommonConstant.APPROVAL_STATUS;
+            let color = '';
+            if (record.hr_status == CommonConstant.PENDING_APPROVAL) {
+                color = "processing";
+            } else if (record.hr_status == CommonConstant.APPROVED) {
+                color = "success";
+            } else if (record.hr_status == CommonConstant.REJECTED) {
+                color = "error";
+            }
+
             return (
                 <div>
-                    {statusText.get(record.hr_status)}
+                    <a-tag color={color}>{statusText.get(record.hr_status)}</a-tag>
                 </div>
             );
+
         }
-    }, {
+    },
+    {
         title: translate('requests.columns.manager_approval'),
-        width: 15,
+        width: 10,
         dataIndex: 'overtime_hours',
         key: 'overtime_hours',
         customRender: ({text, record}) => {
             let statusText = CommonConstant.APPROVAL_STATUS;
+            let color = '';
+            if (record.manager_status == CommonConstant.PENDING_APPROVAL) {
+                color = "processing";
+            } else if (record.manager_status == CommonConstant.APPROVED) {
+                color = "success";
+            } else if (record.manager_status == CommonConstant.REJECTED) {
+                color = "error";
+            }
+
             return (
                 <div>
-                    {statusText.get(record.manager_status)}
+                    <a-tag color={color}>{statusText.get(record.manager_status)}</a-tag>
                 </div>
             );
+
         }
     },
-    {
-        title: translate('requests.columns.manager_reject_reason'),
-        width: 20,
-        dataIndex: 'reject_reason',
-        key: 'reject_reason'
-    }
 ];
 
 // Generate daily columns dynamically
-// Fetch main timesheet data
+// Fetch main timesheet data APPROVE_LEAVE_REQUEST
 const fetchData = async (params) => {
     const response = await requestService.getList(params);
     return response;
@@ -139,8 +160,69 @@ const fetchData = async (params) => {
 const configStore = useConfigStore(); // Gọi store đúng cách
 const config = computed(() => configStore.settings);
 const hasPermissionCreate = hasPermissions(PermissionConstant.CREATE_REQUESTS);
+const hasPermissionApprove = hasPermissions(PermissionConstant.APPROVE_LEAVE_REQUESTS);
 const actionAdd = () => {
     router.push({name: RouteNameConstant.REQUESTS_CREATE});
+}
+
+const getActionOther = (record) => {
+    let otherAction = [];
+
+    if (record.hr_status === CommonConstant.PENDING_APPROVAL || record.manager_status === CommonConstant.PENDING_APPROVAL) {
+        otherAction.push({
+            title: translate('requests.columns.approved'),
+            event: CommonConstant.APPROVED
+        });
+        otherAction.push({
+            title: translate('requests.columns.rejected'),
+            event: CommonConstant.REJECTED
+        });
+    }
+
+    return otherAction;
+};
+const clickActionOther = ({id, event}) => {
+
+    let title = '';
+    let content = '';
+    let onOk = null;
+
+    title = translate('requests.modal.title');
+    content = translate('requests.modal.content');
+    console.log('clickActionOther', id, event);
+    if(event == CommonConstant.APPROVED){
+        onOk = () => {
+            requestService.update(id, {'approvalStatus': event}).then((result) => {
+                messageAndRerenderAppTable(
+                    result,
+                    translate('requests.messages.update_success'),
+                    translate('requests.messages.update_fail')
+                )
+            });
+        }
+    } else if(event == CommonConstant.REJECTED){
+        onOk = () => {
+            requestService.update(id, {'approvalStatus': event}).then((result) => {
+                console.log('approvalStatus', result);
+                messageAndRerenderAppTable(
+                    result,
+                    translate('requests.messages.update_success'),
+                    translate('requests.messages.update_fail')
+                )
+            });
+        }
+    }
+
+    modalConfirm(title, content, onOk);
+}
+const timeFetchData = ref(Date.now());
+const messageAndRerenderAppTable = (resultRequestHttp, success, fail) => {
+    if (isSuccessRequest(resultRequestHttp)) {
+        messageSuccess(resultRequestHttp.message ?? success);
+    } else {
+        messageError(resultRequestHttp.message ?? fail);
+    }
+    timeFetchData.value = Date.now();
 }
 </script>
 

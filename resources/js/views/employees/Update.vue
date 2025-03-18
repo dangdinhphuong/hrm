@@ -316,7 +316,13 @@ let fields = [
                 options: convertConstantObjectToDataSelect(HrmCommonConstant.HRM.LEVEL),
                 default_value: HrmCommonConstant.LEVEL_DEFAULT,
             },
-
+            {
+                type: 'entity-select',
+                entity: EntitySelectConstant.ROLE,
+                key: 'role_id',
+                name: translate('hrm.personal_information.role'),
+                required: true
+            },
         ]
     }
 

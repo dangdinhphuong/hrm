@@ -135,6 +135,7 @@ class EmployeesService
             $result->currentDepartmentName = $result->departments[0]->name ?? '';
             $result->department_id = $result->departments[0]->id ?? '';
             $result->jobTitle = $result->jobTitle->name ?? '';
+            $result->role_id = $result->user->roles[0]->id ?? '';
         }
 
         return $result ?? [];

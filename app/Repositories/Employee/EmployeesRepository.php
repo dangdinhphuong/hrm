@@ -56,6 +56,7 @@ class EmployeesRepository extends BaseRepository
             'currentDistrict:id,name',
             'currentNationality:id,name',
             'user:id,name,username',
+            'user.roles',
             'bank:id,name',
             'position:id,name,code',
             'jobTitle:id,name',

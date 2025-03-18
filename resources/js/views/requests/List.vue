@@ -10,6 +10,7 @@
             :action-add="hasPermissionCreate ? actionAdd : null"
             :click-action-other="hasPermissionApprove ?clickActionOther : null"
             :get-action-other="hasPermissionApprove ? getActionOther : null"
+            :action-download="hasPermissionDownload ? actionDownload : null"
             :trigger-fetch-data="timeFetchData"
         />
     </div>
@@ -26,6 +27,7 @@ import {configStore as useConfigStore} from "@/stores/ConfigStore.js";
 import router from "@/router/index.js";
 import RouteNameConstant from "@/constants/RouteNameConstant.js";
 import {hasPermissions} from "@/helpers/AuthHelper.js";
+import {exportToExcel} from "@/helpers/ExcelHelper.js";
 import PermissionConstant from "@/constants/PermissionConstant.js"
 import RequestService from "@/services/Work/RequestService.js";
 import CommonConstant from "@/constants/CommonConstant.js";
@@ -161,6 +163,7 @@ const configStore = useConfigStore(); // Gọi store đúng cách
 const config = computed(() => configStore.settings);
 const hasPermissionCreate = hasPermissions(PermissionConstant.CREATE_REQUESTS);
 const hasPermissionApprove = hasPermissions(PermissionConstant.APPROVE_LEAVE_REQUESTS);
+const hasPermissionDownload = hasPermissions(PermissionConstant.APPROVE_LEAVE_REQUESTS);
 const actionAdd = () => {
     router.push({name: RouteNameConstant.REQUESTS_CREATE});
 }
@@ -223,6 +226,9 @@ const messageAndRerenderAppTable = (resultRequestHttp, success, fail) => {
         messageError(resultRequestHttp.message ?? fail);
     }
     timeFetchData.value = Date.now();
+}
+const actionDownload = () => {
+    exportToExcel();
 }
 </script>
 

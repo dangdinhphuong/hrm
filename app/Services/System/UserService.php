@@ -72,7 +72,6 @@ class UserService
 
             /** @var User $user */
             $user = $this->userRepository->update($params, $id);
-
             $this->syncUserRoleAndDepartment($user, $params['role'] ?? [], $params['department']);
 
             DB::commit();

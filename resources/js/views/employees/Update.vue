@@ -316,6 +316,7 @@ let fields = [
                 options: convertConstantObjectToDataSelect(HrmCommonConstant.HRM.LEVEL),
                 default_value: HrmCommonConstant.LEVEL_DEFAULT,
             },
+
         ]
     }
 

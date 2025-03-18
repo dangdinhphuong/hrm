@@ -43,6 +43,7 @@ class EmployeesService
     {
         return $this->employeesRepository->list($params, $paginate, $columns);
     }
+
     public function create($data)
     {
         DB::beginTransaction();
@@ -91,10 +92,10 @@ class EmployeesService
 
             $employeeData = $this->save($data, 'update', $id);
 
-                $user = $this->userService->update($employeeData->user_id, [
-                    'role' => [$data['role_id']],
-                    'department' => $data['department_id']
-                ]);
+            $user = $this->userService->update($employeeData->user_id, [
+                'role' => [$data['role_id']],
+                'department' => $data['department_id']
+            ]);
             $this->employeeDepartmentRepository->getByEmployeesId($employeeData->id)->update(
                 [
                     'employees_id' => $employeeData->id,

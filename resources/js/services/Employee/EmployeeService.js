@@ -44,4 +44,9 @@ export default class EmployeeService {
             return data ?? {};
         })
     }
+    async changePassword(params) {
+        return await axiosPatch(ApiPathConstant.HRM_MY_CHANGE_PASSWORD, params).then((data) => {
+            return data;
+        })
+    }
 }

@@ -59,6 +59,7 @@ const API_PATH = {
     HRM_CONTRACT_CREATE: 'contract',
     HRM_CONTRACT_EDIT: 'contract/{id}',
     HRM_MY_CONTRACT_LIST: 'employee/me/contract',
+    HRM_MY_CHANGE_PASSWORD: 'employee/me/change-password',
     HRM_CONTRACT_LIST: 'employee/{employeesId}/contract',
     HRM_CONTRACT_DETAIL: 'contract/{id}',
 

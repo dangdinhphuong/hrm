@@ -27,7 +27,6 @@ import {configStore as useConfigStore} from "@/stores/ConfigStore.js";
 import router from "@/router/index.js";
 import RouteNameConstant from "@/constants/RouteNameConstant.js";
 import {hasPermissions} from "@/helpers/AuthHelper.js";
-import {exportToExcel} from "@/helpers/ExcelHelper.js";
 import PermissionConstant from "@/constants/PermissionConstant.js"
 import RequestService from "@/services/Work/RequestService.js";
 import CommonConstant from "@/constants/CommonConstant.js";
@@ -50,11 +49,7 @@ const tableRowSelected = ref([]);
 
 // Define search input fields
 const advancedSearchInput = [
-    {
-        type: 'month',
-        key: 'year-month',
-        name: translate('requests.columns.employee_code')
-    },
+
     {
         type: 'select',
         key: 'leave_type',
@@ -228,7 +223,7 @@ const messageAndRerenderAppTable = (resultRequestHttp, success, fail) => {
     timeFetchData.value = Date.now();
 }
 const actionDownload = () => {
-    exportToExcel();
+
 }
 </script>
 

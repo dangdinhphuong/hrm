@@ -54,7 +54,7 @@ class EmployeesService
                 'name' => $data['last_name'],
                 'username' => $data['code'],
                 'email' => $data['personal_email'],
-                'password' => $data['code'] . '@' . $data['phone'],
+                'password' => $data['password'],
                 'status' => $data['status'],
                 'role' => [$data['role_id']],
                 'department' => $data['department_id']
@@ -88,21 +88,22 @@ class EmployeesService
         DB::beginTransaction();
         $status = false;
         try {
-
-
             $employeeData = $this->save($data, 'update', $id);
 
-            $user = $this->userService->update($employeeData->user_id, [
+           $this->userService->update($employeeData->user_id, [
                 'role' => [$data['role_id']],
-                'department' => $data['department_id']
+                'department' => $data['department_id'],
+                'password' => $data['password'] ?? '',
             ]);
+
             $this->employeeDepartmentRepository->getByEmployeesId($employeeData->id)->update(
                 [
                     'employees_id' => $employeeData->id,
                     'departments_id' => $data["department_id"],
                     'type' => 1,
                 ]
-            );;
+            );
+
             $status = true;
             DB::commit();
             $message = __('messages.hrm.employees.create_success');

@@ -168,6 +168,11 @@ let fields = [
                 name: translate('hrm.personal_information.end_date')
             },
             {
+                type: 'text',
+                key: 'password',
+                name: translate('hrm.personal_information.password')
+            },
+            {
                 type: 'search-select',
                 key: 'user_id',
                 name: translate('hrm.personal_information.linked_account'),

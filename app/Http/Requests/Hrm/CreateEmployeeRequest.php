@@ -33,7 +33,12 @@ class CreateEmployeeRequest extends FormRequest
             'marital_status' => 'nullable|integer',
             'status' => 'required|integer',
             'business_email' => 'nullable|email|max:255',
-
+            'password' => [
+                'required',
+                'string',
+                'min:10',
+                'regex:/^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{10,}$/',
+            ],
             // Unique fields using the 'mysql' connection
             'code' => ['nullable', 'string','min:1', 'max:11', new UniqueInDatabase('employees', 'code', 'mysql')],
             'fingerprint_code' => ['nullable', 'string', 'max:100', new UniqueInDatabase('employees', 'fingerprint_code', 'mysql')],
@@ -108,6 +113,10 @@ class CreateEmployeeRequest extends FormRequest
             'department_id.exists' => 'Phòng ban không tồn tại.',
             'level.integer' => 'Trình độ phải là số nguyên.',
             'bank_id.exists' => 'Ngân hàng không tồn tại.',
+            'password.required' => 'Mật khẩu không được để trống.',
+            'password.string' => 'Mật khẩu phải là một chuỗi ký tự.',
+            'password.min' => 'Mật khẩu phải có ít nhất :min ký tự.',
+            'password.regex' => 'Mật khẩu phải chứa ít nhất một chữ cái viết hoa, một số và một ký tự đặc biệt.',
         ];
     }
 }

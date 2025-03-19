@@ -52,7 +52,7 @@ const props = defineProps({
     },
     user: {
         type: Object,
-        default: {'password': ""}
+        default: {'password': "Gogi@123"}
     },
     errors: {
         type: Object,
@@ -166,8 +166,8 @@ let fields = [
             {
                 type: 'text',
                 key: 'password',
-                disabled: true,
-                name: translate('hrm.personal_information.password')
+                name: translate('hrm.personal_information.password'),
+                required: true
             },
         ]
     },

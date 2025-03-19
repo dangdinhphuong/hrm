@@ -127,6 +127,11 @@ return [
             'VIEW_PERSONAL_INFO'
         ]
     ],
+    'employee.me.change-password' => [
+        'IN' => [
+            'VIEW_PERSONAL_INFO'
+        ]
+    ],
     'employee.me.contract.list' => [
         'IN' => [
             'VIEW_PERSONAL_INFO'

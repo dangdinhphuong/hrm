@@ -71,6 +71,12 @@ const menuData = computed(() => {
             route: routeNameConstant.ME_CONTRACT,
             sidebarKey: SidebarKeyConstant.ME_CONTRACT,
             isVisible: hasPermissions(PermissionConstant.VIEW_PERSONAL_INFO),
+        },
+        {
+            name: translate('change_password.title'),
+            route: routeNameConstant.CHANGE_PASSWORD,
+            sidebarKey: SidebarKeyConstant.CHANGE_PASSWORD,
+            isVisible: hasPermissions(PermissionConstant.VIEW_PERSONAL_INFO)
         }
     ];
 
@@ -92,11 +98,13 @@ const updateAvatar = (newAvatarUrl) => {
 };
 
 const getAvatar = async () => {
-    avatarUser.value = employeeId.value
-        ? (await employeeService.getAvatar(employeeId.value))?.file || ''
-        : (route?.name === routeNameConstant.ME_INFO_DETAIL
-            ? authStore().getUser.avatar
-            : avatarDefault);
+    if (employeeId.value) {
+        const response = await employeeService.getAvatar(employeeId.value);
+        avatarUser.value = response?.file || '';
+    } else {
+        const isMeRoute = [routeNameConstant.ME_INFO_DETAIL, routeNameConstant.ME_CONTRACT, routeNameConstant.CHANGE_PASSWORD].includes(route?.name);
+        avatarUser.value = isMeRoute ? authStore().getUser.avatar : avatarDefault;
+    }
 };
 
 watch(route, (newRoute) => {

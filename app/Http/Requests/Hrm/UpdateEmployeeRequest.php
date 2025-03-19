@@ -26,6 +26,11 @@ class UpdateEmployeeRequest extends FormRequest
         return [
             'first_name' => 'required|string|min:1|max:100',
             'last_name' => 'required|string|min:1|max:100',
+            'password' => [
+                'string',
+                'min:10',
+                'regex:/^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{10,}$/',
+            ],
             'personal_email' => 'nullable|email|max:255',
             'phone' => 'required|string|min:1|max:20',
             'birthday' => 'required|date|before_or_equal:today',
@@ -77,6 +82,9 @@ class UpdateEmployeeRequest extends FormRequest
             'last_name.required' => 'Tên là trường bắt buộc.',
             'last_name.string' => 'Tên phải là chuỗi ký tự.',
             'last_name.max' => 'Tên không được vượt quá 100 ký tự.',
+            'password.string' => 'Mật khẩu phải là một chuỗi ký tự.',
+            'password.min' => 'Mật khẩu phải có ít nhất :min ký tự.',
+            'password.regex' => 'Mật khẩu phải chứa ít nhất một chữ cái viết hoa, một số và một ký tự đặc biệt.',
             'personal_email.email' => 'Email không hợp lệ.',
             'phone.required' => 'Số điện thoại là trường bắt buộc.',
             'phone.max' => 'Số điện thoại không được vượt quá 20 ký tự.',

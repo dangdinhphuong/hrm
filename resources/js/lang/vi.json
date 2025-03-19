@@ -535,5 +535,17 @@
             "update_success": "Cập nhât cấu hình thành công",
             "update_fail": "Cập nhật cấu hình thất bại"
         }
+    },
+    "change_password": {
+        "title": "Đổi mật khẩu",
+        "columns": {
+            "current_password": "Mật khẩu hiện tại",
+            "new_password": "Mật khẩu mới",
+            "confirm_password": "Xác nhận mật khẩu"
+        },
+        "messages": {
+            "update_success": "Đổi mật khẩu thành công",
+            "update_fail": "Đổi mật khẩu thất bại"
+        }
     }
 }

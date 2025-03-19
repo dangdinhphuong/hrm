@@ -77,6 +77,7 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::prefix('me')->name('me.')->group(function () {
                 Route::get('/detail', [EmployeesController::class, 'getMyDetail'])->name('detail');
                 Route::get('/contract', [ContractController::class, 'getMyContract'])->name('contract.list');
+                Route::patch('/change-password', [UserController::class, 'updatePassword'])->name('change-password');
             });
             Route::get('/{id}/detail', [EmployeesController::class, 'getDetailById'])->name('detail');
             Route::get('/{employeeId}/contract', [ContractController::class, 'getByEmployeesId'])->name('contract.list');

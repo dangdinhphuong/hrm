@@ -5,6 +5,7 @@ namespace App\Http\Controllers\System;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\System\UserCreateRequest;
 use App\Http\Requests\System\UserUpdateRequest;
+use App\Http\Requests\System\UserChangePasswordRequest;
 use App\Services\Attachment\FileService;
 use App\Services\System\UserService;
 use Illuminate\Http\Request;
@@ -57,6 +58,15 @@ class UserController extends Controller
     public function update(UserUpdateRequest $request, $id)
     {
         $user = $this->userService->update($id, $request->all());
+        if ($user) {
+            return responder()->success();
+        }
+        return responder()->fail();
+    }
+
+    public function updatePassword(UserChangePasswordRequest $request)
+    {
+        $user = $this->userService->changePassword($request->all());
         if ($user) {
             return responder()->success();
         }

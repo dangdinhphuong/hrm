@@ -23,6 +23,7 @@ const ROUTE_NAME = {
     INFO_DETAIL: "info-detail",
     INFO_CREATE: "info-create",
     INFO_EDIT: "info-edit",
+    CHANGE_PASSWORD: "change-password",
     CONTRACT: "contract",
     ME_CONTRACT: "me-contract",
     CONTRACT_DETAIL: "contract-detail",

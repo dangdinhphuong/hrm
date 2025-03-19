@@ -72,7 +72,17 @@ const admin = [
                             sidebarKey: SidebarKeyConstant.INFORMATION,
                             sidebarKeySub: SidebarKeyConstant.INFORMATION,
                         }
-                    }
+                    },
+                    {
+                        path: "change-password",
+                        name: routeNameConstant.CHANGE_PASSWORD,
+                        component: () => import("../views/employees/ChangePassword.vue"),
+                        meta: {
+                            middleware: {function: abilities, abilities: permissionConstant.CREATE_EMPLOYEE},
+                            sidebarKey: SidebarKeyConstant.ME_INFORMATION,
+                            sidebarKeySub: SidebarKeyConstant.CHANGE_PASSWORD,
+                        }
+                    },
                 ]
             },
             {
@@ -151,7 +161,7 @@ const admin = [
                         component: () => import("../views/roles/List.vue"),
                         meta: {
                             middleware: {function: abilities, abilities: permissionConstant.ROLE_VIEW},
-                            sidebarKey: SidebarKeyConstant.ROLE,
+                            sidebarKey: SidebarKeyConstant.EMPLOYEE,
                             sidebarKeySub: SidebarKeyConstant.ROLE,
                         }
                     },
@@ -206,13 +216,12 @@ const admin = [
                         component: () => import("../views/setting/Work.vue"),
                         meta: {
                             middleware: {function: abilities, abilities: permissionConstant.VIEW_CONFIG},
-                            sidebarKey: SidebarKeyConstant.SETTING_WORK_TIME,
+                            sidebarKey: SidebarKeyConstant.SETTING_GENERAL,
                             sidebarKeySub: SidebarKeyConstant.SETTING_WORK_TIME,
                         }
                     }
                 ]
             },
-
             {
                 path: "/requests",
                 children: [
@@ -231,8 +240,7 @@ const admin = [
                         component: () => import("../views/requests/Create.vue"),
                         meta: {
                             middleware: {function: abilities, abilities: permissionConstant.CREATE_REQUESTS},
-                            sidebarKey: SidebarKeyConstant.REQUESTS_CREATE,
-                            sidebarKeySub: SidebarKeyConstant.REQUESTS_CREATE,
+                            sidebarKey: SidebarKeyConstant.REQUESTS,
                         }
                     }
                 ]

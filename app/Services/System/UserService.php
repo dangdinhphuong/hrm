@@ -71,8 +71,37 @@ class UserService
             DB::beginTransaction();
 
             /** @var User $user */
+            if(!empty($params['password'])){
+                $params['password'] = Hash::make($params['password']);
+            }else {
+                unset( $params['password']);
+            }
             $user = $this->userRepository->update($params, $id);
             $this->syncUserRoleAndDepartment($user, $params['role'] ?? [], $params['department']);
+
+            DB::commit();
+
+            return true;
+        } catch (\Throwable $exception) {
+            Log::error($exception);
+        }
+        DB::rollBack();
+        return false;
+    }
+
+    public function changePassword(array $params)
+    {
+
+        try {
+            DB::beginTransaction();
+
+            /** @var User $user */
+            if(!empty($params['password'])){
+                $params['password'] = Hash::make($params['password']);
+            }else {
+                unset( $params['password']);
+            }
+             $this->userRepository->update($params, $params["userId"]);
 
             DB::commit();
 

@@ -11,8 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('requests', function (Blueprint $table) {
+        Schema::create('employee_salaries', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('employee_id');
+            $table->json('salaries'); // Lưu các loại lương dưới dạng JSON
+            $table->date('effective_date')->nullable(); // Ngày hiệu lực
             $table->timestamps();
         });
     }
@@ -22,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('requests');
+        Schema::dropIfExists('employee_salaries');
     }
 };

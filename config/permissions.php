@@ -152,6 +152,26 @@ return [
             'VIEW_CONFIG'
         ]
     ],
+    'salary.index' => [
+        'IN' => [
+            'VIEW_EMPLOYEE_SALARY'
+        ]
+    ],
+    'salary.update' => [
+        'IN' => [
+            'EDIT_EMPLOYEE_SALARY'
+        ]
+    ],
+    'salary.detail' => [
+        'IN' => [
+            'VIEW_EMPLOYEE_SALARY'
+        ]
+    ],
+    'salary.me' => [
+        'IN' => [
+            'VIEW_OWN_SALARY'
+        ]
+    ],
 
     'data' => [
         'ROLES' => [
@@ -215,6 +235,26 @@ return [
                 'code' => 'VIEW_PERSONAL_INFO',
                 'name' => 'Xem thông tin cá nhân',
                 'description' => 'Cho phép xem thông tin cá nhân của nhân sự',
+                'is_active' => 1
+            ]
+        ],
+        'SALARY' => [
+            [
+                'code' => 'VIEW_EMPLOYEE_SALARY',
+                'name' => 'Xem chi tiết lương nhân viên',
+                'description' => 'Quyền xem bảng lương của tất cả nhân viên trong công ty',
+                'is_active' => 1
+            ],
+            [
+                'code' => 'EDIT_EMPLOYEE_SALARY',
+                'name' => 'Chỉnh sửa lương nhân viên',
+                'description' => 'Quyền chỉnh sửa bảng lương của nhân viên',
+                'is_active' => 1
+            ],
+            [
+                'code' => 'VIEW_OWN_SALARY',
+                'name' => 'Xem chi tiết lương cá nhân',
+                'description' => 'Quyền xem bảng lương của chính mình',
                 'is_active' => 1
             ]
         ],

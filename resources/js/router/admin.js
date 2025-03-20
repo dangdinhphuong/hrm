@@ -78,11 +78,37 @@ const admin = [
                         name: routeNameConstant.CHANGE_PASSWORD,
                         component: () => import("../views/employees/ChangePassword.vue"),
                         meta: {
-                            middleware: {function: abilities, abilities: permissionConstant.CREATE_EMPLOYEE},
+                            middleware: {function: abilities, abilities: permissionConstant.VIEW_PERSONAL_INFO},
                             sidebarKey: SidebarKeyConstant.ME_INFORMATION,
                             sidebarKeySub: SidebarKeyConstant.CHANGE_PASSWORD,
                         }
                     },
+                ]
+            },
+            {
+                path: "salary",
+                component: () => import("../components/subSideBar/SubSidebarEmployee.vue"),
+                children: [
+                    {
+                        path: "view",
+                        name: routeNameConstant.VIEW_OWN_SALARY,
+                        component: () => import("../views/salary/View.vue"),
+                        meta: {
+                            middleware: {function: abilities, abilities: permissionConstant.VIEW_OWN_SALARY},
+                            sidebarKey: SidebarKeyConstant.ME_INFORMATION,
+                            sidebarKeySub: SidebarKeyConstant.VIEW_OWN_SALARY,
+                        }
+                    },
+                    {
+                        path: ":employeeId/view",
+                        name: routeNameConstant.EDIT_EMPLOYEE_SALARY,
+                        component: () => import("../views/salary/edit.vue"),
+                        meta: {
+                            middleware: {function: abilities, abilities: permissionConstant.EDIT_EMPLOYEE_SALARY},
+                            sidebarKey: SidebarKeyConstant.ME_INFORMATION,
+                            sidebarKeySub: SidebarKeyConstant.EDIT_EMPLOYEE_SALARY,
+                        }
+                    }
                 ]
             },
             {

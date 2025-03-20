@@ -547,5 +547,24 @@
             "update_success": "Đổi mật khẩu thành công",
             "update_fail": "Đổi mật khẩu thất bại"
         }
+    },
+    "salary": {
+        "title": "Bảng lương",
+        "detail_tile": "Chi tiết bảng lương (VNĐ)",
+        "columns": {
+            "employee_name": "Tên nhân viên",
+            "employee_code": "Mã nhân viên",
+            "month": "Tháng",
+            "year": "Năm",
+            "basic_salary": "Lương cơ bản",
+            "bonus": "Thưởng",
+            "total_salary": "Tổng lương",
+            "kpi_salary": "Lương KPI",
+            "allowance_salary": "Lương phụ cấp"
+        },
+        "messages": {
+            "update_success": "Cập nhật bảng lương thành công",
+            "update_fail": "Cập nhật bảng lương thất bại"
+        }
     }
 }

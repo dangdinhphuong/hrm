@@ -9,6 +9,7 @@ use App\Http\Controllers\Hrm\EmployeesController;
 use App\Http\Controllers\Hrm\JobTitleController;
 use App\Http\Controllers\Hrm\MonthlyTimesheetSummaryController;
 use App\Http\Controllers\Hrm\PositionController;
+use App\Http\Controllers\Hrm\EmployeeSalaryController;
 use App\Http\Controllers\Hrm\TimeSheetController;
 use App\Http\Controllers\System\ConfigController;
 use App\Http\Controllers\System\PermissionController;
@@ -67,6 +68,7 @@ Route::middleware('auth:sanctum')->group(function () {
                 'employees' => EmployeesController::class,
                 'config' => ConfigController::class,
                 'requests' => RequestController::class,
+                'salaries' => EmployeeSalaryController::class,
             ],
             ['except' => 'destroy']
         );
@@ -86,8 +88,13 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::prefix('contract')->name('contract.')->group(function () {
             Route::post('/', [ContractController::class, 'store'])->name('store');
             Route::post('/{id}', [ContractController::class, 'update'])->name('update');
-             Route::get('/{id}', [ContractController::class, 'getDetailById'])->name('detail');
+            Route::get('/{id}', [ContractController::class, 'getDetailById'])->name('detail');
 
+        });
+        Route::prefix('salary')->name('salary.')->group(function () {
+            Route::patch('{id}', [EmployeeSalaryController::class, 'update'])->name('update');
+            Route::get('find', [EmployeeSalaryController::class, 'find'])->name('detail');
+            Route::get('me', [EmployeeSalaryController::class, 'me'])->name('me');
         });
 
     });

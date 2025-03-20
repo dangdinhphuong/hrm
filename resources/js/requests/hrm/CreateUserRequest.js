@@ -17,8 +17,6 @@ const createUserSchema = yup.object().shape({
     status: yup.number()
         .required(translate(pathTranslate+'status'))
         .integer(translate(pathTranslate+'status')),
-    code: yup.string()
-        .required(translate(pathTranslate+'employee_code')),
     identity_card_number: yup.string()
         .required(translate(pathTranslate+'citizen_id_number')),
     identity_card_issue_date: yup.string()

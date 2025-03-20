@@ -143,7 +143,7 @@ let fields = [
                 type: 'text',
                 key: 'code',
                 name: translate('hrm.personal_information.employee_code'),
-                required: true
+                disabled: true,
             }, {
                 type: 'text',
                 key: 'business_email',
@@ -151,7 +151,8 @@ let fields = [
             }, {
                 type: 'text',
                 key: 'fingerprint_code',
-                name: translate('hrm.personal_information.fingerprint_code')
+                name: translate('hrm.personal_information.fingerprint_code'),
+                disabled: true,
             }, {
                 type: 'text',
                 key: 'skype_id',

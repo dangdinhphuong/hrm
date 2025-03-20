@@ -56,6 +56,13 @@ const menuData = computed(() => {
             sidebarKey: SidebarKeyConstant.CONTRACT,
             isVisible: hasPermissions(PermissionConstant.VIEW_CONTRACT_DETAIL),
             requiresEmployeeId: true,
+        },
+        {
+            name: translate('salary.title'),
+            route: routeNameConstant.EDIT_EMPLOYEE_SALARY,
+            sidebarKey: SidebarKeyConstant.EDIT_EMPLOYEE_SALARY,
+            isVisible: hasPermissions(PermissionConstant.EDIT_EMPLOYEE_SALARY),
+            requiresEmployeeId: true,
         }
     ];
 
@@ -77,6 +84,12 @@ const menuData = computed(() => {
             route: routeNameConstant.CHANGE_PASSWORD,
             sidebarKey: SidebarKeyConstant.CHANGE_PASSWORD,
             isVisible: hasPermissions(PermissionConstant.VIEW_PERSONAL_INFO)
+        },
+        {
+            name: translate('salary.title'),
+            route: routeNameConstant.VIEW_OWN_SALARY,
+            sidebarKey: SidebarKeyConstant.VIEW_OWN_SALARY,
+            isVisible: hasPermissions(PermissionConstant.VIEW_OWN_SALARY)
         }
     ];
 

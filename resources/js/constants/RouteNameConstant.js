@@ -34,6 +34,8 @@ const ROUTE_NAME = {
     SETTING_WORK_TIME: "setting-work-time",
     REQUESTS: "requests",
     REQUESTS_CREATE: "requests-create",
+    EDIT_EMPLOYEE_SALARY: "edit-employee-salary",
+    VIEW_OWN_SALARY: "view-own-salary",
 };
 
 export default ROUTE_NAME;

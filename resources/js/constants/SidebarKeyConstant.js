@@ -16,6 +16,8 @@ const SIDEBAR_KEYS = {
     REQUESTS: "requests",
     REQUESTS_CREATE: "requests-create",
     CHANGE_PASSWORD: "change-password",
+    EDIT_EMPLOYEE_SALARY: "edit-employee-salary",
+    VIEW_OWN_SALARY: "view-own-salary",
 };
 
 export default SIDEBAR_KEYS;

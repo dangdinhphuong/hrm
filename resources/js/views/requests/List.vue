@@ -33,7 +33,7 @@ import CommonConstant from "@/constants/CommonConstant.js";
 import HrmCommonConstant from "@/constants/CommonConstant.js";
 import {modalConfirm} from "@/helpers/ModalHelper.js";
 import {isSuccessRequest} from "@/helpers/AxiosHelper.js";
-import {exportToExcel} from "@/helpers/ExcelHelper.js";
+import {exportToExcel, exportToExcelMultipleSheets } from "@/helpers/ExcelHelper.js";
 import {messageError, messageSuccess} from "@/helpers/MessageHelper.js";
 
 const requestService = new RequestService();
@@ -230,7 +230,6 @@ const messageAndRerenderAppTable = (resultRequestHttp, success, fail) => {
 const actionDownload = async (param) => {
     const response = await fetchData(param);
 
-    // Định nghĩa tiêu đề trong chính dữ liệu
     const columnData = [
         [
             translate('requests.columns.employee_name'),
@@ -252,8 +251,11 @@ const actionDownload = async (param) => {
         ]),
     ];
 
-    exportToExcel(columnData,'requests');
+    exportToExcelMultipleSheets([
+        { sheetName: "Requests", data: columnData },
+    ], 'requests');
 };
+
 
 </script>
 

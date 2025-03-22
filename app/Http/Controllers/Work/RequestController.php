@@ -20,7 +20,10 @@ class RequestController extends Controller
      */
     public function index(Request $request)
     {
-        return responder()->success($this->requestService->list($request->all()));
+        $params = $request->except(['extra_param']); // Nếu cần loại bỏ một số params không cần thiết
+        $paginate = $request->has('page'); // Kiểm tra có tham số 'page' hay không
+
+        return responder()->success($this->requestService->list($params, paginate: $paginate));
     }
 
     /**

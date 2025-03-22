@@ -1,21 +1,29 @@
-import * as XLSX from 'xlsx';
-export function exportToExcel ()  {
-    console.log('Exporting to Excel...');
-    // Sample data
-    const data = [
-        { name: 'John Doe', age: 28, email: 'john@example.com' },
-        { name: 'Jane Doe', age: 22, email: 'jane@example.com' }
-    ];
+import * as XLSX from "xlsx";
 
-    // Convert JSON to worksheet
-    const worksheet = XLSX.utils.json_to_sheet(data);
+export function exportToExcel(data = [], filename = "data", fileType = "xlsx", sheetName = "Sheet1") {
+    if (!data.length) {
+        console.warn("Không có dữ liệu để xuất!");
+        return;
+    }
 
-    // Create a new workbook
+    // Chuyển đổi dữ liệu thành worksheet
+    const worksheet = XLSX.utils.aoa_to_sheet(data);
+
+    // Áp dụng style cho header
+    const range = XLSX.utils.decode_range(worksheet["!ref"]);
+    for (let col = range.s.c; col <= range.e.c; col++) {
+        const cellAddress = XLSX.utils.encode_cell({ r: 0, c: col }); // Lấy ô header
+        if (worksheet[cellAddress]) {
+            worksheet[cellAddress].s = {
+                font: { bold: true, sz: 12, color: { rgb: "FFFFFF" } }, // Chữ trắng, đậm, size 12
+                alignment: { horizontal: "center", vertical: "center" }, // Căn giữa
+                fill: { fgColor: { rgb: "0070C0" } }, // Màu nền xanh dương
+            };
+        }
+    }
+
+    // Tạo workbook và xuất file
     const workbook = XLSX.utils.book_new();
-
-    // Append the worksheet to the workbook
-    XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
-
-    // Generate Excel file and trigger download
-    XLSX.writeFile(workbook, 'data.xlsx');
-};
+    XLSX.utils.book_append_sheet(workbook, worksheet, sheetName);
+    XLSX.writeFile(workbook, `${filename}.${fileType}`);
+}

@@ -33,6 +33,7 @@ import CommonConstant from "@/constants/CommonConstant.js";
 import HrmCommonConstant from "@/constants/CommonConstant.js";
 import {modalConfirm} from "@/helpers/ModalHelper.js";
 import {isSuccessRequest} from "@/helpers/AxiosHelper.js";
+import {exportToExcel} from "@/helpers/ExcelHelper.js";
 import {messageError, messageSuccess} from "@/helpers/MessageHelper.js";
 
 const requestService = new RequestService();
@@ -147,7 +148,7 @@ const columns = [
     },
 ];
 
-// Generate daily columns dynamically
+
 // Fetch main timesheet data APPROVE_LEAVE_REQUEST
 const fetchData = async (params) => {
     const response = await requestService.getList(params);
@@ -179,6 +180,7 @@ const getActionOther = (record) => {
 
     return otherAction;
 };
+
 const clickActionOther = ({id, event}) => {
 
     let title = '';
@@ -213,7 +215,9 @@ const clickActionOther = ({id, event}) => {
 
     modalConfirm(title, content, onOk);
 }
+
 const timeFetchData = ref(Date.now());
+
 const messageAndRerenderAppTable = (resultRequestHttp, success, fail) => {
     if (isSuccessRequest(resultRequestHttp)) {
         messageSuccess(resultRequestHttp.message ?? success);
@@ -222,9 +226,35 @@ const messageAndRerenderAppTable = (resultRequestHttp, success, fail) => {
     }
     timeFetchData.value = Date.now();
 }
-const actionDownload = () => {
 
-}
+const actionDownload = async (param) => {
+    const response = await fetchData(param);
+
+    // Định nghĩa tiêu đề trong chính dữ liệu
+    const columnData = [
+        [
+            translate('requests.columns.employee_name'),
+            translate('requests.columns.employee_code'),
+            translate('requests.columns.time'),
+            translate('requests.columns.request_type'),
+            translate('requests.columns.request_content'),
+            translate('requests.columns.hr_approval'),
+            translate('requests.columns.manager_approval'),
+        ],
+        ...response.map((item) => [
+            item.employee.first_name + ' ' + item.employee.last_name,
+            item.employee.code,
+            item.date,
+            CommonConstant.LEAVE_REASONS.get(item.leave_type),
+            item.content,
+            CommonConstant.APPROVAL_STATUS.get(item.hr_status),
+            CommonConstant.APPROVAL_STATUS.get(item.manager_status),
+        ]),
+    ];
+
+    exportToExcel(columnData,'requests');
+};
+
 </script>
 
 <style lang="scss" scoped>

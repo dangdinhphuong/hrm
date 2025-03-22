@@ -328,14 +328,14 @@ const setValueTypeBeforeRouterPush = async () => {
     params.value = cloneObject(searchData.value);
     props.advancedSearchInput.forEach(field => {
         if (field.valueType === 'time', params.value[field.key]) {
-             params.value[field.key] = moment(params.value[field.key]).utc().format("ddd, DD MMM YYYY HH:mm:ss [GMT]")
+            params.value[field.key] = moment(params.value[field.key]).utc().format("ddd, DD MMM YYYY HH:mm:ss [GMT]")
         }
     });
 };
 
 const fetchData = async () => {
-   await setValueTypeBeforeFetchData();
-    await setValueTypeBeforeRouterPush();
+    await setValueTypeBeforeFetchData();
+    // await setValueTypeBeforeRouterPush();
     router.push({query: params.value});
     const dataSource = await props.fetchData(searchData.value);
 
@@ -364,36 +364,14 @@ const customDataSource = (dataSource) => {
     return dataSource;
 }
 
-
-// const preprocessQuery = async (query) => {
-//     let processedQuery = { ...query }; // Sao chép object đầu vào
-//
-//     // Duyệt qua từng key-value trong object query
-//     Object.entries(processedQuery).forEach(([key, value]) => {
-//
-//         // props.advancedSearchInput.forEach(field => {
-//         //     if (field.valueType === 'time', params.value[field.key]) {
-//         //         params.value[field.key] = moment(params.value[field.key]).utc().format("ddd, DD MMM YYYY HH:mm:ss [GMT]")
-//         //     }
-//         // });
-//       //todo chuyển các param route về dạng khác  page=1&limit=10&week=Wed,+26+Feb+2025+17:00:00+GMT&monthly_work=Wed,+26+Feb+2025+17:00:00+GMT
-//         console.log(`Key: ${key}, Value:`, value,processedQuery[key]);
-//     });
-//
-//     return processedQuery;
-// };
-
-
-
-const firstFetchData = async () => {
+const firstFetchData = () => {
     const routeQuery = router.currentRoute.value.query;
     if (!isEmptyObject(routeQuery)) {
-        // await preprocessQuery(routeQuery);
         searchData.value = routeQuery;
     }
     setValueTypeBeforeFetchData();
     fetchData();
-};
+}
 
 firstFetchData();
 
@@ -454,6 +432,7 @@ const tableClickActionOther = (record, event) => {
     });
 }
 const clickActionEdit = (record) => {
+
     props.actionEdit({id: record.id, record: record, pageParams: searchData.value});
 }
 const clickActionDetail = (record) => {
@@ -461,7 +440,17 @@ const clickActionDetail = (record) => {
 }
 const actionRefresh = () => {
     fetchData();
+    fetchData();
 }
+const actionDownload = () => {
+    const rawParams = unref(searchData);
+
+    const filteredParams = Object.fromEntries(
+        Object.entries(rawParams).filter(([key]) => !["page", "limit"].includes(key))
+    );
+
+    props.actionDownload(filteredParams);
+};
 
 //watch
 watch(

@@ -25,7 +25,7 @@ class SalaryRepository extends BaseRepository
             $conditions['employee_id'] = ['employee_id', 'IN', $employeeIds];
         }
 
-        $query = $this->with([]);
+        $query = $this->with(['employee']);
 
         $paginate = !empty($params['paginate']) ? filter_var($params['paginate'], FILTER_VALIDATE_BOOLEAN) : $paginate;
 

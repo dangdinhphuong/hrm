@@ -18,6 +18,7 @@ const SIDEBAR_KEYS = {
     CHANGE_PASSWORD: "change-password",
     EDIT_EMPLOYEE_SALARY: "edit-employee-salary",
     VIEW_OWN_SALARY: "view-own-salary",
+    VIEW_EMPLOYEE_SALARY: "view-employee-salary",
 };
 
 export default SIDEBAR_KEYS;

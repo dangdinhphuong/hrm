@@ -51,13 +51,13 @@ const tableRowSelected = ref([]);
 // Define search input fields
 const advancedSearchInput = [
 
-    {
-        type: 'select',
-        key: 'leave_type',
-        options: convertConstantToDataSelect(HrmCommonConstant.LEAVE_REASONS),
-        name: translate('requests.columns.request_type'),
-        valueType: 'number'
-    }
+    // {
+    //     type: 'select',
+    //     key: 'leave_type',
+    //     options: convertConstantToDataSelect(HrmCommonConstant.LEAVE_REASONS),
+    //     name: translate('requests.columns.request_type'),
+    //     valueType: 'number'
+    // }
 ];
 
 // Define main table columns

@@ -16,7 +16,7 @@ This project is a Human Resource Management (HRM) system built with Laravel. It 
 
 1. Clone the repository:
     ```sh
-    git clone https://github.com/dangdinhphuong/hrm
+    git clone https://github.com/dangdinhphuong/hrm.git
     cd hrm
     ```
 

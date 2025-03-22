@@ -26,8 +26,7 @@ const admin = [
             {
                 path: "",
                 name: routeNameConstant.HOME_PAGE,
-                component: () => import("../views/HomePage.vue"),
-                meta: {}
+                redirect: { name: routeNameConstant.ME_INFO_DETAIL }
             },
             {
                 path: "info",
@@ -267,6 +266,20 @@ const admin = [
                         meta: {
                             middleware: {function: abilities, abilities: permissionConstant.CREATE_REQUESTS},
                             sidebarKey: SidebarKeyConstant.REQUESTS,
+                        }
+                    }
+                ]
+            },
+            {
+                path: "/salaries",
+                children: [
+                    {
+                        path: "",
+                        name: routeNameConstant.VIEW_EMPLOYEE_SALARY,
+                        component: () => import("../views/salary/List.vue"),
+                        meta: {
+                            middleware: {function: abilities, abilities: permissionConstant.VIEW_EMPLOYEE_SALARY},
+                            sidebarKey: SidebarKeyConstant.VIEW_EMPLOYEE_SALARY,
                         }
                     }
                 ]

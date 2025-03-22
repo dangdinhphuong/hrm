@@ -14,6 +14,31 @@ class EmployeeSalaryController extends Controller
         $this->salaryService = $salaryService;
     }
 
+    public function index(Request $request)
+    {
+        $params = $request->except(['extra_param']);
+        $paginate = $request->has('page');
+
+        $employeeSalaries = $this->salaryService->list($params, paginate: $paginate)->toArray();
+        if($paginate){
+            foreach ($employeeSalaries['data'] as &$employeeSalary) {
+                $salaries = json_decode($employeeSalary['salaries'], true);
+                $salaries['total_salary'] = array_sum(array_filter($salaries, 'is_numeric'));
+                $employeeSalary['salaries'] = $salaries;
+            }
+        }else{
+            foreach ($employeeSalaries as &$employeeSalary) {
+                $salaries = json_decode($employeeSalary['salaries'], true);
+                $salaries['total_salary'] = array_sum(array_filter($salaries, 'is_numeric'));
+                $employeeSalary['salaries'] = $salaries;
+            }
+        }
+
+
+        return responder()->success($employeeSalaries);
+    }
+
+
     public function find(Request $request)
     {
         $data = $request->all() ?? [];

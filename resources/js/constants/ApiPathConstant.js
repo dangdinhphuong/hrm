@@ -74,6 +74,7 @@ const API_PATH = {
     HRM_SALARY_EDIT: 'salary/{id}',
     HRM_SALARY_FIND: 'salary/find',
     HRM_SALARY_ME: 'salary/me',
+    HRM_SALARIES: 'salaries',
 };
 
 export default API_PATH;

@@ -36,6 +36,7 @@ const ROUTE_NAME = {
     REQUESTS_CREATE: "requests-create",
     EDIT_EMPLOYEE_SALARY: "edit-employee-salary",
     VIEW_OWN_SALARY: "view-own-salary",
+    VIEW_EMPLOYEE_SALARY: "view-employee-salary",
 };
 
 export default ROUTE_NAME;

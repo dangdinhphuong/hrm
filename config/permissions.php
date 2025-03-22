@@ -152,7 +152,7 @@ return [
             'VIEW_CONFIG'
         ]
     ],
-    'salary.index' => [
+    'salaries.index' => [
         'IN' => [
             'VIEW_EMPLOYEE_SALARY'
         ]
@@ -172,6 +172,7 @@ return [
             'VIEW_OWN_SALARY'
         ]
     ],
+
 
     'data' => [
         'ROLES' => [
@@ -241,7 +242,7 @@ return [
         'SALARY' => [
             [
                 'code' => 'VIEW_EMPLOYEE_SALARY',
-                'name' => 'Xem chi tiết lương nhân viên',
+                'name' => 'Xem danh sách lương nhân viên',
                 'description' => 'Quyền xem bảng lương của tất cả nhân viên trong công ty',
                 'is_active' => 1
             ],

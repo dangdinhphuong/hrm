@@ -46,6 +46,13 @@ const menu = [
         icon: 'leave'
     },
     {
+        name: translate('salary.title'),
+        isVisible: currentUser.hasPermissions(permissionConstant.VIEW_EMPLOYEE_SALARY),
+        route: routeNameConstant.VIEW_EMPLOYEE_SALARY,
+        sidebarKey: SidebarKeyConstant.VIEW_EMPLOYEE_SALARY,
+        icon: 'salaries'
+    },
+    {
         name: translate('sidebar.requests'), // Thêm mục Đơn
         route: routeNameConstant.REQUESTS,  // Định nghĩa route tương ứng
         sidebarKey: SidebarKeyConstant.REQUESTS, // Định nghĩa sidebarKey tương ứng

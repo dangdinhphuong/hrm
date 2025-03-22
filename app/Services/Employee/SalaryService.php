@@ -17,11 +17,8 @@ class SalaryService
 
     public function list(array $params = [], $paginate = true, $columns = ['*'])
     {
-        $this->salaryRepository->list($params, $paginate, $columns);
         return $this->salaryRepository->list($params, $paginate, $columns);
     }
-
-
 
     public function update($id, $data)
     {

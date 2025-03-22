@@ -8,7 +8,7 @@ export default class SalaryService {
         })
     }
     async getList(params = {}) {
-        return await axiosGet(ApiPathConstant.HRM_REQUESTS_LIST, params, {}, true, true).then(({data}) => {
+        return await axiosGet(ApiPathConstant.HRM_SALARIES, params, {}, true, true).then(({data}) => {
             return data;
         })
     }

@@ -5,7 +5,6 @@
             :advanced-search-input="advancedSearchInput"
             :columns="columns"
             :fetch-data="fetchData"
-            :can-search="false"
             :table-row-selected="tableRowSelected ?? []"
             :scroll-table="{ x: 200, y: 300 }"
             :action-download="hasPermissionDownload ? actionDownload : null"
@@ -28,6 +27,7 @@ import CommonConstant from "@/constants/CommonConstant.js";
 import HrmCommonConstant from "@/constants/CommonConstant.js";
 import {exportToExcelMultipleSheets} from "@/helpers/ExcelHelper.js";
 import SalaryService from "@/services/Employee/SalaryService.js";
+import EntitySelectConstant from "@/constants/EntitySelectConstant.js";
 
 const salaryService = new SalaryService();
 // Define current month and year as default values
@@ -40,8 +40,15 @@ const tableRowSelected = ref([]);
 
 // Define search input fields
 const advancedSearchInput = [
-
-
+    {
+        type: 'search-select',
+        key: 'employee_id',
+        name: translate('salary.columns.employee_code'),
+        options: [],
+        valueType: 'number',
+        multiple: false,
+        entity: EntitySelectConstant.EMPLOYEES,
+    },
 ];
 
 // Define main table columns
@@ -193,7 +200,6 @@ console.log('columnData', columnData);
         {sheetName: "salaries", data: columnData},
     ], 'salaries');
 };
-
 
 </script>
 

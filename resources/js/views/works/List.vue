@@ -58,6 +58,7 @@ const advancedSearchInput = [
     //     entity: EntitySelectConstant.EMPLOYEES,
     //     valueType: 'number'
     // },
+
 ];
 
 // Compute the number of days in the selected month
@@ -124,7 +125,7 @@ const innerColumns = [
     {title: translate('work.columns.check_out'), dataIndex: 'check_out', key: 'check_out', width: 15},
     {title: translate('work.columns.arrive_late'), dataIndex: 'arrive_late', key: 'arrive_late', width: 15},
     {title: translate('work.columns.leave_early'), dataIndex: 'leave_early', key: 'leave_early', width: 15},
-    {title: translate('work.columns.status'), dataIndex: 'status', key: 'status', width: 15}
+    // {title: translate('work.columns.status'), dataIndex: 'status', key: 'status', width: 15}
 ];
 
 // Fetch detailed timesheet data for inner table
@@ -143,7 +144,7 @@ const fetchInnerData = async (response) => {
                 date: timesheet.work_date,
                 check_in: timesheet.check_in,
                 check_out: timesheet.check_out,
-                status: "Chưa duyệt đơn",
+                // status: "Chưa duyệt đơn",
                 arrive_late: checkIn?.isAfter(workStart) ? checkIn.diff(workStart, 'minute') : 0,
                 leave_early: checkOut?.isBefore(workEnd) ? workEnd.diff(checkOut, 'minute') : 0
             };

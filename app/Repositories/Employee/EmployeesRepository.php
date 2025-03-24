@@ -31,6 +31,9 @@ class EmployeesRepository extends BaseRepository
                 ]
             ];
         }
+        if(!empty($params['status'])){
+            $conditions['status'] = ['status', '=', $params['status']];
+        }
 
         $departmentId = $params['departmentId'] ?? null;
 

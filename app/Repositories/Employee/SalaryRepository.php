@@ -27,6 +27,21 @@ class SalaryRepository extends BaseRepository
 
         $query = $this->with(['employee']);
 
+        $this->whereHas('employee', function ($query) use ($params) {
+            $keyword = $params['keyword'] ?? null;
+
+            if ($keyword) {
+                $query->where(function ($subQuery) use ($keyword) {
+                    $subQuery->where('first_name', 'like', '%' . $keyword . '%')
+                        ->orWhere('last_name', 'like', '%' . $keyword . '%')
+                        ->orWhere('code', 'like', '%' . $keyword . '%');
+
+                    // Trường hợp tìm theo full name (họ + tên)
+                    $subQuery->orWhereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ['%' . $keyword . '%']);
+                });
+            }
+        });
+
         $paginate = !empty($params['paginate']) ? filter_var($params['paginate'], FILTER_VALIDATE_BOOLEAN) : $paginate;
 
         return $paginate ?

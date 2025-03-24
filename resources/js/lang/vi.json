@@ -475,6 +475,7 @@
             "employee_code": "Mã nhân viên",
             "time": "Thời gian",
             "date": "Ngày",
+            "month": "Tháng",
             "request_type": "Loại đơn",
             "request_content": "Nội dung đơn",
             "hr_approval": "HR duyệt",

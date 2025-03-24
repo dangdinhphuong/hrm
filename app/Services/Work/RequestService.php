@@ -23,8 +23,10 @@ class RequestService
     const MISSING_CHECKIN = 3;      // Quên chấm công
     const BUSINESS_TRIP = 4;        // Đi công tác/Làm việc ngoài văn phòng Công ty
     const OTHER_REASON = 5;         // Lý do khác
+    const STATUS_EMPLOYEE_ACTIVE = 1;
+    const STATUS_EMPLOYEE_DEACTIVATE = 2;
 
-    public function __construct(RequestRepository $requestRepository,   EmployeesRepository          $employeesRepository,)
+    public function __construct(RequestRepository $requestRepository, EmployeesRepository $employeesRepository,)
     {
         $this->requestRepository = $requestRepository;
         $this->employeesRepository = $employeesRepository;
@@ -34,14 +36,28 @@ class RequestService
     {
         $employee = auth()->user()->employee;
 
-        if ( $employee->position_id == self::POSITION_MANAGER ) {
-            $employees = $this->employeesRepository->list(['departmentId' => $employee->departments[0]->id], false, ["*"]);
-            $params['employee_id'] = [];
+        if ($employee->position_id == self::POSITION_OTHER) {
+            $employees = $this->employeesRepository->list([
+                'departmentId' => $employee->departments[0]->id,
+                'status' => self::STATUS_EMPLOYEE_ACTIVE,
+            ], false, ["*"]);
+
+            $employeeId = [];
             foreach ($employees as $item) {
                 if ($item->departments[0]->id == $employee->departments[0]->id) {
-                    $params['employee_id'][] = $item->id;
+                    if (!empty($params['employee_id'])) {
+                        if (in_array($item->id, [$params['employee_id']])) {
+                            $employeeId[] = $item->id;
+                        }
+                    } else {
+                        $employeeId[] = $item->id;
+                    }
                 }
             }
+
+            $params['employee_id'] = $employeeId;
+        } else if ($employee->position_id == self::POSITION_STAFF) {
+            $params['employee_id'] = [$employee->id];
         }
         return $this->requestRepository->list($params, $paginate, $columns);
     }
@@ -80,7 +96,7 @@ class RequestService
             'employee_id' => [$useRequest->employee_id]
         ], false, ["*"]);
 
-        $maxMissedPunches = (int) get_setting('setting_missed_punches');
+        $maxMissedPunches = (int)get_setting('setting_missed_punches');
 
         if (count($useRequests) >= $maxMissedPunches) {
             return ['status' => false, 'message' => 'Số lần quên chấm công đã vượt giới hạn'];
@@ -111,7 +127,7 @@ class RequestService
         $fieldToUpdate = $employee->position_id == self::POSITION_OTHER ? 'hr_status' : 'manager_status';
         $updated = $useRequest->update([$fieldToUpdate => $data['approvalStatus']]);
 
-        return ['status' => (bool) $updated, 'message' => $updated ? 'Cập nhật thành công' : 'Cập nhật thất bại'];
+        return ['status' => (bool)$updated, 'message' => $updated ? 'Cập nhật thành công' : 'Cập nhật thất bại'];
     }
 
 }

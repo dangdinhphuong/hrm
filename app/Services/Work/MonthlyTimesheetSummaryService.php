@@ -5,6 +5,7 @@ namespace App\Services\Work;
 use App\Repositories\Work\MonthlyTimesheetSummaryRepository;
 use App\Repositories\Work\TimeSheetRepository;
 use Illuminate\Support\Facades\Log;
+use App\Services\Work\RequestService;
 use Throwable;
 
 class MonthlyTimesheetSummaryService
@@ -22,6 +23,11 @@ class MonthlyTimesheetSummaryService
     public function list(array $params = [], $paginate = true, $columns = ['*'])
     {
         $params += ['year' => now()->year, 'month' => now()->month];
+        $employee = auth()->user()->employee;
+        $params['employee_id'] = $employee->position_id == RequestService::POSITION_STAFF
+            ? [$employee->id]
+            : null;
+
         return $this->monthlyTimesheetSummaryRepository->list($params, $paginate, $columns);
     }
     public function updateOrCreate(array $data = [])

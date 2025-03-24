@@ -30,11 +30,11 @@ import {hasPermissions} from "@/helpers/AuthHelper.js";
 import PermissionConstant from "@/constants/PermissionConstant.js"
 import RequestService from "@/services/Work/RequestService.js";
 import CommonConstant from "@/constants/CommonConstant.js";
-import HrmCommonConstant from "@/constants/CommonConstant.js";
 import {modalConfirm} from "@/helpers/ModalHelper.js";
 import {isSuccessRequest} from "@/helpers/AxiosHelper.js";
 import {exportToExcel, exportToExcelMultipleSheets } from "@/helpers/ExcelHelper.js";
 import {messageError, messageSuccess} from "@/helpers/MessageHelper.js";
+import EntitySelectConstant from "@/constants/EntitySelectConstant.js";
 
 const requestService = new RequestService();
 
@@ -50,14 +50,25 @@ const tableRowSelected = ref([]);
 
 // Define search input fields
 const advancedSearchInput = [
-
-    // {
-    //     type: 'select',
-    //     key: 'leave_type',
-    //     options: convertConstantToDataSelect(HrmCommonConstant.LEAVE_REASONS),
-    //     name: translate('requests.columns.request_type'),
-    //     valueType: 'number'
-    // }
+    {
+        type: 'month',
+        key: 'year-month',
+        name: translate('requests.columns.month')
+    },
+    {
+        type: 'text',
+        key: 'employee_name',
+        name: translate('requests.columns.employee_name')
+    },
+    {
+        type: 'search-select',
+        key: 'employee_id',
+        name: translate('requests.columns.employee_code'),
+        options: [],
+        valueType: 'number',
+        multiple: false,
+        entity: EntitySelectConstant.EMPLOYEES,
+    }
 ];
 
 // Define main table columns

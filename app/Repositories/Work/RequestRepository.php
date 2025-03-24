@@ -37,6 +37,22 @@ class RequestRepository extends BaseRepository
         $conditions['date'] = ['date', 'BETWEEN', getMonthStartAndEnd($params['year'] ?? null, $params['month'] ?? null)];
 
         $query = $this->with(['employee']);
+        if (!empty($params['employee_name']) || !empty($params['keyword'])) {
+            $this->whereHas('employee', function ($query) use ($params) {
+                $keyword = $params['keyword'] ?? $params['employee_name'];
+                if ($keyword) {
+                    $query->where(function ($subQuery) use ($keyword) {
+                        $subQuery->where('first_name', 'like', '%' . $keyword . '%')
+                            ->orWhere('last_name', 'like', '%' . $keyword . '%')
+                            ->orWhere('code', 'like', '%' . $keyword . '%');
+
+                        // Trường hợp tìm theo full name (họ + tên)
+                        $subQuery->orWhereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ['%' . $keyword . '%']);
+                    });
+                }
+            });
+        }
+
 
         $paginate = !empty($params['paginate']) ? filter_var($params['paginate'], FILTER_VALIDATE_BOOLEAN) : $paginate;
 

@@ -78,7 +78,7 @@ const HRM = {
 
 const LEAVE_REASONS = new Map([
     [1, translate('requests.columns.annual_leave')], // Nghỉ phép
-    [2, translate('requests.columns.unpaid_leave')], // Nghỉ không lương
+    // [2, translate('requests.columns.unpaid_leave')], // Nghỉ không lương
     [3, translate('requests.columns.missing_checkin')], // Quên chấm công
     [4, translate('requests.columns.business_trip')], // Đi công tác/Làm việc ngoài văn phòng Công ty
     [5, translate('requests.columns.OT')] // Lý do khác

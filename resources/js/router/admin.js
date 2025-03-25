@@ -111,6 +111,22 @@ const admin = [
                 ]
             },
             {
+                path: "payslip",
+                component: () => import("../components/subSideBar/SubSidebarEmployee.vue"),
+                children: [
+                    {
+                        path: "view",
+                        name: routeNameConstant.VIEW_OWN_PAYSLIP,
+                        component: () => import("../views/salary/Payslip.vue"),
+                        meta: {
+                            middleware: {function: abilities, abilities: permissionConstant.VIEW_OWN_SALARY},
+                            sidebarKey: SidebarKeyConstant.VIEW_OWN_PAYSLIP,
+                            sidebarKeySub: SidebarKeyConstant.VIEW_OWN_PAYSLIP,
+                        }
+                    }
+                ]
+            },
+            {
                 path: "contract",
                 component: () => import("../components/subSideBar/SubSidebarEmployee.vue"),
                 children: [

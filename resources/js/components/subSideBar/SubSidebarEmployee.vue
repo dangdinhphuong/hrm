@@ -91,6 +91,13 @@ const menuData = computed(() => {
             sidebarKey: SidebarKeyConstant.VIEW_OWN_SALARY,
             isVisible: hasPermissions(PermissionConstant.VIEW_OWN_SALARY)
         }
+        ,
+        {
+            name: translate('payslip.title'),
+            route: routeNameConstant.VIEW_OWN_PAYSLIP,
+            sidebarKey: SidebarKeyConstant.VIEW_OWN_PAYSLIP,
+            isVisible: hasPermissions(PermissionConstant.VIEW_OWN_SALARY)
+        }
     ];
 
     return [...employeeSpecificTabs, ...generalTabs].filter(tab =>

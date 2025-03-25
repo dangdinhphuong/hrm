@@ -26,13 +26,13 @@
 import {onMounted, ref} from "vue";
 import router from "@/router";
 import RouteNameConstant from "@/constants/RouteNameConstant";
-import { translate } from "@/helpers/CommonHelper";
+import {translate} from "@/helpers/CommonHelper";
 import AppForm from "@/components/views/AppForm.vue";
 import SalaryService from "@/services/Employee/SalaryService.js";
-import { isSuccessRequest } from "@/helpers/AxiosHelper";
-import { messageError, messageSuccess } from "@/helpers/MessageHelper";
-import { getCurrentRouteParams } from "@/helpers/RouteHelper";
-import { authStore } from "@/stores/AuthStore";
+import {isSuccessRequest} from "@/helpers/AxiosHelper";
+import {messageError, messageSuccess} from "@/helpers/MessageHelper";
+import {getCurrentRouteParams} from "@/helpers/RouteHelper";
+import {authStore} from "@/stores/AuthStore";
 import {useLoading} from "@/composables/loading.js";
 
 const salaryService = new SalaryService();
@@ -57,7 +57,7 @@ const fields = [
         disabled: true,
         name: translate('salary.columns.kpi_salary'),
         default_value: 0,
-    },    {
+    }, {
         type: 'number',
         key: 'bonus',
         disabled: true,
@@ -69,6 +69,33 @@ const fields = [
         key: 'allowance_salary',
         disabled: true,
         name: translate('salary.columns.allowance_salary'),
+        default_value: 0,
+    }, {
+        type: 'number',
+        key: "income_travel",
+        name: translate("payslip.columns.income_travel"),
+        disabled: true,
+        default_value: 0,
+    },
+    {
+        type: 'number',
+        key: "deduction_dependents",
+        name: translate("payslip.columns.deduction_dependents"),
+        disabled: true,
+        default_value: 0,
+    },
+    {
+        type: 'number',
+        key: "deduction_tax",
+        name: translate("payslip.columns.deduction_tax"),
+        disabled: true,
+        default_value: 0,
+    },
+    {
+        type: 'number',
+        key: "deduction_insurance",
+        name: translate("payslip.columns.deduction_insurance"),
+        disabled: true,
         default_value: 0,
     }
 ];
@@ -83,10 +110,10 @@ const getSalary = async () => {
 const submit = async (formData) => {
     formData.employees_id = employeeId;
     try {
-        const data = await salaryService.update(employeeId ,formData);
+        const data = await salaryService.update(employeeId, formData);
         if (isSuccessRequest(data)) {
             messageSuccess(translate('salary.messages.update_success'));
-            router.push({ name: RouteNameConstant.EDIT_EMPLOYEE_SALARY });
+            router.push({name: RouteNameConstant.EDIT_EMPLOYEE_SALARY});
         } else {
             messageError(translate('salary.messages.update_fail'));
             errors.value = data.data ?? {};
@@ -96,8 +123,7 @@ const submit = async (formData) => {
     }
 };
 
-
-const cancel = () => router.push({ name: RouteNameConstant.EDIT_EMPLOYEE_SALARY });
+const cancel = () => router.push({name: RouteNameConstant.EDIT_EMPLOYEE_SALARY});
 onMounted(() => {
     getSalary();
 });

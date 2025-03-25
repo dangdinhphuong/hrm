@@ -81,7 +81,7 @@ const LEAVE_REASONS = new Map([
     [2, translate('requests.columns.unpaid_leave')], // Nghỉ không lương
     [3, translate('requests.columns.missing_checkin')], // Quên chấm công
     [4, translate('requests.columns.business_trip')], // Đi công tác/Làm việc ngoài văn phòng Công ty
-    [5, translate('requests.columns.other')] // Lý do khác
+    [5, translate('requests.columns.OT')] // Lý do khác
 ]);
 
 const PENDING_APPROVAL = 0;

@@ -14,7 +14,25 @@
                     :is-multiple-sections="false"
                     classWrapperFormItem="col-12 col-sm-8 d-flex flex-wrap"
                     classFormItem="col-12 col-sm-12 me-12"
-                />
+                >
+                    <template v-slot:more-field>
+                        <a-card :bordered="false" style="background: #ff4d4f; color: white;">
+                            <template #title>
+                                <span style="color: white; font-weight: bold;">⚠ Chú Ý</span>
+                            </template>
+                            <h3>Yêu cầu nhập nội dung đúng theo mẫu nếu sai hệ thống không xử lý:</h3>
+                            <ul>
+                                <li><strong>Nghỉ phép:</strong> "Nghỉ 0.5 hoặc 1 công ngày 02-12-2024"</li>
+                                <li><strong>Nghỉ không lương:</strong> "Nghỉ 0.5 hoặc 1 công ngày 02-12-2024"</li>
+                                <li><strong>Quên chấm công:</strong> "Quên chấm công ngày 02-12-2024"</li>
+                                <li><strong>Công tác:</strong> "02-12-2024 - 10-12-2024"" (Ngày bắt đầu và ngày kết thúc)</li>
+                                <li><strong>OT:</strong> "30" (tính theo phút)</li>
+                            </ul>
+                        </a-card>
+                    </template>
+
+
+                </app-form>
             </a-card>
         </div>
     </div>

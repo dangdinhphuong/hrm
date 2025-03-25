@@ -20,20 +20,32 @@ class EmployeeSalaryController extends Controller
         $paginate = $request->has('page');
 
         $employeeSalaries = $this->salaryService->list($params, paginate: $paginate)->toArray();
-        if($paginate){
+
+        if ($paginate) {
             foreach ($employeeSalaries['data'] as &$employeeSalary) {
                 $salaries = json_decode($employeeSalary['salaries'], true);
-                $salaries['total_salary'] = array_sum(array_filter($salaries, 'is_numeric'));
+
+                // Loại bỏ các khoản khấu trừ trước khi tính tổng
+                $filteredSalaries = array_diff_key($salaries, array_flip(['deduction_insurance', 'deduction_tax', 'deduction_dependents', 'employees_id']));
+
+                // Tính tổng các khoản còn lại
+                $salaries['total_salary'] = array_sum(array_filter($filteredSalaries, 'is_numeric'));
+
                 $employeeSalary['salaries'] = $salaries;
             }
-        }else{
+        } else {
             foreach ($employeeSalaries as &$employeeSalary) {
                 $salaries = json_decode($employeeSalary['salaries'], true);
-                $salaries['total_salary'] = array_sum(array_filter($salaries, 'is_numeric'));
+
+                // Loại bỏ các khoản khấu trừ trước khi tính tổng
+                $filteredSalaries = array_diff_key($salaries, array_flip(['deduction_insurance', 'deduction_tax', 'deduction_dependents']));
+
+                // Tính tổng các khoản còn lại
+                $salaries['total_salary'] = array_sum(array_filter($filteredSalaries, 'is_numeric'));
+
                 $employeeSalary['salaries'] = $salaries;
             }
         }
-
 
         return responder()->success($employeeSalaries);
     }

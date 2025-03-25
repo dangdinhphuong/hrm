@@ -120,6 +120,12 @@ const salaryData = ref([
         value: formatToVietnameseCurrency(300000)
     }, // Các khoản phụ cấp khác
     {
+        key: "",
+        label: "",
+        value: "",
+        isBold: true
+    }, // Tổng lương
+    {
         key: "total_salary",
         label: translate("payslip.columns.total_salary"),
         value: formatToVietnameseCurrency(15800000),

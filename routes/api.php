@@ -9,6 +9,7 @@ use App\Http\Controllers\Hrm\EmployeesController;
 use App\Http\Controllers\Hrm\JobTitleController;
 use App\Http\Controllers\Hrm\MonthlyTimesheetSummaryController;
 use App\Http\Controllers\Hrm\PositionController;
+use App\Http\Controllers\Hrm\EmployeePaySlipController;
 use App\Http\Controllers\Hrm\EmployeeSalaryController;
 use App\Http\Controllers\Hrm\TimeSheetController;
 use App\Http\Controllers\System\ConfigController;
@@ -113,7 +114,7 @@ Route::prefix('user')->name('users.')->group(function () {
 });
 Route::get('/download', [UserController::class, 'download']);
 
-
+Route::get('/paySlip/{id}', [EmployeePaySlipController::class, 'find']);
 // Api External
 Route::prefix('external')->middleware(['log-request-incoming'])->group(function () {
     Route::post('/find/employee', [EmployeesController::class, 'getDetailByUsername']);

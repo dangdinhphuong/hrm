@@ -53,7 +53,6 @@ class RequestRepository extends BaseRepository
             });
         }
 
-
         $paginate = !empty($params['paginate']) ? filter_var($params['paginate'], FILTER_VALIDATE_BOOLEAN) : $paginate;
 
         return $paginate ?

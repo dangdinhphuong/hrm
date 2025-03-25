@@ -66,6 +66,13 @@ const fields = [
     },
     {
         type: 'number',
+        key: 'allowance_lunch',
+        name: translate('payslip.columns.allowance_lunch'),
+        disabled: true,
+        default_value: 0,
+    },
+    {
+        type: 'number',
         key: 'allowance_salary',
         disabled: true,
         name: translate('salary.columns.allowance_salary'),

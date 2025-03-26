@@ -26,7 +26,7 @@
 <!--                                <li><strong>Nghỉ không lương:</strong> "Nghỉ 0.5 hoặc 1 công ngày 02/12/2024"</li>-->
                                 <li><strong>Quên chấm công:</strong> "Quên chấm công ngày 02/12/2024"</li>
                                 <li><strong>Công tác:</strong> "02/12/2024 - 10/12/2024" (Ngày bắt đầu và ngày kết thúc)</li>
-                                <li><strong>OT:</strong> "30" (tính theo phút)</li>
+                                <li><strong>OT:</strong> "30 phút" (tính theo phút)</li>
                             </ul>
                         </a-card>
                     </template>

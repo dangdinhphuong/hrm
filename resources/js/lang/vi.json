@@ -530,7 +530,8 @@
                 "checkout": "Giờ ra",
                 "days_off_per_month": "Số ngày nghỉ mỗi tháng",
                 "late_minutes_per_month": "Số phút đi muộn mỗi tháng (phút)",
-                "missed_punches_per_month": "Số lần quên chấm công mỗi tháng"
+                "missed_punches_per_month": "Số lần quên chấm công mỗi tháng",
+                "late_early_penalty_per_minute": "Số tiền phạt đi sớm về muộn / 1 phút (vnđ)"
             }
         },
         "messages": {

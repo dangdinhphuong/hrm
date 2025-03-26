@@ -21,6 +21,7 @@ class MonthlyTimesheetSummaryRepository extends BaseRepository
     public function findFirst(array $params = [], $columns = ['*'])
     {
         $conditions = [];
+        unset($params['remaining_leave_days'], $params['leave_days']);
         return $this->findWhereFirst($params, ['id' => 'desc'], $columns);
     }
 

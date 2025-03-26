@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Work;
 
 use App\Http\Controllers\Controller;
 use App\Services\Work\RequestService;
+use App\Http\Requests\Hrm\CreateLeaveRequest;
 use Illuminate\Http\Request;
 
 class RequestController extends Controller
@@ -29,7 +30,7 @@ class RequestController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CreateLeaveRequest $request)
     {
         $data = $request->all();
         $requestData = $this->requestService->createRequest($data);

@@ -22,6 +22,7 @@ class MonthlyTimesheetSummary extends Model
         'overtime_hours',
         'total_office_minutes',
         'total_late_early_minutes',
+        'remaining_leave_days'
     ];
 
     public $timestamps = true;

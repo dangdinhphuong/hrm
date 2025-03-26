@@ -68,7 +68,7 @@
                 :size="sizeButton">
             </button-dropdown>
             <button-upload @click="actionUpload" v-if="actionUpload" :size="sizeButton"></button-upload>
-            <button-download @click="actionDownload" v-if="actionDownload" :size="sizeButton"></button-download>
+            <button-download @click="actionBeforeDownload" v-if="actionDownload" :size="sizeButton"></button-download>
             <button-add @click="actionAdd" v-if="actionAdd" :size="sizeButton"></button-add>
             <button-refresh @click="actionRefresh"></button-refresh>
         </div>
@@ -442,7 +442,7 @@ const actionRefresh = () => {
     fetchData();
     fetchData();
 }
-const actionDownload = () => {
+const actionBeforeDownload = () => {
     const rawParams = unref(searchData);
 
     const filteredParams = Object.fromEntries(

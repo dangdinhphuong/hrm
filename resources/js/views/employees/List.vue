@@ -121,9 +121,6 @@ const actionDetail = ({id}) => {
 const clickActionOther = () => {
     router.push({name: RouteNameConstant.INFO});
 };
-const actionDownload = () => {
-    router.push({name: RouteNameConstant.USER_CREATE});
-}
 const actionUpload = () => {
     router.push({name: RouteNameConstant.USER_CREATE});
 }

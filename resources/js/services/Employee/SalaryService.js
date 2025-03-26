@@ -27,4 +27,9 @@ export default class SalaryService {
             return data;
         })
     }
+    async getPaySlip(id, params) {
+        return await axiosGet(buildApiPathWithParams(ApiPathConstant.HRM_PAYSLIP, {id: id}), params).then((data) => {
+            return data;
+        })
+    }
 }

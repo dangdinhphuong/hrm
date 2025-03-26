@@ -124,7 +124,17 @@ const admin = [
                             sidebarKey: SidebarKeyConstant.VIEW_OWN_PAYSLIP,
                             sidebarKeySub: SidebarKeyConstant.VIEW_OWN_PAYSLIP,
                         }
-                    }
+                    },
+                    {
+                        path: ":employeeId/view",
+                        name: routeNameConstant.VIEW_PAYSLIP,
+                        component: () => import("../views/salary/Payslip.vue"),
+                        meta: {
+                            middleware: {function: abilities, abilities: permissionConstant.EDIT_EMPLOYEE_SALARY},
+                            sidebarKey: SidebarKeyConstant.VIEW_PAYSLIP,
+                            sidebarKeySub: SidebarKeyConstant.VIEW_PAYSLIP,
+                        }
+                    },
                 ]
             },
             {

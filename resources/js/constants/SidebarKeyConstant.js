@@ -20,6 +20,7 @@ const SIDEBAR_KEYS = {
     VIEW_OWN_SALARY: "view-own-salary",
     VIEW_EMPLOYEE_SALARY: "view-employee-salary",
     VIEW_OWN_PAYSLIP: "view-own-payslip",
+    VIEW_PAYSLIP: "VIEW_PAYSLIP"
 };
 
 export default SIDEBAR_KEYS;

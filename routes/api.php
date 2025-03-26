@@ -114,7 +114,7 @@ Route::prefix('user')->name('users.')->group(function () {
 });
 Route::get('/download', [UserController::class, 'download']);
 
-Route::get('/paySlip/{id}', [EmployeePaySlipController::class, 'find']);
+Route::get('/payslip/{id}', [EmployeePaySlipController::class, 'find']);
 // Api External
 Route::prefix('external')->middleware(['log-request-incoming'])->group(function () {
     Route::post('/find/employee', [EmployeesController::class, 'getDetailByUsername']);

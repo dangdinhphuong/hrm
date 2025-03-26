@@ -37,6 +37,7 @@ const ROUTE_NAME = {
     EDIT_EMPLOYEE_SALARY: "edit-employee-salary",
     VIEW_OWN_SALARY: "view-own-salary",
     VIEW_OWN_PAYSLIP: "view-own-payslip",
+    VIEW_PAYSLIP: "view-payslip",
     VIEW_EMPLOYEE_SALARY: "view-employee-salary",
 };
 

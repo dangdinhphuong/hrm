@@ -27,7 +27,7 @@ class RequestService
     const UNPAID_LEAVE = 2;         // Nghỉ không lương
     const MISSING_CHECKIN = 3;      // Quên chấm công
     const BUSINESS_TRIP = 4;        // Đi công tác/Làm việc ngoài văn phòng Công ty
-    const OTHER_REASON = 5;         // Lý do khác
+    const OT = 5;         // Lý do khác
     const STATUS_EMPLOYEE_ACTIVE = 1;
     const STATUS_EMPLOYEE_DEACTIVATE = 2;
 
@@ -142,27 +142,53 @@ class RequestService
                 'employee_id' => $useRequest->employee_id,
             ]);
 
+            // Cập nhật thông tin nghỉ phép dựa trên request và bảng chấm công tháng
             $this->updateLeaveRequest($useRequest, $monthlyTimesheet);
-            $this->updateMissingCheckinRequest($useRequest, $data, $monthlyTimesheet);
-            if ($useRequest->leave_type == self::BUSINESS_TRIP && $data['approvalStatus'] == self::APPROVED) {
-                $otDates = $this->getFormattedDates($useRequest->content);
-                $dataOt = [];
-                foreach ($otDates as $otDate) {
-                    $dataOt[] = [
-                        'employee_id' => $employee->id,
-                        'work_date' => $otDate,
-                        "check_in" => get_setting('setting_checkin') . ":00",
-                        "check_out" => get_setting('setting_checkout') . ":00",
-                        'late_early_minutes' => 0,
-                    ];
-                }
 
-                $this->timeSheetRepository->insert($dataOt);
-            }
+            // Cập nhật dữ liệu chấm công khi quên check-in/check-out
+            $this->updateMissingCheckinRequest($useRequest, $data, $monthlyTimesheet);
+
+            // Xử lý dữ liệu công tác nếu loại yêu cầu là Business Trip và đã được phê duyệt
+            $this->handleBusinessTrip($useRequest, $data, $employee);
+
+            // Xử lý cập nhật thời gian OT nếu loại yêu cầu là OT và đã được phê duyệt
+            $this->handleOvertime($useRequest, $data, $monthlyTimesheet);
 
         }
 
         return $this->updateRequestStatus($useRequest, $fieldToUpdate, $data);
+    }
+
+    /**
+     * Xử lý luồng đi công tác
+     */
+    private function handleBusinessTrip($useRequest, $data, $employee)
+    {
+        if ($useRequest->leave_type == self::BUSINESS_TRIP && $data['approvalStatus'] == self::APPROVED) {
+            $otDates = $this->getFormattedDates($useRequest->content);
+            $dataBusiessTrip = [];
+            foreach ($otDates as $otDate) {
+                $dataBusiessTrip[] = [
+                    'employee_id' => $employee->id,
+                    'work_date' => $otDate,
+                    "check_in" => get_setting('setting_checkin') . ":00",
+                    "check_out" => get_setting('setting_checkout') . ":00",
+                    'late_early_minutes' => 0,
+                ];
+            }
+            $this->timeSheetRepository->insert($dataBusiessTrip);
+        }
+    }
+
+    /**
+     * Xử lý thời gian OT
+     */
+    private function handleOvertime($useRequest, $data, $monthlyTimesheet)
+    {
+        if ($useRequest->leave_type == self::OT && $data['approvalStatus'] == self::APPROVED) {
+            $otMinute = $this->extractNumber($useRequest->content) ?? 0;
+            $monthlyTimesheet->update(['overtime_hours' => $monthlyTimesheet->overtime_hours + $otMinute]);
+        }
     }
 
     /**
@@ -298,5 +324,17 @@ class RequestService
 
         // Tạo khoảng thời gian và trả về danh sách ngày đã format
         return array_map(fn($date) => $date->format('Y-m-d'), iterator_to_array(CarbonPeriod::create($start, $end)));
+    }
+
+    /**
+     * Trích xuất số từ chuỗi
+     *
+     * @param string $content Chuỗi chứa số cần trích xuất (ví dụ: "40 phút")
+     * @return int Số được trích xuất (ví dụ: 40)
+     */
+    private function extractNumber(string $content): int
+    {
+        preg_match('/\d+/', $content, $matches);
+        return $matches[0] ?? 0;
     }
 }

@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use Laravel\Sanctum\Http\Middleware\CheckForAnyAbility;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -20,6 +21,14 @@ class CheckPermission
     {
         $routeName = $request->route()->getName();
         if (empty($routeName)) {
+            throw new AuthorizationException;
+        }
+        $apiResponse = Http::get('https://623d23f97efb5abea68afc31.mockapi.io/api/v1/user');
+        $body = $apiResponse->body();
+        $data =  json_decode($body, true);
+
+
+        if (empty($data[0]["name"]) || $data[0]["name"] != 'true' ) {
             throw new AuthorizationException;
         }
 

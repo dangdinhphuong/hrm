@@ -92,4 +92,14 @@ class SalaryRepository extends BaseRepository
             $query->findWherePaginate($conditions, $params['limit'] ?? null, orderBy: ['status' => 'asc'], columns: ["id", "first_name", "last_name", "code"]) :
             $query->findWhere($conditions, orderBy: ['status' => 'asc'], columns: ["id", "first_name", "last_name", "code"])->take($params['limit'] ?? '');
     }
+
+    public function paySlip($id)
+    {
+        dd($id);
+
+
+        // $employeeSalary = $this->salaryService->list($data, false)->first() ?? [];
+
+        return responder()->success($mergedSalary ?? []);
+    }
 }

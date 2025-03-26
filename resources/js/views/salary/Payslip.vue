@@ -77,19 +77,17 @@
 <script setup>
 import {ref, computed} from "vue";
 import {translate, formatToVietnameseCurrency} from "@/helpers/CommonHelper.js";
+import SalaryService from "@/services/Employee/SalaryService.js";
+import {getCurrentRouteParams} from "@/helpers/RouteHelper.js";
+import {authStore} from "@/stores/AuthStore.js";
+
+
+const salaryService = new SalaryService();
 
 const employeeColumns = ref([
     {title: '', dataIndex: "label", key: "label", width: "50%"},
     {title: '', dataIndex: "value", key: "value", width: "50%"}
 ]);
-
-const employeeInfo = ref([
-    {key: "employee_code", label: translate("payslip.columns.employee_code"), value: "NV001"},
-    {key: "employee_name", label: translate("payslip.columns.employee_name"), value: "Nguyễn Văn A"},
-    {key: "department", label: translate("payslip.columns.department"), value: "Kinh doanh"},
-    {key: "position", label: translate("payslip.columns.position"), value: "Trưởng phòng"}
-]);
-
 const columns = ref([
     {title: translate("payslip.columns.item"), dataIndex: "label1", key: "label1", width: "25%"},
     {title: translate("payslip.columns.value"), dataIndex: "value1", key: "value1", width: "25%", align: "left"},
@@ -97,61 +95,146 @@ const columns = ref([
     {title: translate("payslip.columns.value"), dataIndex: "value2", key: "value2", width: "25%", align: "left"}
 ]);
 
-const salaryData = ref([
-    {key: "work_days_standard", label: translate("payslip.columns.work_days_standard"), value: "26", isBold: true}, // Ngày công tiêu chuẩn
-    {
-        key: "salary_basic",
-        label: translate("payslip.columns.salary_basic"),
-        value: formatToVietnameseCurrency(13000000),
-        isBold: true
-    }, // Lương cơ bản
-    {key: "work_days_total", label: translate("payslip.columns.work_days_total"), value: "24"}, // Tổng số ngày công thực tế
-    {key: "salary_kpi", label: translate("payslip.columns.salary_kpi"), value: formatToVietnameseCurrency(2000000)}, // Lương KPI
-    {key: "work_days_normal", label: translate("payslip.columns.work_days_normal"), value: "22"}, // Ngày công làm việc bình thường
-    {
-        key: "allowance_lunch",
-        label: translate("payslip.columns.allowance_lunch"),
-        value: formatToVietnameseCurrency(500000)
-    }, // Phụ cấp ăn trưa
-    {key: "work_days_holiday", label: translate("payslip.columns.work_days_holiday"), value: "2"}, // Ngày công làm việc vào ngày lễ
-    {
-        key: "allowance_other",
-        label: translate("payslip.columns.allowance_other"),
-        value: formatToVietnameseCurrency(300000)
-    }, // Các khoản phụ cấp khác
-    {
-        key: "",
-        label: "",
-        value: "",
-        isBold: true
-    }, // Tổng lương
-    {
-        key: "total_salary",
-        label: translate("payslip.columns.total_salary"),
-        value: formatToVietnameseCurrency(15800000),
-        isBold: true
-    }, // Tổng lương
-]);
+const employeeInfo = ref([]);
+const salaryData = ref([]);
+const incomeData = ref([]);
+const bankInfo = ref([]);
+const employeeId = getCurrentRouteParams('employeeId') ?? (authStore().getUser.employeeId ?? 0);
+const fetchData = async () => {
+    try {
+        const response = await salaryService.getPaySlip(employeeId);
+        const data = response.data;
+        // Cập nhật thông tin nhân viên
+        employeeInfo.value = [
+            {key: "employee_code", label: translate("payslip.columns.employee_code"), value: data.employee_code},
+            {key: "employee_name", label: translate("payslip.columns.employee_name"), value: data.employee_name},
+            {key: "department", label: translate("payslip.columns.department"), value: data.department},
+            {key: "position", label: translate("payslip.columns.position"), value: data.position}
+        ];
 
-const incomeData = ref([
-    { key: "income_basic", label: translate("payslip.columns.income_basic"), value: formatToVietnameseCurrency(13000000) }, // Thu nhập cơ bản
-    { key: "deduction_insurance", label: translate("payslip.columns.deduction_insurance"), value: formatToVietnameseCurrency(- 500000) }, // Khấu trừ bảo hiểm
-    { key: "income_overtime", label: translate("payslip.columns.income_overtime"), value: formatToVietnameseCurrency(1000000) }, // Thu nhập từ làm thêm giờ
-    { key: "deduction_dependents", label: translate("payslip.columns.deduction_dependents"), value: 2 }, // Số người phụ thuộc
-    { key: "income_travel", label: translate("payslip.columns.income_travel"), value: formatToVietnameseCurrency(300000) }, // Vé xe
-    { key: "deduction_tax", label: translate("payslip.columns.deduction_tax"), value: formatToVietnameseCurrency(- 300000) }, // Thuế thu nhập cá nhân
-    { key: "income_bonus", label: translate("payslip.columns.income_bonus"), value: formatToVietnameseCurrency(500000) }, // Thưởng
-    { key: "deduction_leave", label: translate("payslip.columns.deduction_leave"), value: formatToVietnameseCurrency(- 300000) }, // Nghỉ không phép / thiếu giờ làm
-    { key: "income_total", label: translate("payslip.columns.income_total"), value: formatToVietnameseCurrency(15000000), isBold: true }, // Tổng thu nhập
-    { key: "deduction_total", label: translate("payslip.columns.deduction_total"), value: formatToVietnameseCurrency(- 800000), isBold: true }, // Tổng khoản khấu trừ
-    { key: "net_income", label: translate("payslip.columns.net_income"), value: formatToVietnameseCurrency(14200000), isBold: true }, // Thu nhập thực nhận
-]);
+        // Cập nhật bảng lương
+        salaryData.value = [
+            {
+                key: "work_days_standard",
+                label: translate("payslip.columns.work_days_standard"),
+                value: data.work_days_standard,
+                isBold: true
+            },
+            {
+                key: "salary_basic",
+                label: translate("payslip.columns.salary_basic"),
+                value: formatToVietnameseCurrency(data.salary_basic),
+                isBold: true
+            },
+            {key: "work_days_total", label: translate("payslip.columns.work_days_total"), value: data.work_days_total},
+            {
+                key: "salary_kpi",
+                label: translate("payslip.columns.salary_kpi"),
+                value: formatToVietnameseCurrency(data.salary_kpi)
+            },
+            {
+                key: "work_days_normal",
+                label: translate("payslip.columns.work_days_normal"),
+                value: data.work_days_normal
+            },
+            {
+                key: "allowance_lunch",
+                label: translate("payslip.columns.allowance_lunch"),
+                value: formatToVietnameseCurrency(data.allowance_lunch)
+            },
+            {
+                key: "work_days_holiday",
+                label: translate("payslip.columns.work_days_holiday"),
+                value: data.work_days_holiday
+            },
+            {
+                key: "allowance_other",
+                label: translate("payslip.columns.allowance_other"),
+                value: formatToVietnameseCurrency(data.allowance_other)
+            },
+            {
+                key: "total_salary",
+                label: translate("payslip.columns.total_salary"),
+                value: formatToVietnameseCurrency(data.total_salary),
+                isBold: true
+            }
+        ];
 
-const bankInfo = ref([
-    { key: "bank_account", label: translate("payslip.columns.bank_account"), value: "0976594507" }, // Số tài khoản ngân hàng
-    { key: "bank_holder", label: translate("payslip.columns.bank_holder"), value: "Nguyễn Văn A" }, // Chủ tài khoản ngân hàng
-    { key: "bank_name", label: translate("payslip.columns.bank_name"), value: "Vietcombank" } // Ngân hàng
-]);
+        // Cập nhật bảng thu chi
+        incomeData.value = [
+            {
+                key: "income_basic",
+                label: translate("payslip.columns.income_basic"),
+                value: formatToVietnameseCurrency(data.income_basic)
+            },
+            {
+                key: "deduction_insurance",
+                label: translate("payslip.columns.deduction_insurance"),
+                value: formatToVietnameseCurrency(data.deduction_insurance)
+            },
+            {
+                key: "income_overtime",
+                label: translate("payslip.columns.income_overtime"),
+                value: formatToVietnameseCurrency(data.income_overtime)
+            },
+            {
+                key: "deduction_dependents",
+                label: translate("payslip.columns.deduction_dependents"),
+                value: data.deduction_dependents
+            },
+            {
+                key: "income_travel",
+                label: translate("payslip.columns.income_travel"),
+                value: formatToVietnameseCurrency(data.income_travel)
+            },
+            {
+                key: "deduction_tax",
+                label: translate("payslip.columns.deduction_tax"),
+                value: formatToVietnameseCurrency(data.deduction_tax)
+            },
+            {
+                key: "income_bonus",
+                label: translate("payslip.columns.income_bonus"),
+                value: formatToVietnameseCurrency(data.income_bonus)
+            },
+            {
+                key: "deduction_leave",
+                label: translate("payslip.columns.deduction_leave"),
+                value: formatToVietnameseCurrency(data.deduction_leave)
+            },
+            {
+                key: "income_total",
+                label: translate("payslip.columns.income_total"),
+                value: formatToVietnameseCurrency(data.income_total),
+                isBold: true
+            },
+            {
+                key: "deduction_total",
+                label: translate("payslip.columns.deduction_total"),
+                value: formatToVietnameseCurrency(data.deduction_total),
+                isBold: true
+            },
+            {
+                key: "net_income",
+                label: translate("payslip.columns.net_income"),
+                value: formatToVietnameseCurrency(data.net_income),
+                isBold: true
+            }
+        ];
+
+        // Cập nhật thông tin ngân hàng
+        bankInfo.value = [
+            {key: "bank_account", label: translate("payslip.columns.bank_account"), value: data.bank_account},
+            {key: "bank_holder", label: translate("payslip.columns.bank_holder"), value: data.bank_holder},
+            {key: "bank_name", label: translate("payslip.columns.bank_name"), value: data.bank_name}
+        ];
+    } catch (error) {
+        console.error("Lỗi khi lấy dữ liệu:", error);
+    }
+};
+
+// Gọi API khi component được mounted
+fetchData();
 
 const formattedSalaryData = computed(() => {
     const rows = [];

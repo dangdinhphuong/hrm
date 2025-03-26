@@ -50,11 +50,10 @@ class EmployeeSalaryController extends Controller
         return responder()->success($employeeSalaries);
     }
 
-
     public function find(Request $request)
     {
-        $data = $request->all() ?? [];
 
+        $data = $request->all() ?? [];
         $employeeSalary = $this->salaryService->list($data, false)->first() ?? [];
 
         if (!empty($employeeSalary)) {

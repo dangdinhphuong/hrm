@@ -153,6 +153,12 @@ const fetchData = async () => {
                 value: formatToVietnameseCurrency(data.allowance_other)
             },
             {
+                key: "",
+                label: '',
+                value: "",
+                isBold: true
+            },
+            {
                 key: "total_salary",
                 label: translate("payslip.columns.total_salary"),
                 value: formatToVietnameseCurrency(data.total_salary),

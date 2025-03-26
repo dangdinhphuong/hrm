@@ -64,6 +64,14 @@ const menuData = computed(() => {
             isVisible: hasPermissions(PermissionConstant.EDIT_EMPLOYEE_SALARY),
             requiresEmployeeId: true,
         }
+        ,
+        {
+            name: translate('payslip.title'),
+            route: routeNameConstant.VIEW_PAYSLIP,
+            sidebarKey: SidebarKeyConstant.VIEW_PAYSLIP,
+            isVisible: hasPermissions(PermissionConstant.EDIT_EMPLOYEE_SALARY),
+            requiresEmployeeId: true,
+        }
     ];
 
     const generalTabs = [

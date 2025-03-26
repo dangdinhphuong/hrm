@@ -12,7 +12,7 @@ class SalaryService
 {
     protected $salaryRepository;
 
-    public function __construct(SalaryRepository $salaryRepository , MonthlyTimesheetSummaryService $monthlyTimesheetSummaryService)
+    public function __construct(SalaryRepository $salaryRepository, MonthlyTimesheetSummaryService $monthlyTimesheetSummaryService)
     {
 
         $this->salaryRepository = $salaryRepository;
@@ -62,16 +62,18 @@ class SalaryService
 
         return $totalWorkdays;
     }
+
     public function paySlip($id)
     {
         $mergedSalary = [];
-        $employeeSalary =  $this->list(['employee_id' => [$id]], false)->first()??[];
+        $employeeSalary = $this->list(['employee_id' => [$id]], false)->first() ?? [];
 
-        $employeeSalary['departments'] = $employeeSalary->employee->departments->first()->toArray();
-        $employeeSalary['position'] = $employeeSalary->employee->position->first()->toArray();
-        $employeeSalary['banks'] = $employeeSalary->employee->bank;
 
         if (!empty($employeeSalary)) {
+            $employeeSalary['departments'] = $employeeSalary->employee->departments->first()->toArray() ?? [];
+            $employeeSalary['position'] = $employeeSalary->employee->position->first()->toArray() ?? [];
+            $employeeSalary['banks'] = $employeeSalary->employee->bank ?? [];
+
             $employeeSalaryArray = $employeeSalary->toArray(); // Chuyển toàn bộ thành array
 
             // Đảm bảo salaries là array trước khi merge
@@ -79,55 +81,55 @@ class SalaryService
 
             unset($employeeSalaryArray['salaries']);
         }
+
         [$lastMonth, $lastYear] = $this->getPreviousMonthAndYear(now()->month, now()->year);
-        $lastMonthlyTimesheet =  $this->monthlyTimesheetSummaryService->findFirst(array_merge([
+        $lastMonthlyTimesheet = $this->monthlyTimesheetSummaryService->findFirst([
             'year' => $lastYear,
             'month' => $lastMonth,
             'employee_id' => $id
-        ]));
-
-
+        ]);
         $payslipData = [
-            "employee_code" => $mergedSalary['employee']["code"],
-            "employee_name" =>$mergedSalary['employee']["first_name"] .' '.$mergedSalary['employee']["last_name"],
-            "department" => $mergedSalary['departments']["name"],
-            "position" => $mergedSalary['position']["name"],
+            "employee_code" => !empty($mergedSalary['employee']['code']) ? $mergedSalary['employee']['code'] : '',
+            "employee_name" => (!empty($mergedSalary['employee']['first_name']) ? $mergedSalary['employee']['first_name'] : '') . ' ' . (!empty($mergedSalary['employee']['last_name']) ? $mergedSalary['employee']['last_name'] : ''),
+            "department" => !empty($mergedSalary['departments']['name']) ? $mergedSalary['departments']['name'] : '',
+            "position" => !empty($mergedSalary['position']['name']) ? $mergedSalary['position']['name'] : '',
+
 
             "work_days_standard" => $work_days_standard = $this->calculateWorkdays($lastMonth, $lastYear), // Số ngày công chuẩn trong tháng
             "work_days_total" => $work_days_standard, // Tổng số ngày làm việc thực tế
             "work_days_holiday" => $work_days_holiday = $lastMonthlyTimesheet->holiday_days ?? 0, // Số ngày làm việc vào ngày lễ
             "work_days_normal" => $work_days_standard - $work_days_holiday, // Số ngày làm việc bình thường
 
-            "salary_basic" => (float)$mergedSalary['basic_salary'], // Lương cơ bản
-            "salary_kpi" => (float)$mergedSalary['kpi_salary'], // Lương KPI (theo hiệu suất)
-            "allowance_lunch" => (float)$mergedSalary['allowance_lunch'], // Phụ cấp ăn trưa
-            "allowance_other" => (float)$mergedSalary['allowance_salary'], // Các khoản phụ cấp khác
-            "total_salary" => $total_salary = (float)$mergedSalary['basic_salary'] + $mergedSalary['kpi_salary'] +$mergedSalary['allowance_lunch']+$mergedSalary['allowance_salary'] , // Tổng lương (chưa bao gồm thu nhập khác)
+            "salary_basic" => (float)($mergedSalary['basic_salary'] ?? 0), // Lương cơ bản
+            "salary_kpi" => (float)($mergedSalary['kpi_salary'] ?? 0), // Lương KPI (theo hiệu suất)
+            "allowance_lunch" => (float)($mergedSalary['allowance_lunch'] ?? 0), // Phụ cấp ăn trưa
+            "allowance_other" => (float)($mergedSalary['allowance_salary'] ?? 0), // Các khoản phụ cấp khác
+            "total_salary" => $total_salary = (float)($mergedSalary['basic_salary'] ?? 0) + ($mergedSalary['kpi_salary'] ?? 0) + ($mergedSalary['allowance_lunch'] ?? 0) + ($mergedSalary['allowance_salary'] ?? 0), // Tổng lương (chưa bao gồm thu nhập khác)
 
             "income_basic" => $total_salary, // Thu nhập từ lương cơ bản
-            "income_overtime" => $income_overtime = ($lastMonthlyTimesheet->overtime_hours * 5000), // Thu nhập từ làm thêm giờ
-            "income_travel" => $income_travel =(float)$mergedSalary['income_travel'], // Thu nhập từ công tác phí
-            "income_bonus" => $bonus  = (float)$mergedSalary['bonus'], // Thưởng thêm
-            "income_total" => $income_total = $total_salary + $income_overtime + $income_travel + $bonus , // Tổng thu nhập
+            "income_overtime" => $income_overtime = (($lastMonthlyTimesheet->overtime_hours ?? 0) * 5000), // Thu nhập từ làm thêm giờ
+            "income_travel" => $income_travel = (float)($mergedSalary['income_travel'] ?? 0), // Thu nhập từ công tác phí
+            "income_bonus" => $bonus = (float)($mergedSalary['bonus'] ?? 0), // Thưởng thêm
+            "income_total" => $income_total = $total_salary + $income_overtime + $income_travel + $bonus, // Tổng thu nhập
 
-
-            "deduction_insurance" => -(float)$mergedSalary['deduction_insurance'], // Khoản trừ bảo hiểm
-            "deduction_tax" => -(float)$mergedSalary['deduction_tax'], // Khoản trừ thuế thu nhập cá nhân
-            "deduction_leave" => -(float)$mergedSalary['deduction_dependents'], // Khoản trừ do nghỉ không lương
-            "deduction_dependents" => (int)$mergedSalary['deduction_dependents'] ?? 0, // Số người phụ thuộc được giảm trừ thuế
-            "deduction_total" => $deductionTotal = ((float)$mergedSalary['deduction_insurance']+(float)$mergedSalary['deduction_tax']+(float)$mergedSalary['deduction_dependents']), // Tổng các khoản khấu trừ
+            "deduction_insurance" => -(float)($mergedSalary['deduction_insurance'] ?? 0), // Khoản trừ bảo hiểm
+            "deduction_tax" => -(float)($mergedSalary['deduction_tax'] ?? 0), // Khoản trừ thuế thu nhập cá nhân
+            "deduction_leave" => -(float)($mergedSalary['deduction_leave'] ?? 0), // Khoản trừ do nghỉ không lương
+            "deduction_dependents" => (int)($mergedSalary['deduction_dependents'] ?? 0), // Số người phụ thuộc được giảm trừ thuế
+            "deduction_total" => $deductionTotal = -((float)($mergedSalary['deduction_insurance'] ?? 0) + (float)($mergedSalary['deduction_tax'] ?? 0) + (float)($mergedSalary['deduction_leave'] ?? 0)), // Tổng các khoản khấu trừ
 
             "net_income" => $income_total + $deductionTotal, // Thu nhập thực lĩnh sau khi trừ các khoản khấu trừ
 
-            "bank_account" => $mergedSalary['employee']["bank_account_number"], // Số tài khoản ngân hàng
-            "bank_holder" => $mergedSalary['employee']["bank_account_name"], // Tên chủ tài khoản
-            "bank_name" => $mergedSalary['banks']["name"] // Tên ngân hàng
+            "bank_account" => $mergedSalary['employee']["bank_account_number"] ?? '', // Số tài khoản ngân hàng
+            "bank_holder" => $mergedSalary['employee']["bank_account_name"] ?? '', // Tên chủ tài khoản
+            "bank_name" => $mergedSalary['banks']["name"] ?? '' // Tên ngân hàng
 
         ];
-       return $payslipData;
+        return $payslipData;
         //dd($mergedSalary,$payslipData,$lastMonthlyTimesheet, $lastMonthlyTimesheet->overtime_hours);
-       // return $this->salaryRepository->list($params, $paginate, $columns);
+        // return $this->salaryRepository->list($params, $paginate, $columns);
     }
+
     /**
      * Lấy tháng và năm trước đó
      */

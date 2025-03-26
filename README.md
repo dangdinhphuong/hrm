@@ -62,7 +62,12 @@ This project is a Human Resource Management (HRM) system built with Laravel. It 
     npm run dev
     ```
 
-3. Access the application in your browser at `http://localhost:8000`.
+3. Running the Queue Worker:
+    ```sh
+    php artisan queue:work
+    ```
+
+4. Access the application in your browser at `http://localhost:8000`.
 
 ## Running Tests
 

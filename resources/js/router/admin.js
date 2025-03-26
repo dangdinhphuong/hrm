@@ -26,7 +26,8 @@ const admin = [
             {
                 path: "",
                 name: routeNameConstant.HOME_PAGE,
-                redirect: { name: routeNameConstant.ME_INFO_DETAIL }
+                // redirect: { name: routeNameConstant.ME_INFO_DETAIL }
+                component: () => import("../components/subSideBar/SubSidebarEmployee.vue"),
             },
             {
                 path: "info",

@@ -2,9 +2,14 @@
 
 namespace App\Services\Work;
 
+use App\Events\Work\TimesheetUpdated;
+use App\Repositories\Work\TimeSheetRepository;
+use App\Services\Work\MonthlyTimesheetSummaryService;
 use App\Repositories\Employee\EmployeesRepository;
 use App\Repositories\Work\RequestRepository;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
+use Carbon\CarbonPeriod;
 
 class RequestService
 {
@@ -26,10 +31,17 @@ class RequestService
     const STATUS_EMPLOYEE_ACTIVE = 1;
     const STATUS_EMPLOYEE_DEACTIVATE = 2;
 
-    public function __construct(RequestRepository $requestRepository, EmployeesRepository $employeesRepository,)
+    public function __construct(
+        RequestRepository              $requestRepository,
+        EmployeesRepository            $employeesRepository,
+        TimeSheetRepository            $timeSheetRepository,
+        MonthlyTimesheetSummaryService $monthlyTimesheetSummaryService
+    )
     {
         $this->requestRepository = $requestRepository;
         $this->employeesRepository = $employeesRepository;
+        $this->timeSheetRepository = $timeSheetRepository;
+        $this->monthlyTimesheetSummaryService = $monthlyTimesheetSummaryService;
     }
 
     public function list(array $params = [], $paginate = true, $columns = ['*'])
@@ -37,6 +49,24 @@ class RequestService
         $employee = auth()->user()->employee;
 
         if ($employee->position_id == self::POSITION_OTHER) {
+            $employees = $this->employeesRepository->list([
+                'departmentId' => $employee->departments[0]->id,
+                'status' => self::STATUS_EMPLOYEE_ACTIVE,
+            ], false, ["*"]);
+
+            $employeeId = [];
+            foreach ($employees as $item) {
+                if (!empty($params['employee_id'])) {
+                    if (in_array($item->id, [$params['employee_id']])) {
+                        $employeeId[] = $item->id;
+                    }
+                } else {
+                    $employeeId[] = $item->id;
+                }
+            }
+
+            $params['employee_id'] = $employeeId;
+        } else if ($employee->position_id == self::POSITION_MANAGER) {
             $employees = $this->employeesRepository->list([
                 'departmentId' => $employee->departments[0]->id,
                 'status' => self::STATUS_EMPLOYEE_ACTIVE,
@@ -59,6 +89,7 @@ class RequestService
         } else if ($employee->position_id == self::POSITION_STAFF) {
             $params['employee_id'] = [$employee->id];
         }
+
         return $this->requestRepository->list($params, $paginate, $columns);
     }
 
@@ -89,45 +120,183 @@ class RequestService
             return ['status' => false, 'message' => 'Request không tồn tại'];
         }
 
-        // Lấy số lần quên chấm công đã được duyệt
-        $useRequests = $this->requestRepository->list([
-            'hr_status' => self::APPROVED,
-            'manager_status' => self::APPROVED,
-            'employee_id' => [$useRequest->employee_id]
-        ], false, ["*"]);
-
-        $maxMissedPunches = (int)get_setting('setting_missed_punches');
-
-        if (count($useRequests) >= $maxMissedPunches) {
+        if (!$this->validateMissedPunchesLimit($useRequest, $data)) {
             return ['status' => false, 'message' => 'Số lần quên chấm công đã vượt giới hạn'];
         }
 
-        // Kiểm tra quyền cập nhật
-        if (!in_array($employee->position_id, [self::POSITION_MANAGER, self::POSITION_OTHER])) {
+        if (!$this->validateUpdatePermission($employee, $useRequest)) {
             return ['status' => false, 'message' => 'Bạn không có quyền cập nhật yêu cầu này'];
         }
 
-        // Nếu là trưởng phòng, chỉ có thể duyệt đơn của nhân viên trong phòng mình
+        if (!$this->validateLeaveApprovalLimit($useRequest, $data)) {
+            return ['status' => false, 'message' => 'Đã quá lượt quên chấm công'];
+        }
+
+        $fieldToUpdate = $employee->position_id == self::POSITION_OTHER ? 'hr_status' : 'manager_status';
+
+        if ($employee->position_id == self::POSITION_MANAGER) {
+
+            $monthlyTimesheet = $this->monthlyTimesheetSummaryService->findFirst([
+                'year' => now()->year,
+                'month' => now()->month,
+                'employee_id' => $useRequest->employee_id,
+            ]);
+
+            $this->updateLeaveRequest($useRequest, $monthlyTimesheet);
+            $this->updateMissingCheckinRequest($useRequest, $data, $monthlyTimesheet);
+            if ($useRequest->leave_type == self::BUSINESS_TRIP && $data['approvalStatus'] == self::APPROVED) {
+                $otDates = $this->getFormattedDates($useRequest->content);
+                $dataOt = [];
+                foreach ($otDates as $otDate) {
+                    $dataOt[] = [
+                        'employee_id' => $employee->id,
+                        'work_date' => $otDate,
+                        "check_in" => get_setting('setting_checkin') . ":00",
+                        "check_out" => get_setting('setting_checkout') . ":00",
+                        'late_early_minutes' => 0,
+                    ];
+                }
+
+                $this->timeSheetRepository->insert($dataOt);
+            }
+
+        }
+
+        return $this->updateRequestStatus($useRequest, $fieldToUpdate, $data);
+    }
+
+    /**
+     * Kiểm tra số lần quên chấm công đã duyệt
+     */
+    private function validateMissedPunchesLimit($useRequest, $data)
+    {
+        if ($useRequest->leave_type == self::MISSING_CHECKIN && $data['approvalStatus'] == self::APPROVED) {
+            $useRequests = $this->requestRepository->list([
+                'hr_status' => self::APPROVED,
+                'manager_status' => self::APPROVED,
+                'employee_id' => [$useRequest->employee_id]
+            ], false, ["*"]);
+
+            return count($useRequests) < (int)get_setting('setting_missed_punches');
+        }
+        return true;
+    }
+
+    /**
+     * Kiểm tra quyền cập nhật
+     */
+    private function validateUpdatePermission($employee, $useRequest)
+    {
+        if (!in_array($employee->position_id, [self::POSITION_MANAGER, self::POSITION_OTHER])) {
+            return false;
+        }
+
         if (
             $employee->position_id == self::POSITION_MANAGER &&
             $useRequest->employee->departments[0]->id != $employee->departments[0]->id
         ) {
-            return ['status' => false, 'message' => 'Trưởng phòng chỉ có thể duyệt yêu cầu của nhân viên trong phòng ban của mình'];
+            return false;
         }
 
-        // Kiểm tra trạng thái hợp lệ trước khi cập nhật
         if (
             ($employee->position_id == self::POSITION_MANAGER && $useRequest->hr_status == self::PENDING_APPROVAL) ||
             ($employee->position_id == self::POSITION_OTHER && $useRequest->hr_status != self::PENDING_APPROVAL)
         ) {
-            return ['status' => false, 'message' => 'Không thể cập nhật yêu cầu trong trạng thái hiện tại'];
+            return false;
         }
 
-        // Xác định trường cần cập nhật dựa trên vị trí nhân viên
-        $fieldToUpdate = $employee->position_id == self::POSITION_OTHER ? 'hr_status' : 'manager_status';
-        $updated = $useRequest->update([$fieldToUpdate => $data['approvalStatus']]);
+        return true;
+    }
 
+    /**
+     * Kiểm tra số lần nghỉ phép hoặc quên chấm công
+     */
+    private function validateLeaveApprovalLimit($useRequest, $data)
+    {
+        if ($useRequest->leave_type == self::MISSING_CHECKIN && $data['approvalStatus'] == self::APPROVED) {
+            $useRequestMissingCheckin = $this->requestRepository->list([
+                'manager_status' => 1,
+                'leave_type' => self::MISSING_CHECKIN,
+                'year-month' => now()->year . '-' . now()->month,
+                'employee_id' => [$useRequest->employee_id],
+            ], false, columns: ['id']);
+
+            return count($useRequestMissingCheckin) <= get_setting('setting_leave_day');
+        }
+        return true;
+    }
+
+    /**
+     * Xử lý logic cập nhật số ngày nghỉ phép
+     */
+    private function updateLeaveRequest($useRequest, $monthlyTimesheet)
+    {
+        if ($useRequest->leave_type == self::ANNUAL_LEAVE && !empty($monthlyTimesheet) && $monthlyTimesheet->remaining_leave_days > 0) {
+            event(new TimesheetUpdated([
+                'leave_days' => 1,
+                'remaining_leave_days' => 1,
+                'year' => now()->year,
+                'month' => now()->month,
+                'employee_id' => $useRequest->employee_id
+            ]));
+        }
+    }
+
+
+    /**
+     * Xử lý logic cập nhật dữ liệu chấm công khi quên checkin
+     */
+    private function updateMissingCheckinRequest($useRequest, $data, $monthlyTimesheet)
+    {
+        if ($useRequest->leave_type == self::MISSING_CHECKIN && $data['approvalStatus'] == self::APPROVED) {
+            $employeeWork = $this->timeSheetRepository->getDetailByEmployeeId($useRequest->employee_id, $useRequest->date);
+
+            if ($employeeWork && $monthlyTimesheet) {
+                $monthlyTimesheet->update([
+                    "late_early_minutes" => (int)$monthlyTimesheet->total_late_early_minutes - (int)$employeeWork->late_early_minutes
+                ]);
+
+                $employeeWork->update([
+                    "check_in" => get_setting('setting_checkin') . ":00",
+                    "check_out" => get_setting('setting_checkout') . ":00",
+                    "late_early_minutes" => 0
+                ]);
+            }
+        }
+    }
+
+
+    /**
+     * Cập nhật trạng thái yêu cầu
+     */
+    private function updateRequestStatus($useRequest, $fieldToUpdate, $data)
+    {
+        $updated = $useRequest->update([$fieldToUpdate => $data['approvalStatus']]);
         return ['status' => (bool)$updated, 'message' => $updated ? 'Cập nhật thành công' : 'Cập nhật thất bại'];
     }
 
+
+    /**
+     * Lấy danh sách các ngày trong khoảng thời gian được định dạng từ d/m/Y thành Y-m-d
+     *
+     * @param string $content Chuỗi ngày theo định dạng "dd/mm/yyyy - dd/mm/yyyy"
+     * @return array Mảng chứa danh sách ngày đã format theo Y-m-d
+     */
+
+    private function getFormattedDates(string $content): array
+    {
+        [$startDate, $endDate] = explode(' - ', $content);
+
+        // Chuyển đổi ngày sang Carbon
+        $start = Carbon::createFromFormat('d/m/Y', $startDate);
+        $end = Carbon::createFromFormat('d/m/Y', $endDate);
+
+        // Nếu start lớn hơn end, hoán đổi lại
+        if ($start->gt($end)) {
+            [$start, $end] = [$end, $start];
+        }
+
+        // Tạo khoảng thời gian và trả về danh sách ngày đã format
+        return array_map(fn($date) => $date->format('Y-m-d'), iterator_to_array(CarbonPeriod::create($start, $end)));
+    }
 }

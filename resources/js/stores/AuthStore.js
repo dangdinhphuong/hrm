@@ -45,9 +45,11 @@ export const authStore = defineStore('authStore', {
             return permissions.some(item => this.getPermissions.includes(item));
         },
         convertPermissionToArray(permissions) {
+            console.log('convertPermissionToArray', isArray(permissions))
             if (!isArray(permissions)) {
                 permissions = [permissions];
             }
+            console.log('convertPermissionToArray1', permissions)
             return permissions;
         },
         isSuperAdmin() {

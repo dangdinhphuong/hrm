@@ -61,9 +61,14 @@ const menu = [
     },
     {
         name: translate('sidebar.human_resource_management'),
-        route: routeNameConstant.EMPLOYEE,
+        route: currentUser.hasPermissions(permissionConstant.VIEW_EMPLOYEE_LIST)
+            ? routeNameConstant.EMPLOYEE
+            : routeNameConstant.ROLE_VIEW, // Nếu không có VIEW_EMPLOYEE_LIST thì dùng ROLE_VIEW
         sidebarKey: SidebarKeyConstant.EMPLOYEE,
-        isVisible: currentUser.hasPermissions(permissionConstant.VIEW_EMPLOYEE_LIST),
+        isVisible: currentUser.hasAnyPermission([
+            permissionConstant.VIEW_ROLE_LIST,
+            permissionConstant.VIEW_EMPLOYEE_LIST
+        ]),
         icon: 'hrm'
     },
     {

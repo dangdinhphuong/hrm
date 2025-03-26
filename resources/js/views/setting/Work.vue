@@ -35,6 +35,12 @@ const fields = ref([
                 key: "setting_missed_punches",
                 default_value: 0,
                 name: translate("setting.work.columns.missed_punches_per_month")
+            },
+            {
+                type: "number",
+                key: "setting_late_early_penalty_per_minute",
+                default_value: 0,
+                name: translate("setting.work.columns.late_early_penalty_per_minute")
             }
         ]
     }
